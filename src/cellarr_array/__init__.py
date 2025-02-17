@@ -14,3 +14,8 @@ except PackageNotFoundError:  # pragma: no cover
     __version__ = "unknown"
 finally:
     del version, PackageNotFoundError
+
+from .config import CellArrConfig, ConsolidationConfig
+from .DenseCellArray import DenseCellArray
+from .SparseCellArray import SparseCellArray
+from .helpers import create_cellarray, SliceHelper
