@@ -299,6 +299,7 @@ intersphinx_mapping = {
     "scipy": ("https://docs.scipy.org/doc/scipy/reference", None),
     "setuptools": ("https://setuptools.pypa.io/en/stable/", None),
     "pyscaffold": ("https://pyscaffold.org/en/stable", None),
+    "tiledb": ("https://tiledb-inc-tiledb.readthedocs-hosted.com/projects/tiledb-py/en/stable/", None),
 }
 
 print(f"loading configurations for {project} {version} ...", file=sys.stderr)
@@ -310,7 +311,7 @@ extensions.remove('myst_parser')
 extensions.append('myst_nb')
 
 # Less verbose api documentation
-extensions.append('sphinx_autodoc_typehints')
+# extensions.append('sphinx_autodoc_typehints')
 
 autodoc_default_options = {
     "special-members": True,
