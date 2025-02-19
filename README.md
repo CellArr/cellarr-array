@@ -1,5 +1,5 @@
 [![PyPI-Server](https://img.shields.io/pypi/v/cellarr-array.svg)](https://pypi.org/project/cellarr-array/)
-![Unit tests](https://github.com/cellarr/cellarr-array/actions/workflows/pypi-test.yml/badge.svg)
+![Unit tests](https://github.com/cellarr/cellarr-array/actions/workflows/run-tests.yml/badge.svg)
 
 # cellarr-array
 
