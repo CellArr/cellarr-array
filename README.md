@@ -93,24 +93,43 @@ subset = dense_array[100:200, genes]
 ### Working with Sparse Arrays
 
 ```python
-# Create a sparse array with COO output format
-coo_array = SparseCellArray(
+from cellarr_array import SparseCellArray
+
+# Create a sparse array with CSR output format
+csr_array = SparseCellArray(
     uri="sparse_matrix.tdb",
-    return_coo=True
+    return_sparse=True
 )
 
-# Get result as COO matrix
-result = coo_array[100:200, 500:1000]
+# Get result as CSR matrix
+result = csr_array[100:200, 500:1000]
 
 # Result is scipy.sparse.coo_matrix
-assert sparse.isspmatrix_coo(result)
+assert sparse.isspmatrix_csr(result)
 
 # Perform sparse operations
 nnz = result.nnz
 density = result.nnz / (result.shape[0] * result.shape[1])
 
 # Convert to other sparse formats if needed
-result_csr = result.tocsr()
+result_csc = result.tocsc()
+```
+
+Likewise create a CSC output format
+
+```python
+from scipy import sparse
+
+# Create a sparse array with CSC output format
+csc_array = SparseCellArray(
+    uri="sparse_matrix.tdb",
+    return_sparse=True,
+    sparse_coerce=sparse.csc_matrix
+)
+
+# Get result as CSR matrix
+result = csc_array[100:200, 500:1000]
+print(result)
 ```
 
 ### Array Maintenance
@@ -121,7 +140,7 @@ array.consolidate()
 
 # Custom consolidation
 config = ConsolidationConfig(
-    steps=["fragment"],
+    steps=2,
     vacuum_after=True
 )
 array.consolidate(config)
