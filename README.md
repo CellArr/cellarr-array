@@ -1,5 +1,5 @@
 [![PyPI-Server](https://img.shields.io/pypi/v/cellarr-array.svg)](https://pypi.org/project/cellarr-array/)
-![Unit tests](https://github.com/BiocPy/cellarr-array/actions/workflows/pypi-test.yml/badge.svg)
+![Unit tests](https://github.com/cellarr/cellarr-array/actions/workflows/pypi-test.yml/badge.svg)
 
 # cellarr-array
 
@@ -113,25 +113,6 @@ density = result.nnz / (result.shape[0] * result.shape[1])
 result_csr = result.tocsr()
 ```
 
-### Multi-attribute Arrays
-
-```python
-# Open array with specific attribute
-array = DenseCellArray(
-    uri="multi_attr_array.tdb",
-    attr="values"
-)
-
-# Switch attribute
-array_counts = DenseCellArray(
-    uri="multi_attr_array.tdb",
-    attr="counts"
-)
-
-# Write to specific attribute
-array.write_batch(data, start_row=0)
-```
-
 ### Array Maintenance
 
 ```python
@@ -154,4 +135,4 @@ array.vacuum()
 ## Note
 
 This project has been set up using [BiocSetup](https://github.com/biocpy/biocsetup)
-and [PyScaffold](https://pyscaffold.org/).s
+and [PyScaffold](https://pyscaffold.org/).
