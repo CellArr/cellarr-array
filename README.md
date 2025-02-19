@@ -3,7 +3,7 @@
 
 # cellarr-array
 
-This package provided high-level wrappers for TileDB arrays optimized for handling genomic data matrices.
+This package provided high-level wrappers for TileDB arrays, for handling genomic data matrices.
 
 ## Install
 
