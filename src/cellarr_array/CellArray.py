@@ -1,6 +1,6 @@
 from abc import ABC, abstractmethod
 from contextlib import contextmanager
-from typing import List, Optional, Tuple, Union
+from typing import List, Literal, Optional, Tuple, Union
 
 import numpy as np
 import tiledb
@@ -21,7 +21,7 @@ class CellArray(ABC):
         self,
         uri: str,
         attr: str = "data",
-        mode: str = None,
+        mode: Optional[Literal["r", "w", "n", "d"]] = None,
         config_or_context: Optional[Union[tiledb.Config, tiledb.Ctx]] = None,
         validate: bool = True,
     ):
@@ -47,7 +47,7 @@ class CellArray(ABC):
 
             validate:
                 Whether to validate the attributes.
-                Defaults to True
+                Defaults to True.
         """
         self.uri = uri
         self._mode = mode
@@ -157,9 +157,13 @@ class CellArray(ABC):
         finally:
             array.close()
 
-    def __getitem__(self, key: Union[slice, Tuple[Union[slice, List[int]], ...]]) -> np.ndarray:
+    def __getitem__(self, key: Union[slice, Tuple[Union[slice, List[int]], ...]]):
         """Get item implementation that routes to either direct slicing or multi_index
         based on the type of indices provided.
+
+        Args:
+            key:
+                Slice or list of indices for each dimension in the array.
         """
         if not isinstance(key, tuple):
             key = (key,)
@@ -190,8 +194,7 @@ class CellArray(ABC):
 
     def vacuum(self) -> None:
         """Remove deleted fragments from the array."""
-        with self.open_array(mode="w"):
-            tiledb.vacuum(self.uri, ctx=self._ctx)
+        tiledb.vacuum(self.uri)
 
     def consolidate(self, config: Optional[ConsolidationConfig] = None) -> None:
         """Consolidate array fragments.
@@ -205,13 +208,16 @@ class CellArray(ABC):
 
         consolidation_cfg = tiledb.Config()
 
-        with self.open_array(mode="w"):
-            for step in config.steps:
-                consolidation_cfg["tiledb.consolidation.steps"] = step
-                tiledb.consolidate(self.uri, config=consolidation_cfg, ctx=self._ctx)
+        consolidation_cfg["sm.consolidation.steps"] = config.steps
+        consolidation_cfg["sm.consolidation.step_min_frags"] = config.step_min_frags
+        consolidation_cfg["sm.consolidation.step_max_frags"] = config.step_max_frags
+        consolidation_cfg["sm.consolidation.buffer_size"] = config.buffer_size
+        consolidation_cfg["sm.mem.total_budget"] = config.total_budget
 
-            if config.vacuum_after:
-                self.vacuum()
+        tiledb.consolidate(self.uri, config=consolidation_cfg)
+
+        if config.vacuum_after:
+            self.vacuum()
 
     @abstractmethod
     def write_batch(self, data: Union[np.ndarray, sparse.spmatrix], start_row: int, **kwargs) -> None:

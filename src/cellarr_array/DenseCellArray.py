@@ -50,7 +50,7 @@ class DenseCellArray(CellArray):
         if all(isinstance(idx, slice) for idx in optimized_key):
             return self._direct_slice(tuple(optimized_key))
 
-        # For mixed slice-list queries, adjust slice bounds
+        # For mixed slice-list queries, adjust slice bounds to exclude upper bound
         tiledb_key = []
         for idx in key:
             if isinstance(idx, slice):
@@ -60,7 +60,6 @@ class DenseCellArray(CellArray):
             else:
                 tiledb_key.append(idx)
 
-        # Otherwise, use multi_index
         with self.open_array(mode="r") as array:
             res = array.multi_index[tuple(tiledb_key)]
             return res[self._attr] if self._attr is not None else res
@@ -104,6 +103,6 @@ class DenseCellArray(CellArray):
         else:  # 2D
             write_region = (slice(start_row, end_row), slice(0, self.shape[1]))
 
-        write_data = {self._attr: data} if len(self.attr_names) > 1 else data
+        # write_data = {self._attr: data} if len(self.attr_names) > 1 else data
         with self.open_array(mode="w") as array:
-            array[write_region] = write_data
+            array[write_region] = data

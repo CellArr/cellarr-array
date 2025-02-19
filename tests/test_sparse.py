@@ -12,7 +12,6 @@ __license__ = "MIT"
 
 
 def test_1d_array_creation(temp_dir):
-    """Test creation of 1D sparse array."""
     uri = str(Path(temp_dir) / "test_sparse_1d")
     array = create_cellarray(uri=uri, shape=(100,), attr_dtype=np.float32, sparse=True)
 
@@ -24,7 +23,6 @@ def test_1d_array_creation(temp_dir):
 
 
 def test_2d_array_creation(temp_dir):
-    """Test creation of 2D sparse array."""
     uri = str(Path(temp_dir) / "test_sparse_2d")
     array = create_cellarray(uri=uri, shape=(100, 50), attr_dtype=np.float32, sparse=True, dim_names=["rows", "cols"])
 
@@ -36,21 +34,16 @@ def test_2d_array_creation(temp_dir):
 
 
 def test_1d_write_batch(sample_sparse_array_1d):
-    """Test batch writing to 1D sparse array."""
-    # Create sparse data
     indices = np.array([1, 3, 5, 7, 9])
     data = np.random.random(len(indices)).astype(np.float32)
     sparse_data = sparse.coo_matrix((data, (indices, np.zeros(len(indices)))), shape=(10, 1))
 
     sample_sparse_array_1d.write_batch(sparse_data, start_row=0)
 
-    # Read and verify with sparse format
     result = sample_sparse_array_1d[0:10]
-    # Convert sparse data to dense for comparison
     expected = sparse_data.toarray().flatten()
     np.testing.assert_array_almost_equal(result.toarray().flatten(), expected)
 
-    # Test without sparse format
     read_arr = SparseCellArray(sample_sparse_array_1d.uri, return_sparse=False)
 
     # Full slice
@@ -69,8 +62,6 @@ def test_1d_write_batch(sample_sparse_array_1d):
 
 
 def test_1d_empty_regions(sample_sparse_array_1d):
-    """Test handling of empty regions in 1D arrays."""
-    # Create sparse data with specific pattern
     indices = np.array([1, 3, 5])
     data = np.random.random(len(indices)).astype(np.float32)
     sparse_data = sparse.coo_matrix((data, (indices, np.zeros(len(indices)))), shape=(10, 1))
@@ -78,6 +69,7 @@ def test_1d_empty_regions(sample_sparse_array_1d):
     sample_sparse_array_1d.write_batch(sparse_data, start_row=0)
 
     read_arr = SparseCellArray(sample_sparse_array_1d.uri, return_sparse=True)
+
     # Query empty region
     result = read_arr[7:10]
     expected = sparse_data.toarray()[7:10].flatten()
@@ -87,10 +79,8 @@ def test_1d_empty_regions(sample_sparse_array_1d):
 
 
 def test_2d_formats(sample_sparse_array_2d):
-    """Test different sparse matrix formats."""
     data = sparse.random(10, 50, density=0.1, format="coo", dtype=np.float32)
 
-    # Test COO format
     sample_sparse_array_2d.write_batch(data, start_row=0)
     array_coo = SparseCellArray(sample_sparse_array_2d.uri, return_sparse=True)
     result = array_coo[0:10, :]
@@ -98,11 +88,9 @@ def test_2d_formats(sample_sparse_array_2d):
 
 
 def test_coo_output(sample_sparse_array_2d):
-    """Test COO matrix output format."""
     data = sparse.random(10, 50, density=0.1, format="coo", dtype=np.float32)
     sample_sparse_array_2d.write_batch(data, start_row=0)
 
-    # Create array with COO output
     array_coo = SparseCellArray(sample_sparse_array_2d.uri, return_sparse=True)
 
     # Test full slice
@@ -111,7 +99,6 @@ def test_coo_output(sample_sparse_array_2d):
     np.testing.assert_array_almost_equal(result.toarray(), data.toarray())
 
     # Test partial slice
-    # Convert to CSR for slicing operations
     data_csr = data.tocsr()
     result = array_coo[2:5, 10:20]
     assert sparse.isspmatrix_csr(result)
@@ -119,8 +106,6 @@ def test_coo_output(sample_sparse_array_2d):
 
 
 def test_mixed_slice_list_bounds(sample_sparse_array_2d):
-    """Test boundary handling in mixed slice-list queries."""
-    # Create sparse test data with specific pattern
     data = sparse.random(100, 50, density=0.2, format="csr", dtype=np.float32)
     sample_sparse_array_2d.write_batch(data, start_row=0)
 
@@ -149,7 +134,6 @@ def test_mixed_slice_list_bounds(sample_sparse_array_2d):
 
 
 def test_empty_regions(sample_sparse_array_2d):
-    """Test handling of empty regions."""
     data = sparse.random(10, 50, density=0.1, format="coo", dtype=np.float32)
     sample_sparse_array_2d.write_batch(data, start_row=0)
 
@@ -163,33 +147,25 @@ def test_empty_regions(sample_sparse_array_2d):
 
 
 def test_bounds_checking(sample_sparse_array_2d):
-    """Test bounds checking for sparse arrays."""
-    # Test row bounds
     data = sparse.random(150, 50, density=0.1, format="coo", dtype=np.float32)
     with pytest.raises(ValueError, match="would exceed array bounds"):
         sample_sparse_array_2d.write_batch(data, start_row=0)
 
-    # Test column bounds
     data = sparse.random(10, 60, density=0.1, format="coo", dtype=np.float32)
     with pytest.raises(ValueError, match="Data columns"):
         sample_sparse_array_2d.write_batch(data, start_row=0)
 
 
 def test_invalid_inputs(sample_sparse_array_2d):
-    """Test invalid input handling."""
-    # Test dense array input
     with pytest.raises(TypeError, match="must be a scipy sparse matrix"):
         sample_sparse_array_2d.write_batch(np.random.random((10, 50)), start_row=0)
 
-    # Test invalid mode
     with pytest.raises(ValueError, match="Mode must be one of"):
         sample_sparse_array_2d.mode = "invalid"
 
-    # Test invalid attribute
     with pytest.raises(ValueError, match="Attribute .* does not exist"):
         SparseCellArray(sample_sparse_array_2d.uri, attr="invalid_attr")
 
-    # Test invalid dimensions
     with pytest.raises(ValueError, match="Only 1D and 2D arrays are supported"):
         create_cellarray(
             uri=str(Path(sample_sparse_array_2d.uri).parent / "invalid"),

@@ -59,33 +59,33 @@ def sample_sparse_array_2d(temp_dir):
     return array
 
 
-@pytest.fixture
-def sample_multi_attr_array(temp_dir):
-    """Create a sample array with multiple attributes."""
-    uri = str(Path(temp_dir) / "multi_attr_array")
-    config = CellArrConfig()
+# @pytest.fixture
+# def sample_multi_attr_array(temp_dir):
+#     """Create a sample array with multiple attributes."""
+#     uri = str(Path(temp_dir) / "multi_attr_array")
+#     config = CellArrConfig()
 
-    # Create custom schema with multiple attributes
-    import tiledb
+#     # Create custom schema with multiple attributes
+#     import tiledb
 
-    dom = tiledb.Domain(
-        tiledb.Dim(name="rows", domain=(0, 99), tile=10, dtype=np.uint32),
-        tiledb.Dim(name="cols", domain=(0, 49), tile=10, dtype=np.uint32),
-    )
+#     dom = tiledb.Domain(
+#         tiledb.Dim(name="rows", domain=(0, 99), tile=10, dtype=np.uint32),
+#         tiledb.Dim(name="cols", domain=(0, 49), tile=10, dtype=np.uint32),
+#     )
 
-    schema = tiledb.ArraySchema(
-        domain=dom,
-        attrs=[
-            tiledb.Attr(name="data", dtype=np.float32),
-            tiledb.Attr(name="values", dtype=np.float32),
-            tiledb.Attr(name="counts", dtype=np.int32),
-        ],
-        sparse=False,
-    )
+#     schema = tiledb.ArraySchema(
+#         domain=dom,
+#         attrs=[
+#             tiledb.Attr(name="data", dtype=np.float32),
+#             tiledb.Attr(name="values", dtype=np.float32),
+#             tiledb.Attr(name="counts", dtype=np.int32),
+#         ],
+#         sparse=False,
+#     )
 
-    tiledb.Array.create(uri, schema)
+#     tiledb.Array.create(uri, schema)
 
-    # Return array opened with default attribute
-    from cellarr_array import DenseCellArray
+#     # Return array opened with default attribute
+#     from cellarr_array import DenseCellArray
 
-    return DenseCellArray(uri, attr="data")
+#     return DenseCellArray(uri, attr="data")

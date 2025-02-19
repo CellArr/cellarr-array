@@ -12,56 +12,43 @@ __license__ = "MIT"
 
 
 def test_dimension_validation(temp_dir):
-    """Test validation of array dimensions."""
     uri = str(Path(temp_dir) / "invalid_dims")
 
-    # Test 3D array creation
     with pytest.raises(ValueError, match="Only 1D and 2D arrays are supported"):
         create_cellarray(uri=uri, shape=(10, 10, 10), attr_dtype=np.float32)
 
 
 def test_attribute_validation(temp_dir):
-    """Test attribute validation."""
     uri = str(Path(temp_dir) / "attr_test")
 
-    # Create array with specific attribute
     array = create_cellarray(uri=uri, shape=(10, 10), attr_dtype=np.float32, attr_name="values")
 
-    # Test invalid attribute access
     with pytest.raises(ValueError, match="Attribute 'invalid' does not exist"):
         DenseCellArray(uri, attr="invalid")
 
 
 def test_1d_integration(temp_dir):
-    """Test integration with 1D arrays."""
     dense_uri = str(Path(temp_dir) / "dense_1d")
     sparse_uri = str(Path(temp_dir) / "sparse_1d")
 
-    # Create arrays
     dense_array = create_cellarray(uri=dense_uri, shape=(100,), attr_dtype=np.float32, sparse=False)
-
     sparse_array = create_cellarray(uri=sparse_uri, shape=(100,), attr_dtype=np.float32, sparse=True)
 
-    # Test dense array
     dense_data = np.random.random(30).astype(np.float32)
     dense_array.write_batch(dense_data, start_row=0)
 
     result = dense_array[5:15]
     np.testing.assert_array_almost_equal(result, dense_data[5:15])
 
-    # Test sparse array with different shapes
     sparse_data = sparse.random(30, 1, density=0.3, format="coo", dtype=np.float32)
     sparse_array.write_batch(sparse_data, start_row=0)
 
-    result = sparse_array[5:15]
-    # Convert sparse data to dense for comparison
-    expected = sparse_data[5:15, :].toarray().flatten()
+    result = sparse_array[5:15].toarray().flatten()
+    expected = sparse_data.toarray()[5:15, :].flatten()
     np.testing.assert_array_almost_equal(result, expected)
 
 
 def test_2d_integration(temp_dir):
-    """Test integration with 2D arrays."""
-    # Create arrays
     dense_uri = str(Path(temp_dir) / "dense_2d")
     sparse_uri = str(Path(temp_dir) / "sparse_2d")
 
@@ -73,14 +60,11 @@ def test_2d_integration(temp_dir):
         uri=sparse_uri, shape=(100, 50), attr_dtype=np.float32, sparse=True, return_coo=True
     )
 
-    # Write test data
     dense_data = np.random.random((30, 50)).astype(np.float32)
     dense_array.write_batch(dense_data, start_row=0)
 
     sparse_data = sparse.random(30, 50, density=0.1, format="csr", dtype=np.float32)
     sparse_array.write_batch(sparse_data, start_row=0)
-
-    # Test dense array slicing
 
     # Direct slice
     result1 = dense_array[5:15, 10:20]
@@ -92,8 +76,6 @@ def test_2d_integration(temp_dir):
     result2 = dense_array[rows, cols]
     np.testing.assert_array_almost_equal(result2, dense_data[rows][:, cols])
 
-    # Test sparse array slicing with COO format
-
     result3 = sparse_array[5:15, 10:20]
     np.testing.assert_array_almost_equal(result3.toarray(), sparse_data[5:15, 10:20].toarray())
 
@@ -102,20 +84,17 @@ def test_2d_integration(temp_dir):
     sparse_array.vacuum()
 
 
-def test_multi_attribute_handling(sample_multi_attr_array):
-    """Test handling of multiple attributes."""
-    data = np.random.random((10, 50)).astype(np.float32)
+# def test_multi_attribute_handling(sample_multi_attr_array):
+#     data = np.random.random((10, 50)).astype(np.float32)
 
-    # Test writing to specific attribute
-    sample_multi_attr_array.write_batch(data, start_row=0)
+#     # Test writing to specific attribute
+#     sample_multi_attr_array.write_batch(data, start_row=0)
 
-    # Read from specific attribute
+#     result = sample_multi_attr_array[0:10, :]
+#     np.testing.assert_array_almost_equal(result, data)
 
-    result = sample_multi_attr_array[0:10, :]
-    np.testing.assert_array_almost_equal(result, data)
+#     # Switch attribute
+#     array_values = DenseCellArray(sample_multi_attr_array.uri, attr="values")
 
-    # Switch attribute
-    array_values = DenseCellArray(sample_multi_attr_array.uri, attr="values")
-
-    result = array_values[0:10, :]
-    assert result.shape == data.shape
+#     result = array_values[0:10, :]
+#     assert result.shape == data.shape

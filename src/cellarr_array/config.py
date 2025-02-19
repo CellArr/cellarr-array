@@ -1,7 +1,6 @@
 from dataclasses import dataclass, field
 from typing import Any, Dict, List, Union
 
-import numpy as np
 import tiledb
 
 __author__ = "Jayaram Kancherla"
@@ -66,6 +65,10 @@ class CellArrConfig:
 class ConsolidationConfig:
     """Configuration for array consolidation."""
 
-    steps: List[str] = field(default_factory=lambda: ["fragment", "fragment_meta"])
+    steps: int = 100000
+    step_min_frags: int = 2
+    step_max_frags: int = 10
+    buffer_size: int = 15000000000  # 15GB
+    total_budget: int = 40000000000  # 40GB
     num_threads: int = 4
     vacuum_after: bool = True
