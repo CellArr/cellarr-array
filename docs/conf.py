@@ -311,7 +311,7 @@ extensions.remove('myst_parser')
 extensions.append('myst_nb')
 
 # Less verbose api documentation
-# extensions.append('sphinx_autodoc_typehints')
+extensions.append('sphinx_autodoc_typehints')
 
 autodoc_default_options = {
     "special-members": True,
