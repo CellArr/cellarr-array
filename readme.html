@@ -6,7 +6,7 @@
 <link rel="index" title="Index" href="genindex.html" /><link rel="search" title="Search" href="search.html" /><link rel="next" title="Contributing" href="contributing.html" /><link rel="prev" title="cellarr-array" href="index.html" />
 
     <!-- Generated with Sphinx 8.2.0 and Furo 2024.08.06 -->
-        <title>cellarr-array - cellarr-array 0.0.1 documentation</title>
+        <title>cellarr-array - cellarr-array 0.0.2 documentation</title>
       <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=03e43079" />
     <link rel="stylesheet" type="text/css" href="_static/styles/furo.css?v=354aac6f" />
     <link rel="stylesheet" type="text/css" href="_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css" />
@@ -167,7 +167,7 @@
       </label>
     </div>
     <div class="header-center">
-      <a href="index.html"><div class="brand">cellarr-array 0.0.1 documentation</div></a>
+      <a href="index.html"><div class="brand">cellarr-array 0.0.2 documentation</div></a>
     </div>
     <div class="header-right">
       <div class="theme-toggle-container theme-toggle-header">
@@ -191,7 +191,7 @@
       <div class="sidebar-sticky"><a class="sidebar-brand" href="index.html">
   
   
-  <span class="sidebar-brand-text">cellarr-array 0.0.1 documentation</span>
+  <span class="sidebar-brand-text">cellarr-array 0.0.2 documentation</span>
   
 </a><form class="sidebar-search-container" method="get" action="search.html" role="search">
   <input class="sidebar-search" placeholder="Search" name="q" aria-label="Search">
@@ -253,7 +253,7 @@
 <img alt="Unit tests" src="https://github.com/cellarr/cellarr-array/actions/workflows/run-tests.yml/badge.svg" /></p>
 <section class="tex2jax_ignore mathjax_ignore" id="cellarr-array">
 <h1>cellarr-array<a class="headerlink" href="#cellarr-array" title="Link to this heading">¶</a></h1>
-<p>This package provided high-level wrappers for TileDB arrays optimized for handling genomic data matrices.</p>
+<p>This package provided high-level wrappers for TileDB arrays, for handling genomic data matrices.</p>
 <section id="install">
 <h2>Install<a class="headerlink" href="#install" title="Link to this heading">¶</a></h2>
 <p>To get started, install the package from <a class="reference external" href="https://pypi.org/project/cellarr-array/">PyPI</a></p>
@@ -340,24 +340,41 @@
 </section>
 <section id="working-with-sparse-arrays">
 <h3>Working with Sparse Arrays<a class="headerlink" href="#working-with-sparse-arrays" title="Link to this heading">¶</a></h3>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Create a sparse array with COO output format</span>
-<span class="n">coo_array</span> <span class="o">=</span> <span class="n">SparseCellArray</span><span class="p">(</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">cellarr_array</span><span class="w"> </span><span class="kn">import</span> <span class="n">SparseCellArray</span>
+
+<span class="c1"># Create a sparse array with CSR output format</span>
+<span class="n">csr_array</span> <span class="o">=</span> <span class="n">SparseCellArray</span><span class="p">(</span>
     <span class="n">uri</span><span class="o">=</span><span class="s2">&quot;sparse_matrix.tdb&quot;</span><span class="p">,</span>
-    <span class="n">return_coo</span><span class="o">=</span><span class="kc">True</span>
+    <span class="n">return_sparse</span><span class="o">=</span><span class="kc">True</span>
 <span class="p">)</span>
 
-<span class="c1"># Get result as COO matrix</span>
-<span class="n">result</span> <span class="o">=</span> <span class="n">coo_array</span><span class="p">[</span><span class="mi">100</span><span class="p">:</span><span class="mi">200</span><span class="p">,</span> <span class="mi">500</span><span class="p">:</span><span class="mi">1000</span><span class="p">]</span>
+<span class="c1"># Get result as CSR matrix</span>
+<span class="n">result</span> <span class="o">=</span> <span class="n">csr_array</span><span class="p">[</span><span class="mi">100</span><span class="p">:</span><span class="mi">200</span><span class="p">,</span> <span class="mi">500</span><span class="p">:</span><span class="mi">1000</span><span class="p">]</span>
 
 <span class="c1"># Result is scipy.sparse.coo_matrix</span>
-<span class="k">assert</span> <span class="n">sparse</span><span class="o">.</span><span class="n">isspmatrix_coo</span><span class="p">(</span><span class="n">result</span><span class="p">)</span>
+<span class="k">assert</span> <span class="n">sparse</span><span class="o">.</span><span class="n">isspmatrix_csr</span><span class="p">(</span><span class="n">result</span><span class="p">)</span>
 
 <span class="c1"># Perform sparse operations</span>
 <span class="n">nnz</span> <span class="o">=</span> <span class="n">result</span><span class="o">.</span><span class="n">nnz</span>
 <span class="n">density</span> <span class="o">=</span> <span class="n">result</span><span class="o">.</span><span class="n">nnz</span> <span class="o">/</span> <span class="p">(</span><span class="n">result</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">*</span> <span class="n">result</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
 
 <span class="c1"># Convert to other sparse formats if needed</span>
-<span class="n">result_csr</span> <span class="o">=</span> <span class="n">result</span><span class="o">.</span><span class="n">tocsr</span><span class="p">()</span>
+<span class="n">result_csc</span> <span class="o">=</span> <span class="n">result</span><span class="o">.</span><span class="n">tocsc</span><span class="p">()</span>
+</pre></div>
+</div>
+<p>Likewise create a CSC output format</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">scipy</span><span class="w"> </span><span class="kn">import</span> <span class="n">sparse</span>
+
+<span class="c1"># Create a sparse array with CSC output format</span>
+<span class="n">csc_array</span> <span class="o">=</span> <span class="n">SparseCellArray</span><span class="p">(</span>
+    <span class="n">uri</span><span class="o">=</span><span class="s2">&quot;sparse_matrix.tdb&quot;</span><span class="p">,</span>
+    <span class="n">return_sparse</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+    <span class="n">sparse_coerce</span><span class="o">=</span><span class="n">sparse</span><span class="o">.</span><span class="n">csc_matrix</span>
+<span class="p">)</span>
+
+<span class="c1"># Get result as CSR matrix</span>
+<span class="n">result</span> <span class="o">=</span> <span class="n">csc_array</span><span class="p">[</span><span class="mi">100</span><span class="p">:</span><span class="mi">200</span><span class="p">,</span> <span class="mi">500</span><span class="p">:</span><span class="mi">1000</span><span class="p">]</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">result</span><span class="p">)</span>
 </pre></div>
 </div>
 </section>
@@ -368,7 +385,7 @@
 
 <span class="c1"># Custom consolidation</span>
 <span class="n">config</span> <span class="o">=</span> <span class="n">ConsolidationConfig</span><span class="p">(</span>
-    <span class="n">steps</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;fragment&quot;</span><span class="p">],</span>
+    <span class="n">steps</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span>
     <span class="n">vacuum_after</span><span class="o">=</span><span class="kc">True</span>
 <span class="p">)</span>
 <span class="n">array</span><span class="o">.</span><span class="n">consolidate</span><span class="p">(</span><span class="n">config</span><span class="p">)</span>
@@ -464,7 +481,7 @@ and <a class="reference external" href="https://pyscaffold.org/">PyScaffold</a>.
       
     </aside>
   </div>
-</div><script src="_static/documentation_options.js?v=d45e8c67"></script>
+</div><script src="_static/documentation_options.js?v=e3a6060d"></script>
     <script src="_static/doctools.js?v=9bcbadda"></script>
     <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="_static/scripts/furo.js?v=5fa4622c"></script>

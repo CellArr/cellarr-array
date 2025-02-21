@@ -5,7 +5,7 @@
     <meta name="color-scheme" content="light dark"><link rel="index" title="Index" href="../../genindex.html" /><link rel="search" title="Search" href="../../search.html" />
 
     <!-- Generated with Sphinx 8.2.0 and Furo 2024.08.06 -->
-        <title>cellarr_array.CellArray - cellarr-array 0.0.1 documentation</title>
+        <title>cellarr_array.CellArray - cellarr-array 0.0.2 documentation</title>
       <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=03e43079" />
     <link rel="stylesheet" type="text/css" href="../../_static/styles/furo.css?v=354aac6f" />
     <link rel="stylesheet" type="text/css" href="../../_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css" />
@@ -166,7 +166,7 @@
       </label>
     </div>
     <div class="header-center">
-      <a href="../../index.html"><div class="brand">cellarr-array 0.0.1 documentation</div></a>
+      <a href="../../index.html"><div class="brand">cellarr-array 0.0.2 documentation</div></a>
     </div>
     <div class="header-right">
       <div class="theme-toggle-container theme-toggle-header">
@@ -190,7 +190,7 @@
       <div class="sidebar-sticky"><a class="sidebar-brand" href="../../index.html">
   
   
-  <span class="sidebar-brand-text">cellarr-array 0.0.1 documentation</span>
+  <span class="sidebar-brand-text">cellarr-array 0.0.2 documentation</span>
   
 </a><form class="sidebar-search-container" method="get" action="../../search.html" role="search">
   <input class="sidebar-search" placeholder="Search" name="q" aria-label="Search">
@@ -291,7 +291,8 @@
 <span class="sd">                Defaults to None for automatic mode switching.</span>
 
 <span class="sd">            config_or_context:</span>
-<span class="sd">                Config or context object.</span>
+<span class="sd">                Optional config or context object.</span>
+
 <span class="sd">                Defaults to None.</span>
 
 <span class="sd">            validate:</span>
@@ -302,14 +303,15 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">_mode</span> <span class="o">=</span> <span class="n">mode</span>
 
         <span class="k">if</span> <span class="n">config_or_context</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
-            <span class="n">config_or_context</span> <span class="o">=</span> <span class="n">tiledb</span><span class="o">.</span><span class="n">Config</span><span class="p">()</span>
-
-        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">config_or_context</span><span class="p">,</span> <span class="n">tiledb</span><span class="o">.</span><span class="n">Config</span><span class="p">):</span>
-            <span class="n">ctx</span> <span class="o">=</span> <span class="n">tiledb</span><span class="o">.</span><span class="n">Ctx</span><span class="p">(</span><span class="n">config_or_context</span><span class="p">)</span>
-        <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">config_or_context</span><span class="p">,</span> <span class="n">tiledb</span><span class="o">.</span><span class="n">Ctx</span><span class="p">):</span>
-            <span class="n">ctx</span> <span class="o">=</span> <span class="n">config_or_context</span>
+            <span class="c1"># config_or_context = tiledb.Config()</span>
+            <span class="n">ctx</span> <span class="o">=</span> <span class="kc">None</span>
         <span class="k">else</span><span class="p">:</span>
-            <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s2">&quot;&#39;config_or_context&#39; must be either TileDB config or a context object.&quot;</span><span class="p">)</span>
+            <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">config_or_context</span><span class="p">,</span> <span class="n">tiledb</span><span class="o">.</span><span class="n">Config</span><span class="p">):</span>
+                <span class="n">ctx</span> <span class="o">=</span> <span class="n">tiledb</span><span class="o">.</span><span class="n">Ctx</span><span class="p">(</span><span class="n">config_or_context</span><span class="p">)</span>
+            <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">config_or_context</span><span class="p">,</span> <span class="n">tiledb</span><span class="o">.</span><span class="n">Ctx</span><span class="p">):</span>
+                <span class="n">ctx</span> <span class="o">=</span> <span class="n">config_or_context</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s2">&quot;&#39;config_or_context&#39; must be either TileDB config or a context object.&quot;</span><span class="p">)</span>
 
         <span class="bp">self</span><span class="o">.</span><span class="n">_ctx</span> <span class="o">=</span> <span class="n">ctx</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_array</span> <span class="o">=</span> <span class="kc">None</span>
@@ -532,7 +534,7 @@
       
     </aside>
   </div>
-</div><script src="../../_static/documentation_options.js?v=d45e8c67"></script>
+</div><script src="../../_static/documentation_options.js?v=e3a6060d"></script>
     <script src="../../_static/doctools.js?v=9bcbadda"></script>
     <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../../_static/scripts/furo.js?v=5fa4622c"></script>
