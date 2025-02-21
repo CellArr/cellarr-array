@@ -1,5 +1,9 @@
 # Changelog
 
+## Version 0.0.2
+
+- Support in-memory tiledb objects. Updated tests and documentation.
+
 ## Version 0.0.1
 
 Initial implementation of the sparse and dense arrays backed by TileDB. 
