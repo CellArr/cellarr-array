@@ -53,14 +53,15 @@ class CellArray(ABC):
         self._mode = mode
 
         if config_or_context is None:
-            config_or_context = tiledb.Config()
-
-        if isinstance(config_or_context, tiledb.Config):
-            ctx = tiledb.Ctx(config_or_context)
-        elif isinstance(config_or_context, tiledb.Ctx):
-            ctx = config_or_context
+            # config_or_context = tiledb.Config()
+            ctx = None
         else:
-            raise TypeError("'config_or_context' must be either TileDB config or a context object.")
+            if isinstance(config_or_context, tiledb.Config):
+                ctx = tiledb.Ctx(config_or_context)
+            elif isinstance(config_or_context, tiledb.Ctx):
+                ctx = config_or_context
+            else:
+                raise TypeError("'config_or_context' must be either TileDB config or a context object.")
 
         self._ctx = ctx
         self._array = None
