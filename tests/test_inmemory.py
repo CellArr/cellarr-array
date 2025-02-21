@@ -25,8 +25,7 @@ def test_inmem_uri():
 def test_inmem_uri_sparse():
     shape = (1000, 1000)
 
-    rng = np.random.default_rng()
-    s = sp.sparse.random(1000, 1000, density=0.25, rng=rng)
+    s = sp.sparse.random(1000, 1000, density=0.25)
     uri = "mem://sparse"
 
     dense_inmem = create_cellarray(uri, shape=(shape), sparse=True)
