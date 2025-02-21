@@ -42,7 +42,8 @@ class CellArray(ABC):
                 Defaults to None for automatic mode switching.
 
             config_or_context:
-                Config or context object.
+                Optional config or context object.
+
                 Defaults to None.
 
             validate:

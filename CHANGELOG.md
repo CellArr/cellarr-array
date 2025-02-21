@@ -2,7 +2,7 @@
 
 ## Version 0.0.2
 
-- Support in-memory tiledb objects. Add tests.
+- Support in-memory tiledb objects. Updated tests and documentation.
 
 ## Version 0.0.1
 
