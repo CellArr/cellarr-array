@@ -16,7 +16,7 @@ from pathlib import Path
 import numpy as np
 import pytest
 
-from cellarr_array import CellArrConfig, create_cellarray
+from cellarr_array import create_cellarray
 
 
 @pytest.fixture(scope="function")
