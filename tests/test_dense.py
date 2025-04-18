@@ -84,6 +84,11 @@ def test_1d_slicing(sample_dense_array_1d):
     result = sample_dense_array_1d[-10:]
     np.testing.assert_array_almost_equal(result, data[-10:])
 
+    # Ellipsis
+    result = sample_dense_array_1d[...]
+    actual = data[...]
+    np.testing.assert_array_almost_equal(result, actual), f"{actual} != {result}"
+
 
 def test_2d_slicing(sample_dense_array_2d):
     data = np.random.random((100, 50)).astype(np.float32)
@@ -104,6 +109,18 @@ def test_2d_slicing(sample_dense_array_2d):
     # Negative indices
     result = sample_dense_array_2d[-10:, -5:]
     np.testing.assert_array_almost_equal(result, data[-10:, -5:])
+
+    # Ellipsis
+    result = sample_dense_array_2d[..., :1]
+    np.testing.assert_array_almost_equal(result, data[..., :1])
+    result = sample_dense_array_2d[..., :]
+    np.testing.assert_array_almost_equal(result, data[..., :])
+    result = sample_dense_array_2d[-1:, ...]
+    np.testing.assert_array_almost_equal(result, data[-1:, ...])
+    with pytest.raises(IndexError):
+        _ = sample_dense_array_2d[..., ...]
+    with pytest.raises(IndexError):
+        _ = sample_dense_array_2d[[0, 3], ...]
 
 
 def test_multi_index_access(sample_dense_array_2d):

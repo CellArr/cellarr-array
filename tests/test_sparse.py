@@ -98,6 +98,11 @@ def test_coo_output(sample_sparse_array_2d):
     assert sparse.isspmatrix_csr(result)
     np.testing.assert_array_almost_equal(result.toarray(), data.toarray())
 
+    # Test full slice with ellipsis
+    result = array_coo[0:10, ...]
+    assert sparse.isspmatrix_csr(result)
+    np.testing.assert_array_almost_equal(result.toarray(), data.toarray())
+
     # Test partial slice
     data_csr = data.tocsr()
     result = array_coo[2:5, 10:20]
