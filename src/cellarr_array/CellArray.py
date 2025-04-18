@@ -1,6 +1,10 @@
 from abc import ABC, abstractmethod
 from contextlib import contextmanager
-from types import EllipsisType
+try:
+    from types import EllipsisType
+except ImportError:
+    # TODO: This is required for Python <3.10. Remove once Python 3.9 reaches EOL in October 2025
+    EllipsisType = type(...)
 from typing import List, Literal, Optional, Tuple, Union
 
 import numpy as np
