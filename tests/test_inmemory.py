@@ -1,10 +1,7 @@
-from pathlib import Path
-
 import numpy as np
-import pytest
 import scipy as sp
 
-from cellarr_array import DenseCellArray, create_cellarray
+from cellarr_array import create_cellarray
 
 __author__ = "Jayaram Kancherla"
 __copyright__ = "Jayaram Kancherla"
