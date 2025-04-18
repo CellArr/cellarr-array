@@ -70,6 +70,7 @@ class CellArray(ABC):
         self._ndim = None
         self._dim_names = None
         self._attr_names = None
+        self._nonempty_domain = None
 
         if validate:
             self._validate(attr=attr)
