@@ -1,5 +1,6 @@
 from abc import ABC, abstractmethod
 from contextlib import contextmanager
+
 try:
     from types import EllipsisType
 except ImportError:
