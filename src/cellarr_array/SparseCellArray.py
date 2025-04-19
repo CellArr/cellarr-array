@@ -1,3 +1,8 @@
+try:
+    from types import EllipsisType
+except ImportError:
+    # TODO: This is required for Python <3.10. Remove once Python 3.9 reaches EOL in October 2025
+    EllipsisType = type(...)
 from typing import Dict, List, Optional, Tuple, Union
 
 import numpy as np
@@ -118,7 +123,7 @@ class SparseCellArray(CellArray):
 
         return sliced[key]
 
-    def _direct_slice(self, key: Tuple[slice, ...]) -> Union[np.ndarray, sparse.coo_matrix]:
+    def _direct_slice(self, key: Tuple[Union[slice, EllipsisType], ...]) -> Union[np.ndarray, sparse.coo_matrix]:
         """Implementation for direct slicing of sparse arrays."""
         with self.open_array(mode="r") as array:
             result = array[key]

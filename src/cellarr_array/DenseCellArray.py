@@ -1,3 +1,8 @@
+try:
+    from types import EllipsisType
+except ImportError:
+    # TODO: This is required for Python <3.10. Remove once Python 3.9 reaches EOL in October 2025
+    EllipsisType = type(...)
 from typing import List, Tuple, Union
 
 import numpy as np
@@ -13,7 +18,7 @@ __license__ = "MIT"
 class DenseCellArray(CellArray):
     """Implementation for dense TileDB arrays."""
 
-    def _direct_slice(self, key: Tuple[slice, ...]) -> np.ndarray:
+    def _direct_slice(self, key: Tuple[Union[slice, EllipsisType], ...]) -> np.ndarray:
         """Implementation for direct slicing of dense arrays.
 
         Args:

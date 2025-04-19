@@ -1,3 +1,8 @@
+try:
+    from types import EllipsisType
+except ImportError:
+    # TODO: This is required for Python <3.10. Remove once Python 3.9 reaches EOL in October 2025
+    EllipsisType = type(...)
 from typing import List, Optional, Tuple, Union
 
 import numpy as np
@@ -150,8 +155,11 @@ class SliceHelper:
         return None
 
     @staticmethod
-    def normalize_index(idx: Union[int, slice, List[int]], dim_size: int) -> Union[slice, List[int]]:
+    def normalize_index(idx: Union[int, slice, List[int]], dim_size: int) -> Union[slice, List[int], EllipsisType]:
         """Normalize index to handle negative indices and ensure consistency."""
+
+        if isinstance(idx, EllipsisType):
+            return idx
 
         # Convert ranges to slices
         if isinstance(idx, range):

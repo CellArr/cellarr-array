@@ -1,5 +1,11 @@
 from abc import ABC, abstractmethod
 from contextlib import contextmanager
+
+try:
+    from types import EllipsisType
+except ImportError:
+    # TODO: This is required for Python <3.10. Remove once Python 3.9 reaches EOL in October 2025
+    EllipsisType = type(...)
 from typing import List, Literal, Optional, Tuple, Union
 
 import numpy as np
@@ -160,7 +166,7 @@ class CellArray(ABC):
         finally:
             array.close()
 
-    def __getitem__(self, key: Union[slice, Tuple[Union[slice, List[int]], ...]]):
+    def __getitem__(self, key: Union[slice, EllipsisType, Tuple[Union[slice, List[int]], ...], EllipsisType]):
         """Get item implementation that routes to either direct slicing or multi_index
         based on the type of indices provided.
 
@@ -177,16 +183,22 @@ class CellArray(ABC):
         # Normalize all indices
         normalized_key = tuple(SliceHelper.normalize_index(idx, self.shape[i]) for i, idx in enumerate(key))
 
+        num_ellipsis = sum(isinstance(i, EllipsisType) for i in normalized_key)
+        if num_ellipsis > 1:
+            raise IndexError(f"Found more than 1 Ellipsis (...) in key: {normalized_key}")
+
         # Check if we can use direct slicing
-        use_direct = all(isinstance(idx, slice) for idx in normalized_key)
+        use_direct = all(isinstance(idx, (slice, EllipsisType)) for idx in normalized_key)
 
         if use_direct:
             return self._direct_slice(normalized_key)
         else:
+            if num_ellipsis > 0:
+                raise IndexError(f"tiledb does not support ellipsis in multi-index access: {normalized_key}")
             return self._multi_index(normalized_key)
 
     @abstractmethod
-    def _direct_slice(self, key: Tuple[slice, ...]) -> np.ndarray:
+    def _direct_slice(self, key: Tuple[Union[slice, EllipsisType], ...]) -> np.ndarray:
         """Implementation for direct slicing."""
         pass
 
