@@ -4,26 +4,26 @@ cellarr\_array package
 Submodules
 ----------
 
-cellarr\_array.CellArray module
--------------------------------
-
-.. automodule:: cellarr_array.CellArray
-   :members:
-   :show-inheritance:
-   :undoc-members:
-
-cellarr\_array.DenseCellArray module
-------------------------------------
-
-.. automodule:: cellarr_array.DenseCellArray
-   :members:
-   :show-inheritance:
-   :undoc-members:
-
-cellarr\_array.SparseCellArray module
+cellarr\_array.cellarray\_base module
 -------------------------------------
 
-.. automodule:: cellarr_array.SparseCellArray
+.. automodule:: cellarr_array.cellarray_base
+   :members:
+   :show-inheritance:
+   :undoc-members:
+
+cellarr\_array.cellarray\_dense module
+--------------------------------------
+
+.. automodule:: cellarr_array.cellarray_dense
+   :members:
+   :show-inheritance:
+   :undoc-members:
+
+cellarr\_array.cellarray\_sparse module
+---------------------------------------
+
+.. automodule:: cellarr_array.cellarray_sparse
    :members:
    :show-inheritance:
    :undoc-members:

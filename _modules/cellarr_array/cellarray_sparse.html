@@ -5,7 +5,7 @@
     <meta name="color-scheme" content="light dark"><link rel="index" title="Index" href="../../genindex.html" /><link rel="search" title="Search" href="../../search.html" />
 
     <!-- Generated with Sphinx 8.2.3 and Furo 2024.08.06 -->
-        <title>cellarr_array.SparseCellArray - cellarr-array 0.0.3 documentation</title>
+        <title>cellarr_array.cellarray_sparse - cellarr-array 0.1.0 documentation</title>
       <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=03e43079" />
     <link rel="stylesheet" type="text/css" href="../../_static/styles/furo.css?v=354aac6f" />
     <link rel="stylesheet" type="text/css" href="../../_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css" />
@@ -166,7 +166,7 @@
       </label>
     </div>
     <div class="header-center">
-      <a href="../../index.html"><div class="brand">cellarr-array 0.0.3 documentation</div></a>
+      <a href="../../index.html"><div class="brand">cellarr-array 0.1.0 documentation</div></a>
     </div>
     <div class="header-right">
       <div class="theme-toggle-container theme-toggle-header">
@@ -190,7 +190,7 @@
       <div class="sidebar-sticky"><a class="sidebar-brand" href="../../index.html">
   
   
-  <span class="sidebar-brand-text">cellarr-array 0.0.3 documentation</span>
+  <span class="sidebar-brand-text">cellarr-array 0.1.0 documentation</span>
   
 </a><form class="sidebar-search-container" method="get" action="../../search.html" role="search">
   <input class="sidebar-search" placeholder="Search" name="q" aria-label="Search">
@@ -242,19 +242,19 @@
           </label>
         </div>
         <article role="main" id="furo-main-content">
-          <h1>Source code for cellarr_array.SparseCellArray</h1><div class="highlight"><pre>
+          <h1>Source code for cellarr_array.cellarray_sparse</h1><div class="highlight"><pre>
 <span></span><span class="k">try</span><span class="p">:</span>
     <span class="kn">from</span><span class="w"> </span><span class="nn">types</span><span class="w"> </span><span class="kn">import</span> <span class="n">EllipsisType</span>
 <span class="k">except</span> <span class="ne">ImportError</span><span class="p">:</span>
     <span class="c1"># TODO: This is required for Python &lt;3.10. Remove once Python 3.9 reaches EOL in October 2025</span>
     <span class="n">EllipsisType</span> <span class="o">=</span> <span class="nb">type</span><span class="p">(</span><span class="o">...</span><span class="p">)</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">Dict</span><span class="p">,</span> <span class="n">List</span><span class="p">,</span> <span class="n">Optional</span><span class="p">,</span> <span class="n">Tuple</span><span class="p">,</span> <span class="n">Union</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">Dict</span><span class="p">,</span> <span class="n">List</span><span class="p">,</span> <span class="n">Literal</span><span class="p">,</span> <span class="n">Optional</span><span class="p">,</span> <span class="n">Tuple</span><span class="p">,</span> <span class="n">Union</span>
 
 <span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
 <span class="kn">import</span><span class="w"> </span><span class="nn">tiledb</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">scipy</span><span class="w"> </span><span class="kn">import</span> <span class="n">sparse</span>
 
-<span class="kn">from</span><span class="w"> </span><span class="nn">.CellArray</span><span class="w"> </span><span class="kn">import</span> <span class="n">CellArray</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">.cellarray_base</span><span class="w"> </span><span class="kn">import</span> <span class="n">CellArray</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">.helpers</span><span class="w"> </span><span class="kn">import</span> <span class="n">SliceHelper</span>
 
 <span class="n">__author__</span> <span class="o">=</span> <span class="s2">&quot;Jayaram Kancherla&quot;</span>
@@ -263,23 +263,76 @@
 
 
 <div class="viewcode-block" id="SparseCellArray">
-<a class="viewcode-back" href="../../api/cellarr_array.html#cellarr_array.SparseCellArray.SparseCellArray">[docs]</a>
+<a class="viewcode-back" href="../../api/cellarr_array.html#cellarr_array.cellarray_sparse.SparseCellArray">[docs]</a>
 <span class="k">class</span><span class="w"> </span><span class="nc">SparseCellArray</span><span class="p">(</span><span class="n">CellArray</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Implementation for sparse TileDB arrays.&quot;&quot;&quot;</span>
 
 <div class="viewcode-block" id="SparseCellArray.__init__">
-<a class="viewcode-back" href="../../api/cellarr_array.html#cellarr_array.SparseCellArray.SparseCellArray.__init__">[docs]</a>
+<a class="viewcode-back" href="../../api/cellarr_array.html#cellarr_array.cellarray_sparse.SparseCellArray.__init__">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span>
-        <span class="n">uri</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
+        <span class="n">uri</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">tiledb_array_obj</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">tiledb</span><span class="o">.</span><span class="n">Array</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
         <span class="n">attr</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;data&quot;</span><span class="p">,</span>
-        <span class="n">mode</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">mode</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Literal</span><span class="p">[</span><span class="s2">&quot;r&quot;</span><span class="p">,</span> <span class="s2">&quot;w&quot;</span><span class="p">,</span> <span class="s2">&quot;d&quot;</span><span class="p">,</span> <span class="s2">&quot;m&quot;</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
         <span class="n">config_or_context</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Union</span><span class="p">[</span><span class="n">tiledb</span><span class="o">.</span><span class="n">Config</span><span class="p">,</span> <span class="n">tiledb</span><span class="o">.</span><span class="n">Ctx</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
         <span class="n">return_sparse</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
         <span class="n">sparse_coerce</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">sparse</span><span class="o">.</span><span class="n">csr_matrix</span><span class="p">,</span> <span class="n">sparse</span><span class="o">.</span><span class="n">csc_matrix</span><span class="p">]</span> <span class="o">=</span> <span class="n">sparse</span><span class="o">.</span><span class="n">csr_matrix</span><span class="p">,</span>
+        <span class="n">validate</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
+        <span class="o">**</span><span class="n">kwargs</span><span class="p">,</span>
     <span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Initialize SparseCellArray.&quot;&quot;&quot;</span>
-        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">uri</span><span class="p">,</span> <span class="n">attr</span><span class="p">,</span> <span class="n">mode</span><span class="p">,</span> <span class="n">config_or_context</span><span class="p">)</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Initialize the object.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            uri:</span>
+<span class="sd">                URI to the array.</span>
+<span class="sd">                Required if &#39;tiledb_array_obj&#39; is not provided.</span>
+
+<span class="sd">            tiledb_array_obj:</span>
+<span class="sd">                Optional, an already opened ``tiledb.Array`` instance.</span>
+<span class="sd">                If provided, &#39;uri&#39; can be None, and &#39;config_or_context&#39; is ignored.</span>
+
+<span class="sd">            attr:</span>
+<span class="sd">                Attribute to access.</span>
+<span class="sd">                Defaults to &quot;data&quot;.</span>
+
+<span class="sd">            mode:</span>
+<span class="sd">                Open the array object in read &#39;r&#39;, write &#39;w&#39;, modify</span>
+<span class="sd">                &#39;m&#39; mode, or delete &#39;d&#39; mode.</span>
+
+<span class="sd">                Defaults to None for automatic mode switching.</span>
+
+<span class="sd">                If &#39;tiledb_array_obj&#39; is provided, this mode should ideally match</span>
+<span class="sd">                the mode of the provided array or be None.</span>
+
+<span class="sd">            config_or_context:</span>
+<span class="sd">                Optional config or context object. Ignored if &#39;tiledb_array_obj&#39; is provided,</span>
+<span class="sd">                as context will be derived from the object.</span>
+
+<span class="sd">                Defaults to None.</span>
+
+<span class="sd">            return_sparse:</span>
+<span class="sd">                Whether to return a sparse representation of the data when object is sliced.</span>
+<span class="sd">                Default is to return a dictionary that contains coordinates and values.</span>
+
+<span class="sd">            sparse_coerce:</span>
+<span class="sd">                Format to return, defaults to csr_matrix.</span>
+
+<span class="sd">            validate:</span>
+<span class="sd">                Whether to validate the attributes.</span>
+<span class="sd">                Defaults to True.</span>
+
+<span class="sd">            kwargs:</span>
+<span class="sd">                Additional arguments.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span>
+            <span class="n">uri</span><span class="o">=</span><span class="n">uri</span><span class="p">,</span>
+            <span class="n">tiledb_array_obj</span><span class="o">=</span><span class="n">tiledb_array_obj</span><span class="p">,</span>
+            <span class="n">attr</span><span class="o">=</span><span class="n">attr</span><span class="p">,</span>
+            <span class="n">mode</span><span class="o">=</span><span class="n">mode</span><span class="p">,</span>
+            <span class="n">config_or_context</span><span class="o">=</span><span class="n">config_or_context</span><span class="p">,</span>
+            <span class="n">validate</span><span class="o">=</span><span class="n">validate</span><span class="p">,</span>
+        <span class="p">)</span>
 
         <span class="bp">self</span><span class="o">.</span><span class="n">return_sparse</span> <span class="o">=</span> <span class="n">return_sparse</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">sparse_coerce</span> <span class="o">=</span> <span class="n">sparse</span><span class="o">.</span><span class="n">csr_matrix</span> <span class="k">if</span> <span class="n">sparse_coerce</span> <span class="ow">is</span> <span class="kc">None</span> <span class="k">else</span> <span class="n">sparse_coerce</span></div>
@@ -415,7 +468,7 @@
             <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_to_sparse_format</span><span class="p">(</span><span class="n">result</span><span class="p">,</span> <span class="n">key</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
 
 <div class="viewcode-block" id="SparseCellArray.write_batch">
-<a class="viewcode-back" href="../../api/cellarr_array.html#cellarr_array.SparseCellArray.SparseCellArray.write_batch">[docs]</a>
+<a class="viewcode-back" href="../../api/cellarr_array.html#cellarr_array.cellarray_sparse.SparseCellArray.write_batch">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">write_batch</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span> <span class="n">data</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">sparse</span><span class="o">.</span><span class="n">spmatrix</span><span class="p">,</span> <span class="n">sparse</span><span class="o">.</span><span class="n">csc_matrix</span><span class="p">,</span> <span class="n">sparse</span><span class="o">.</span><span class="n">coo_matrix</span><span class="p">],</span> <span class="n">start_row</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
@@ -439,24 +492,24 @@
             <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s2">&quot;Input must be a scipy sparse matrix.&quot;</span><span class="p">)</span>
 
         <span class="c1"># Validate and adjust dimensions</span>
-        <span class="n">data</span><span class="p">,</span> <span class="n">is_1d</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_validate_matrix_dims</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+        <span class="n">coo_data</span><span class="p">,</span> <span class="n">is_1d</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_validate_matrix_dims</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
 
         <span class="c1"># Check bounds</span>
-        <span class="n">end_row</span> <span class="o">=</span> <span class="n">start_row</span> <span class="o">+</span> <span class="n">data</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+        <span class="n">end_row</span> <span class="o">=</span> <span class="n">start_row</span> <span class="o">+</span> <span class="n">coo_data</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
         <span class="k">if</span> <span class="n">end_row</span> <span class="o">&gt;</span> <span class="bp">self</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]:</span>
             <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
                 <span class="sa">f</span><span class="s2">&quot;Write operation would exceed array bounds. End row </span><span class="si">{</span><span class="n">end_row</span><span class="si">}</span><span class="s2"> &gt; array rows </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="si">}</span><span class="s2">.&quot;</span>
             <span class="p">)</span>
 
-        <span class="k">if</span> <span class="ow">not</span> <span class="n">is_1d</span> <span class="ow">and</span> <span class="n">data</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">!=</span> <span class="bp">self</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]:</span>
-            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Data columns </span><span class="si">{</span><span class="n">data</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="si">}</span><span class="s2"> don&#39;t match array columns </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="si">}</span><span class="s2">.&quot;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">is_1d</span> <span class="ow">and</span> <span class="n">coo_data</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">!=</span> <span class="bp">self</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Data columns </span><span class="si">{</span><span class="n">coo_data</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="si">}</span><span class="s2"> don&#39;t match array columns </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="si">}</span><span class="s2">.&quot;</span><span class="p">)</span>
 
-        <span class="n">adjusted_rows</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">row</span> <span class="o">+</span> <span class="n">start_row</span>
+        <span class="n">adjusted_rows</span> <span class="o">=</span> <span class="n">coo_data</span><span class="o">.</span><span class="n">row</span> <span class="o">+</span> <span class="n">start_row</span>
         <span class="k">with</span> <span class="bp">self</span><span class="o">.</span><span class="n">open_array</span><span class="p">(</span><span class="n">mode</span><span class="o">=</span><span class="s2">&quot;w&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">array</span><span class="p">:</span>
             <span class="k">if</span> <span class="n">is_1d</span><span class="p">:</span>
-                <span class="n">array</span><span class="p">[</span><span class="n">adjusted_rows</span><span class="p">]</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">data</span>
+                <span class="n">array</span><span class="p">[</span><span class="n">adjusted_rows</span><span class="p">]</span> <span class="o">=</span> <span class="n">coo_data</span><span class="o">.</span><span class="n">data</span>
             <span class="k">else</span><span class="p">:</span>
-                <span class="n">array</span><span class="p">[</span><span class="n">adjusted_rows</span><span class="p">,</span> <span class="n">data</span><span class="o">.</span><span class="n">col</span><span class="p">]</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">data</span></div>
+                <span class="n">array</span><span class="p">[</span><span class="n">adjusted_rows</span><span class="p">,</span> <span class="n">coo_data</span><span class="o">.</span><span class="n">col</span><span class="p">]</span> <span class="o">=</span> <span class="n">coo_data</span><span class="o">.</span><span class="n">data</span></div>
 </div>
 
 </pre></div>
@@ -491,7 +544,7 @@
       
     </aside>
   </div>
-</div><script src="../../_static/documentation_options.js?v=47de8214"></script>
+</div><script src="../../_static/documentation_options.js?v=01f34227"></script>
     <script src="../../_static/doctools.js?v=9bcbadda"></script>
     <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../../_static/scripts/furo.js?v=5fa4622c"></script>

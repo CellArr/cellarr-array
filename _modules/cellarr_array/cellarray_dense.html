@@ -5,7 +5,7 @@
     <meta name="color-scheme" content="light dark"><link rel="index" title="Index" href="../../genindex.html" /><link rel="search" title="Search" href="../../search.html" />
 
     <!-- Generated with Sphinx 8.2.3 and Furo 2024.08.06 -->
-        <title>cellarr_array.DenseCellArray - cellarr-array 0.0.3 documentation</title>
+        <title>cellarr_array.cellarray_dense - cellarr-array 0.1.0 documentation</title>
       <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=03e43079" />
     <link rel="stylesheet" type="text/css" href="../../_static/styles/furo.css?v=354aac6f" />
     <link rel="stylesheet" type="text/css" href="../../_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css" />
@@ -166,7 +166,7 @@
       </label>
     </div>
     <div class="header-center">
-      <a href="../../index.html"><div class="brand">cellarr-array 0.0.3 documentation</div></a>
+      <a href="../../index.html"><div class="brand">cellarr-array 0.1.0 documentation</div></a>
     </div>
     <div class="header-right">
       <div class="theme-toggle-container theme-toggle-header">
@@ -190,7 +190,7 @@
       <div class="sidebar-sticky"><a class="sidebar-brand" href="../../index.html">
   
   
-  <span class="sidebar-brand-text">cellarr-array 0.0.3 documentation</span>
+  <span class="sidebar-brand-text">cellarr-array 0.1.0 documentation</span>
   
 </a><form class="sidebar-search-container" method="get" action="../../search.html" role="search">
   <input class="sidebar-search" placeholder="Search" name="q" aria-label="Search">
@@ -242,7 +242,7 @@
           </label>
         </div>
         <article role="main" id="furo-main-content">
-          <h1>Source code for cellarr_array.DenseCellArray</h1><div class="highlight"><pre>
+          <h1>Source code for cellarr_array.cellarray_dense</h1><div class="highlight"><pre>
 <span></span><span class="k">try</span><span class="p">:</span>
     <span class="kn">from</span><span class="w"> </span><span class="nn">types</span><span class="w"> </span><span class="kn">import</span> <span class="n">EllipsisType</span>
 <span class="k">except</span> <span class="ne">ImportError</span><span class="p">:</span>
@@ -252,7 +252,7 @@
 
 <span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
 
-<span class="kn">from</span><span class="w"> </span><span class="nn">.CellArray</span><span class="w"> </span><span class="kn">import</span> <span class="n">CellArray</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">.cellarray_base</span><span class="w"> </span><span class="kn">import</span> <span class="n">CellArray</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">.helpers</span><span class="w"> </span><span class="kn">import</span> <span class="n">SliceHelper</span>
 
 <span class="n">__author__</span> <span class="o">=</span> <span class="s2">&quot;Jayaram Kancherla&quot;</span>
@@ -261,7 +261,7 @@
 
 
 <div class="viewcode-block" id="DenseCellArray">
-<a class="viewcode-back" href="../../api/cellarr_array.html#cellarr_array.DenseCellArray.DenseCellArray">[docs]</a>
+<a class="viewcode-back" href="../../api/cellarr_array.html#cellarr_array.cellarray_dense.DenseCellArray">[docs]</a>
 <span class="k">class</span><span class="w"> </span><span class="nc">DenseCellArray</span><span class="p">(</span><span class="n">CellArray</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Implementation for dense TileDB arrays.&quot;&quot;&quot;</span>
 
@@ -317,7 +317,7 @@
             <span class="k">return</span> <span class="n">res</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">_attr</span><span class="p">]</span> <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_attr</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="k">else</span> <span class="n">res</span>
 
 <div class="viewcode-block" id="DenseCellArray.write_batch">
-<a class="viewcode-back" href="../../api/cellarr_array.html#cellarr_array.DenseCellArray.DenseCellArray.write_batch">[docs]</a>
+<a class="viewcode-back" href="../../api/cellarr_array.html#cellarr_array.cellarray_dense.DenseCellArray.write_batch">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">write_batch</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">data</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">start_row</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Write a batch of data to the dense array.</span>
 
@@ -394,7 +394,7 @@
       
     </aside>
   </div>
-</div><script src="../../_static/documentation_options.js?v=47de8214"></script>
+</div><script src="../../_static/documentation_options.js?v=01f34227"></script>
     <script src="../../_static/doctools.js?v=9bcbadda"></script>
     <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../../_static/scripts/furo.js?v=5fa4622c"></script>
