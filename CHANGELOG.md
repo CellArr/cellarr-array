@@ -1,5 +1,11 @@
 # Changelog
 
+## Version 0.1.0
+
+- Support cellarr-arrays on user provided tiledb array objects.
+- Migrate github actions to the newer version from biocsetup.
+- Renaming module names, documentation and tests
+
 ## Version 0.0.2
 
 - Support in-memory tiledb objects. Updated tests and documentation.
