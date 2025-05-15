@@ -187,21 +187,21 @@ class SparseCellArray(CellArray):
             raise TypeError("Input must be a scipy sparse matrix.")
 
         # Validate and adjust dimensions
-        data, is_1d = self._validate_matrix_dims(data)
+        coo_data, is_1d = self._validate_matrix_dims(data)
 
         # Check bounds
-        end_row = start_row + data.shape[0]
+        end_row = start_row + coo_data.shape[0]
         if end_row > self.shape[0]:
             raise ValueError(
                 f"Write operation would exceed array bounds. End row {end_row} > array rows {self.shape[0]}."
             )
 
-        if not is_1d and data.shape[1] != self.shape[1]:
-            raise ValueError(f"Data columns {data.shape[1]} don't match array columns {self.shape[1]}.")
+        if not is_1d and coo_data.shape[1] != self.shape[1]:
+            raise ValueError(f"Data columns {coo_data.shape[1]} don't match array columns {self.shape[1]}.")
 
-        adjusted_rows = data.row + start_row
+        adjusted_rows = coo_data.row + start_row
         with self.open_array(mode="w") as array:
             if is_1d:
-                array[adjusted_rows] = data.data
+                array[adjusted_rows] = coo_data.data
             else:
-                array[adjusted_rows, data.col] = data.data
+                array[adjusted_rows, coo_data.col] = coo_data.data
