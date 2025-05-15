@@ -7,7 +7,7 @@ from typing import List, Tuple, Union
 
 import numpy as np
 
-from .CellArray import CellArray
+from .cellarray_base import CellArray
 from .helpers import SliceHelper
 
 __author__ = "Jayaram Kancherla"

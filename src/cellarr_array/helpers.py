@@ -133,11 +133,15 @@ def create_cellarray(
     tiledb.Array.create(uri, schema)
 
     # Import here to avoid circular imports
-    from .DenseCellArray import DenseCellArray
-    from .SparseCellArray import SparseCellArray
+    from .cellarray_dense import DenseCellArray
+    from .cellarray_sparse import SparseCellArray
 
     # Return appropriate array type
-    return SparseCellArray(uri, attr=attr_name, mode=mode) if sparse else DenseCellArray(uri, attr=attr_name, mode=mode)
+    return (
+        SparseCellArray(uri=uri, attr=attr_name, mode=mode)
+        if sparse
+        else DenseCellArray(uri=uri, attr=attr_name, mode=mode)
+    )
 
 
 class SliceHelper:
