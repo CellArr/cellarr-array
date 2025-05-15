@@ -2,6 +2,7 @@ from pathlib import Path
 
 import numpy as np
 import pytest
+import tiledb
 from scipy import sparse
 
 from cellarr_array import SparseCellArray, create_cellarray
@@ -178,3 +179,17 @@ def test_invalid_inputs(sample_sparse_array_2d):
             attr_dtype=np.float32,
             sparse=True,
         )
+
+
+def test_array_object(temp_dir):
+    uri = str(Path(temp_dir) / "test_sparse_1d")
+    array = create_cellarray(uri=uri, shape=(100,), attr_dtype=np.float32, sparse=True)
+    tdb_obj = tiledb.open(uri, "r")
+    alt_array = SparseCellArray(tiledb_array_obj=tdb_obj)
+
+    assert isinstance(array, SparseCellArray)
+    assert array.shape == alt_array.shape
+    assert array.ndim == alt_array.ndim
+    assert array.dim_names == alt_array.dim_names
+    assert "data" in array.attr_names
+    assert "data" in alt_array.attr_names

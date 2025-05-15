@@ -28,7 +28,7 @@ class CellArray(ABC):
         uri: Optional[str] = None,
         tiledb_array_obj: Optional[tiledb.Array] = None,
         attr: str = "data",
-        mode: Optional[Literal["r", "w", "n", "d", "m"]] = None,
+        mode: Optional[Literal["r", "w", "d", "m"]] = None,
         config_or_context: Optional[Union[tiledb.Config, tiledb.Ctx]] = None,
         validate: bool = True,
     ):

@@ -16,6 +16,6 @@ finally:
     del version, PackageNotFoundError
 
 from .config import CellArrConfig, ConsolidationConfig
-from .DenseCellArray import DenseCellArray
-from .SparseCellArray import SparseCellArray
+from .dense_cellarray import DenseCellArray
+from .sparse_cellarray import SparseCellArray
 from .helpers import create_cellarray, SliceHelper

@@ -3,13 +3,13 @@ try:
 except ImportError:
     # TODO: This is required for Python <3.10. Remove once Python 3.9 reaches EOL in October 2025
     EllipsisType = type(...)
-from typing import Dict, List, Optional, Tuple, Union
+from typing import Dict, List, Literal, Optional, Tuple, Union
 
 import numpy as np
 import tiledb
 from scipy import sparse
 
-from .CellArray import CellArray
+from .cellarray import CellArray
 from .helpers import SliceHelper
 
 __author__ = "Jayaram Kancherla"
@@ -22,17 +22,67 @@ class SparseCellArray(CellArray):
 
     def __init__(
         self,
-        uri: str,
+        uri: Optional[str] = None,
         tiledb_array_obj: Optional[tiledb.Array] = None,
         attr: str = "data",
-        mode: str = None,
+        mode: Optional[Literal["r", "w", "d", "m"]] = None,
         config_or_context: Optional[Union[tiledb.Config, tiledb.Ctx]] = None,
         return_sparse: bool = True,
         sparse_coerce: Union[sparse.csr_matrix, sparse.csc_matrix] = sparse.csr_matrix,
+        validate: bool = True,
+        **kwargs,
     ):
-        """Initialize SparseCellArray."""
+        """Initialize the object.
+
+        Args:
+            uri:
+                URI to the array.
+                Required if 'tiledb_array_obj' is not provided.
+
+            tiledb_array_obj:
+                Optional, an already opened ``tiledb.Array`` instance.
+                If provided, 'uri' can be None, and 'config_or_context' is ignored.
+
+            attr:
+                Attribute to access.
+                Defaults to "data".
+
+            mode:
+                Open the array object in read 'r', write 'w', modify
+                'm' mode, or delete 'd' mode.
+
+                Defaults to None for automatic mode switching.
+
+                If 'tiledb_array_obj' is provided, this mode should ideally match
+                the mode of the provided array or be None.
+
+            config_or_context:
+                Optional config or context object. Ignored if 'tiledb_array_obj' is provided,
+                as context will be derived from the object.
+
+                Defaults to None.
+
+            return_sparse:
+                Whether to return a sparse representation of the data when object is sliced.
+                Default is to return a dictionary that contains coordinates and values.
+
+            sparse_coerce:
+                Format to return, defaults to csr_matrix.
+
+            validate:
+                Whether to validate the attributes.
+                Defaults to True.
+
+            kwargs:
+                Additional arguments.
+        """
         super().__init__(
-            uri=uri, tiledb_array_obj=tiledb_array_obj, attr=attr, mode=mode, config_or_context=config_or_context
+            uri=uri,
+            tiledb_array_obj=tiledb_array_obj,
+            attr=attr,
+            mode=mode,
+            config_or_context=config_or_context,
+            validate=validate,
         )
 
         self.return_sparse = return_sparse

@@ -2,6 +2,7 @@ from pathlib import Path
 
 import numpy as np
 import pytest
+import tiledb
 
 from cellarr_array import DenseCellArray, create_cellarray
 
@@ -179,3 +180,17 @@ def test_invalid_operations(sample_dense_array_2d):
 
     with pytest.raises(IndexError, match="out of bounds"):
         _ = sample_dense_array_2d[200:300]
+
+
+def test_array_object(temp_dir):
+    uri = str(Path(temp_dir) / "test_dense_1d")
+    array = create_cellarray(uri=uri, shape=(100,), attr_dtype=np.float32, sparse=False)
+    tdb_obj = tiledb.open(uri, "r")
+    alt_array = DenseCellArray(tiledb_array_obj=tdb_obj)
+
+    assert isinstance(array, DenseCellArray)
+    assert array.shape == alt_array.shape
+    assert array.ndim == alt_array.ndim
+    assert array.dim_names == alt_array.dim_names
+    assert "data" in array.attr_names
+    assert "data" in alt_array.attr_names
