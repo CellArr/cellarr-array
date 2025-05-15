@@ -137,7 +137,11 @@ def create_cellarray(
     from .SparseCellArray import SparseCellArray
 
     # Return appropriate array type
-    return SparseCellArray(uri, attr=attr_name, mode=mode) if sparse else DenseCellArray(uri, attr=attr_name, mode=mode)
+    return (
+        SparseCellArray(uri=uri, attr=attr_name, mode=mode)
+        if sparse
+        else DenseCellArray(uri=uri, attr=attr_name, mode=mode)
+    )
 
 
 class SliceHelper:

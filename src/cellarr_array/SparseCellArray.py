@@ -23,6 +23,7 @@ class SparseCellArray(CellArray):
     def __init__(
         self,
         uri: str,
+        tiledb_array_obj: Optional[tiledb.Array] = None,
         attr: str = "data",
         mode: str = None,
         config_or_context: Optional[Union[tiledb.Config, tiledb.Ctx]] = None,
@@ -30,7 +31,9 @@ class SparseCellArray(CellArray):
         sparse_coerce: Union[sparse.csr_matrix, sparse.csc_matrix] = sparse.csr_matrix,
     ):
         """Initialize SparseCellArray."""
-        super().__init__(uri, attr, mode, config_or_context)
+        super().__init__(
+            uri=uri, tiledb_array_obj=tiledb_array_obj, attr=attr, mode=mode, config_or_context=config_or_context
+        )
 
         self.return_sparse = return_sparse
         self.sparse_coerce = sparse.csr_matrix if sparse_coerce is None else sparse_coerce

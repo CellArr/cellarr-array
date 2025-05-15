@@ -172,7 +172,7 @@ def test_invalid_operations(sample_dense_array_2d):
         sample_dense_array_2d.mode = "invalid"
 
     with pytest.raises(ValueError, match="Attribute .* does not exist"):
-        DenseCellArray(sample_dense_array_2d.uri, attr="invalid_attr")
+        DenseCellArray(uri=sample_dense_array_2d.uri, attr="invalid_attr")
 
     with pytest.raises(IndexError, match="Invalid number of dimensions"):
         _ = sample_dense_array_2d[0:10, 0:10, 0:10]

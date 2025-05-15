@@ -44,7 +44,7 @@ def test_1d_write_batch(sample_sparse_array_1d):
     expected = sparse_data.toarray().flatten()
     np.testing.assert_array_almost_equal(result.toarray().flatten(), expected)
 
-    read_arr = SparseCellArray(sample_sparse_array_1d.uri, return_sparse=False)
+    read_arr = SparseCellArray(uri=sample_sparse_array_1d.uri, return_sparse=False)
 
     # Full slice
     result = read_arr[0:10]
@@ -68,7 +68,7 @@ def test_1d_empty_regions(sample_sparse_array_1d):
 
     sample_sparse_array_1d.write_batch(sparse_data, start_row=0)
 
-    read_arr = SparseCellArray(sample_sparse_array_1d.uri, return_sparse=True)
+    read_arr = SparseCellArray(uri=sample_sparse_array_1d.uri, return_sparse=True)
 
     # Query empty region
     result = read_arr[7:10]
@@ -82,7 +82,7 @@ def test_2d_formats(sample_sparse_array_2d):
     data = sparse.random(10, 50, density=0.1, format="coo", dtype=np.float32)
 
     sample_sparse_array_2d.write_batch(data, start_row=0)
-    array_coo = SparseCellArray(sample_sparse_array_2d.uri, return_sparse=True)
+    array_coo = SparseCellArray(uri=sample_sparse_array_2d.uri, return_sparse=True)
     result = array_coo[0:10, :]
     np.testing.assert_array_almost_equal(result.toarray(), data.toarray())
 
@@ -91,7 +91,7 @@ def test_coo_output(sample_sparse_array_2d):
     data = sparse.random(10, 50, density=0.1, format="coo", dtype=np.float32)
     sample_sparse_array_2d.write_batch(data, start_row=0)
 
-    array_coo = SparseCellArray(sample_sparse_array_2d.uri, return_sparse=True)
+    array_coo = SparseCellArray(uri=sample_sparse_array_2d.uri, return_sparse=True)
 
     # Test full slice
     result = array_coo[0:10, :]
@@ -114,7 +114,7 @@ def test_mixed_slice_list_bounds(sample_sparse_array_2d):
     data = sparse.random(100, 50, density=0.2, format="csr", dtype=np.float32)
     sample_sparse_array_2d.write_batch(data, start_row=0)
 
-    array_coo = SparseCellArray(sample_sparse_array_2d.uri, return_sparse=True)
+    array_coo = SparseCellArray(uri=sample_sparse_array_2d.uri, return_sparse=True)
 
     cols = [2, 4, 6]
 
@@ -142,7 +142,7 @@ def test_empty_regions(sample_sparse_array_2d):
     data = sparse.random(10, 50, density=0.1, format="coo", dtype=np.float32)
     sample_sparse_array_2d.write_batch(data, start_row=0)
 
-    array_coo = SparseCellArray(sample_sparse_array_2d.uri, return_sparse=True)
+    array_coo = SparseCellArray(uri=sample_sparse_array_2d.uri, return_sparse=True)
 
     # Query empty region
     result = array_coo[50:60, :]

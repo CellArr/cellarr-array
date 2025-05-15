@@ -24,7 +24,7 @@ def test_attribute_validation(temp_dir):
     create_cellarray(uri=uri, shape=(10, 10), attr_dtype=np.float32, attr_name="values")
 
     with pytest.raises(ValueError, match="Attribute 'invalid' does not exist"):
-        DenseCellArray(uri, attr="invalid")
+        DenseCellArray(uri=uri, attr="invalid")
 
 
 def test_1d_integration(temp_dir):
