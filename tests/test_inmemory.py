@@ -34,7 +34,7 @@ def test_inmem_uri_sparse():
     dense_inmem.write_batch(s, start_row=0)
 
     assert np.allclose(dense_inmem[:10, :10].toarray(), s.tocsr()[:10, :10].toarray())
-    
+
     tdb_obj = tiledb.open(uri, "r")
     alt_array = SparseCellArray(tiledb_array_obj=tdb_obj)
     assert np.allclose(alt_array[:10, :10].toarray(), s.tocsr()[:10, :10].toarray())
