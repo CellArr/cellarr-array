@@ -133,8 +133,8 @@ def create_cellarray(
     tiledb.Array.create(uri, schema)
 
     # Import here to avoid circular imports
-    from .cellarray_dense import DenseCellArray
-    from .cellarray_sparse import SparseCellArray
+    from ..core.dense import DenseCellArray
+    from ..core.sparse import SparseCellArray
 
     # Return appropriate array type
     return (

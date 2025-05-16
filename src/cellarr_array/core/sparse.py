@@ -9,8 +9,8 @@ import numpy as np
 import tiledb
 from scipy import sparse
 
-from .cellarray_base import CellArray
-from .helpers import SliceHelper
+from .base import CellArray
+from ..utils.helpers import SliceHelper
 
 __author__ = "Jayaram Kancherla"
 __copyright__ = "Jayaram Kancherla"
@@ -28,7 +28,7 @@ class SparseCellArray(CellArray):
         mode: Optional[Literal["r", "w", "d", "m"]] = None,
         config_or_context: Optional[Union[tiledb.Config, tiledb.Ctx]] = None,
         return_sparse: bool = True,
-        sparse_coerce: Union[sparse.csr_matrix, sparse.csc_matrix] = sparse.csr_matrix,
+        sparse_format: Union[sparse.csr_matrix, sparse.csc_matrix] = sparse.csr_matrix,
         validate: bool = True,
         **kwargs,
     ):
@@ -66,7 +66,7 @@ class SparseCellArray(CellArray):
                 Whether to return a sparse representation of the data when object is sliced.
                 Default is to return a dictionary that contains coordinates and values.
 
-            sparse_coerce:
+            sparse_format:
                 Format to return, defaults to csr_matrix.
 
             validate:
@@ -86,7 +86,7 @@ class SparseCellArray(CellArray):
         )
 
         self.return_sparse = return_sparse
-        self.sparse_coerce = sparse.csr_matrix if sparse_coerce is None else sparse_coerce
+        self.sparse_format = sparse.csr_matrix if sparse_format is None else sparse_format
 
     def _validate_matrix_dims(self, data: sparse.spmatrix) -> Tuple[sparse.coo_matrix, bool]:
         """Validate and adjust matrix dimensions if needed.
@@ -148,10 +148,10 @@ class SparseCellArray(CellArray):
             else:
                 # For COO output, return empty sparse matrix
                 if self.ndim == 1:
-                    matrix = self.sparse_coerce((1, shape[0]))
+                    matrix = self.sparse_format((1, shape[0]))
                     return matrix[:, key[0]]
 
-                return self.sparse_coerce(shape)[key]
+                return self.sparse_format(shape)[key]
 
         # Get coordinates
         coords = []
@@ -166,9 +166,9 @@ class SparseCellArray(CellArray):
 
         # Create sparse matrix
         matrix = sparse.coo_matrix((data, tuple(coords)), shape=shape)
-        if self.sparse_coerce in (sparse.csr_matrix, sparse.csr_array):
+        if self.sparse_format in (sparse.csr_matrix, sparse.csr_array):
             sliced = matrix.tocsr()
-        elif self.sparse_coerce in (sparse.csc_matrix, sparse.csc_array):
+        elif self.sparse_format in (sparse.csc_matrix, sparse.csc_array):
             sliced = matrix.tocsc()
 
         if self.ndim == 1:
