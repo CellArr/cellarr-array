@@ -130,11 +130,6 @@ class CellArrayIterableDataset(IterableDataset):
                     uri=self.array_uri, attr=self.attribute_name, mode="r", config_or_context=ctx
                 )
 
-            # Verify shape if needed,  sanity check
-            # if self.cell_array_instance.shape != (self.num_rows, self.num_columns):
-            #     print(f"Warning (Worker {worker_id}): Array shape {self.cell_array_instance.shape} "
-            #           f"differs from provided ({self.num_rows}, {self.num_columns})")
-
     def _fetch_one_random_batch(self) -> Union[np.ndarray, sp.spmatrix]:
         """Randomly selects `self.batch_size` row indices and fetches them from
         the TileDB array in a single multi-index read operation.
@@ -142,29 +137,28 @@ class CellArrayIterableDataset(IterableDataset):
         Returns:
             A NumPy array (for dense) or SciPy sparse matrix (for sparse)
             representing the fetched batch of data. The shape will be
-            (N, self.feature_dim), where N is the number of successfully fetched rows
+            (N, self.num_columns), where N is the number of successfully fetched rows
             (usually self.batch_size, but could be less if num_rows < self.batch_size).
         """
         if self.num_rows == 0:
             if self.is_sparse:
-                return sp.coo_matrix((0, self.feature_dim), dtype=np.float32)
+                return sp.coo_matrix((0, self.num_columns), dtype=np.float32)
             else:
-                return np.empty((0, self.feature_dim), dtype=np.float32)
+                return np.empty((0, self.num_columns), dtype=np.float32)
 
         actual_batch_size = min(self.batch_size, self.num_rows)
         if actual_batch_size == 0:
             if self.is_sparse:
-                return sp.coo_matrix((0, self.feature_dim), dtype=np.float32)
+                return sp.coo_matrix((0, self.num_columns), dtype=np.float32)
             else:
-                return np.empty((0, self.feature_dim), dtype=np.float32)
+                return np.empty((0, self.num_columns), dtype=np.float32)
 
         random_indices = np.random.choice(
             self.num_rows,
             size=actual_batch_size,
-            replace=False,  # Ensure unique rows per batch
+            replace=False,
         )
 
-        # Sorting indices can sometimes help TileDB's read performance
         random_indices.sort()
         batch_slice_key = (list(random_indices), slice(None))
         data_chunk = self.cell_array_instance[batch_slice_key]
@@ -180,10 +174,11 @@ class CellArrayIterableDataset(IterableDataset):
 
         for _ in range(self.num_yields_per_epoch_per_worker):
             if self.num_rows == 0:
-                # Yield an empty structure once if num_yields is >0, then stop. Or just don't yield.
-                # Depending on collate_fn and training loop, this might need careful handling.
-                # For now, if no samples, this loop won't yield anything useful if num_yields > 0.
-                # If num_yields_per_epoch_per_worker was calculated to be 0, this loop won't run.
+                if self.is_sparse:
+                    yield sp.coo_matrix((0, self.num_columns), dtype=np.float32)
+                else:
+                    yield np.empty((0, self.num_columns), dtype=np.float32)
+
                 break
 
             batch_data = self._fetch_one_random_batch()
@@ -193,59 +188,58 @@ class CellArrayIterableDataset(IterableDataset):
             yield batch_data
 
 
-def dense_batch_collate_fn(batch_list: List[np.ndarray]) -> torch.Tensor:
-    """Collate function for dense batches from TileDBRandomBatchIterableDataset.
+def dense_batch_collate_fn(numpy_batch: np.ndarray) -> torch.Tensor:
+    """Collate function for a dense batch from CellArrayIterableDataset.
 
-    The input `batch_list` is expected to contain a single item: the NumPy array
-    representing the entire pre-fetched batch.
-
-    Args:
-        batch_list:
-            A list containing one NumPy array, which is the batch of dense data.
-
-    Returns:
-        The batch data as a PyTorch tensor.
+    Receives the numpy_batch directly from the dataset's iterator.
     """
-    if not batch_list or batch_list[0] is None or batch_list[0].shape[0] == 0:
-        # Handle empty or problematic batch from the dataset iterator
-        print("CollateFn (Dense): Received empty or None batch.")
+    if numpy_batch is None or (hasattr(numpy_batch, "shape") and numpy_batch.shape[0] == 0):
+        print("CollateFn (Dense): Received batch_item that is None or has 0 rows.")
+        if numpy_batch is not None:
+            return torch.from_numpy(numpy_batch)
         return torch.empty(0)
 
-    numpy_batch = batch_list[0]
     return torch.from_numpy(numpy_batch)
 
 
-def sparse_batch_collate_fn(batch_list: List[sp.spmatrix]) -> torch.Tensor:
-    """Collate function for sparse batches from TileDBRandomBatchIterableDataset.
+def sparse_batch_collate_fn(scipy_sparse_batch: sp.spmatrix) -> torch.Tensor:
+    """Collate function for a sparse batch from CellArrayIterableDataset.
 
-    The input `batch_list` is expected to contain a single item: a SciPy sparse matrix
-    (preferably COO for easy conversion) representing the entire pre-fetched batch.
-
-    Args:
-        batch_list:
-            A list containing one SciPy sparse matrix, which is the batch of sparse data.
-
-    Returns:
-        The batch data as a PyTorch sparse COO tensor.
+    Receives the scipy_sparse_batch directly from the dataset's iterator.
     """
-    if not batch_list or batch_list[0] is None or batch_list[0].shape[0] == 0:
-        print("CollateFn (Sparse): Received empty or None batch.")
-        # Return an empty sparse tensor.
-        num_cols = batch_list[0].shape[1] if batch_list and batch_list[0] is not None else 0
+    if scipy_sparse_batch is None or (hasattr(scipy_sparse_batch, "shape") and scipy_sparse_batch.shape[0] == 0):
+        print("CollateFn (Sparse): Received batch_item that is None or has 0 rows.")
+        num_cols = 0
+        dtype_to_use = torch.float32
+        if scipy_sparse_batch is not None:
+            num_cols = scipy_sparse_batch.shape[1]
+            try:
+                dtype_to_use = torch.from_numpy(scipy_sparse_batch.data[:0]).dtype
+            except (AttributeError, TypeError):
+                try:
+                    if hasattr(scipy_sparse_batch, "dtype"):
+                        if scipy_sparse_batch.dtype == np.float32:
+                            dtype_to_use = torch.float32
+                        elif scipy_sparse_batch.dtype == np.float64:
+                            dtype_to_use = torch.float64
+                        elif scipy_sparse_batch.dtype == np.int32:
+                            dtype_to_use = torch.int32
+                except Exception as e:
+                    pass
+
         return torch.sparse_coo_tensor(
             torch.empty((2, 0), dtype=torch.long),
-            torch.empty(0, dtype=torch.float32),
+            torch.empty(0, dtype=dtype_to_use),
             (0, num_cols),
         )
 
-    scipy_sparse_batch = batch_list[0]
     if not isinstance(scipy_sparse_batch, sp.coo_matrix):
         scipy_sparse_batch = scipy_sparse_batch.tocoo()
 
     if scipy_sparse_batch.nnz == 0:
         return torch.sparse_coo_tensor(
             torch.empty((2, 0), dtype=torch.long),
-            torch.empty(0, dtype=scipy_sparse_batch.dtype),  # Match data type
+            torch.empty(0, dtype=torch.from_numpy(scipy_sparse_batch.data[:0]).dtype),
             torch.Size(scipy_sparse_batch.shape),
         )
 
@@ -297,6 +291,9 @@ def construct_iterable_dataloader(
         "sm.tile_cache_size": 2000 * 1024**2,  # 2000MB tile cache
         "sm.num_reader_threads": 4,
     }
+
+    if num_rows is None or num_columns is None:
+        raise ValueError("num_rows and num_columns must be provided for CellArrayIterableDataset.")
 
     dataset = CellArrayIterableDataset(
         array_uri=array_uri,

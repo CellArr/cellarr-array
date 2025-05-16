@@ -15,7 +15,5 @@ except PackageNotFoundError:  # pragma: no cover
 finally:
     del version, PackageNotFoundError
 
-from .utils.config import CellArrConfig, ConsolidationConfig
-from .core.dense import DenseCellArray
-from .core.sparse import SparseCellArray
-from .utils.helpers import create_cellarray, SliceHelper
+from .core import DenseCellArray, SparseCellArray
+from .utils import CellArrConfig, ConsolidationConfig, create_cellarray
