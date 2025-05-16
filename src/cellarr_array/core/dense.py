@@ -7,8 +7,8 @@ from typing import List, Tuple, Union
 
 import numpy as np
 
-from .cellarray_base import CellArray
-from .helpers import SliceHelper
+from .base import CellArray
+from ..utils.helpers import SliceHelper
 
 __author__ = "Jayaram Kancherla"
 __copyright__ = "Jayaram Kancherla"
