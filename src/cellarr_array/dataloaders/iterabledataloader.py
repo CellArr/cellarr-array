@@ -1,4 +1,4 @@
-from typing import Callable, Dict, Iterator, List, Optional, Union
+from typing import Callable, Dict, Iterator, Optional, Union
 
 import numpy as np
 import scipy.sparse as sp
@@ -224,7 +224,7 @@ def sparse_batch_collate_fn(scipy_sparse_batch: sp.spmatrix) -> torch.Tensor:
                             dtype_to_use = torch.float64
                         elif scipy_sparse_batch.dtype == np.int32:
                             dtype_to_use = torch.int32
-                except Exception as e:
+                except Exception:
                     pass
 
         return torch.sparse_coo_tensor(
