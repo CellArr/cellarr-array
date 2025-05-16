@@ -38,7 +38,7 @@ class CellArrayIterableDataset(IterableDataset):
         cellarr_ctx_config: Optional[Dict] = None,
         transform: Optional[Callable] = None,
     ):
-        """Initializes the TileDBRandomBatchIterableDataset.
+        """Initializes the `CellArrayIterableDataset`.
 
         Args:
             array_uri:
@@ -145,15 +145,15 @@ class CellArrayIterableDataset(IterableDataset):
             A NumPy array (for dense) or SciPy sparse matrix (for sparse)
             representing the fetched batch of data. The shape will be
             (N, self.feature_dim), where N is the number of successfully fetched rows
-            (usually self.batch_size, but could be less if total_samples_in_array < self.batch_size).
+            (usually self.batch_size, but could be less if num_rows < self.batch_size).
         """
-        if self.total_samples_in_array == 0:
+        if self.num_rows == 0:
             if self.is_sparse:
                 return sp.coo_matrix((0, self.feature_dim), dtype=np.float32)
             else:
                 return np.empty((0, self.feature_dim), dtype=np.float32)
 
-        actual_batch_size = min(self.batch_size, self.total_samples_in_array)
+        actual_batch_size = min(self.batch_size, self.num_rows)
         if actual_batch_size == 0:
             if self.is_sparse:
                 return sp.coo_matrix((0, self.feature_dim), dtype=np.float32)
@@ -161,7 +161,7 @@ class CellArrayIterableDataset(IterableDataset):
                 return np.empty((0, self.feature_dim), dtype=np.float32)
 
         random_indices = np.random.choice(
-            self.total_samples_in_array,
+            self.num_rows,
             size=actual_batch_size,
             replace=False,  # Ensure unique rows per batch
         )
@@ -181,7 +181,7 @@ class CellArrayIterableDataset(IterableDataset):
         self._init_worker_state()
 
         for _ in range(self.num_yields_per_epoch_per_worker):
-            if self.total_samples_in_array == 0:
+            if self.num_rows == 0:
                 # Yield an empty structure once if num_yields is >0, then stop. Or just don't yield.
                 # Depending on collate_fn and training loop, this might need careful handling.
                 # For now, if no samples, this loop won't yield anything useful if num_yields > 0.
