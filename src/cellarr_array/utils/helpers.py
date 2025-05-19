@@ -67,6 +67,7 @@ def create_cellarray(
         ValueError: If dimensions are invalid or inputs are inconsistent.
     """
     config = config or CellArrConfig()
+    tiledb_ctx = tiledb.Config(config.ctx_config) if config.ctx_config else None
 
     if attr_dtype is None:
         attr_dtype = np.float32
@@ -79,14 +80,14 @@ def create_cellarray(
 
     if shape is not None:
         if len(shape) not in (1, 2):
-            raise ValueError("Only 1D and 2D arrays are supported.")
+            raise ValueError("Shape must have 1 or 2 dimensions.")
 
     # Set dimension dtypes, defaults to numpy uint32
     if dim_dtypes is None:
         dim_dtypes = [np.uint32] * len(shape)
     else:
         if len(dim_dtypes) not in (1, 2):
-            raise ValueError("Only 1D and 2D arrays are supported.")
+            raise ValueError("Array must have 1 or 2 dimensions.")
         dim_dtypes = [np.dtype(dt) if isinstance(dt, str) else dt for dt in dim_dtypes]
 
     # Calculate shape from dtypes if needed
@@ -107,30 +108,34 @@ def create_cellarray(
 
     dom = tiledb.Domain(
         *[
-            tiledb.Dim(name=name, domain=(0, s - 1), tile=min(s, config.tile_capacity), dtype=dt)
+            tiledb.Dim(
+                name=name,
+                # supporting empty dimensions
+                domain=(0, 0 if s == 0 else s - 1),
+                tile=min(1 if s == 0 else s, config.tile_capacity),
+                dtype=dt,
+            )
             for name, s, dt in zip(dim_names, shape, dim_dtypes)
         ],
-        ctx=tiledb.Ctx(config.ctx_config),
+        ctx=tiledb_ctx,
     )
-
-    attr = tiledb.Attr(
+    attr_obj = tiledb.Attr(
         name=attr_name,
         dtype=attr_dtype,
         filters=config.attrs_filters.get(attr_name, config.attrs_filters.get("", None)),
+        ctx=tiledb_ctx,
     )
-
     schema = tiledb.ArraySchema(
         domain=dom,
-        attrs=[attr],
+        attrs=[attr_obj],
         cell_order=config.cell_order,
         tile_order=config.tile_order,
         sparse=sparse,
         coords_filters=config.coords_filters,
         offsets_filters=config.offsets_filters,
-        ctx=tiledb.Ctx(config.ctx_config),
+        ctx=tiledb_ctx,
     )
-
-    tiledb.Array.create(uri, schema)
+    tiledb.Array.create(uri, schema, ctx=tiledb_ctx)
 
     # Import here to avoid circular imports
     from ..core.dense import DenseCellArray
@@ -138,9 +143,9 @@ def create_cellarray(
 
     # Return appropriate array type
     return (
-        SparseCellArray(uri=uri, attr=attr_name, mode=mode)
+        SparseCellArray(uri=uri, attr=attr_name, mode=mode, config_or_context=tiledb_ctx)
         if sparse
-        else DenseCellArray(uri=uri, attr=attr_name, mode=mode)
+        else DenseCellArray(uri=uri, attr=attr_name, mode=mode, config_or_context=tiledb_ctx)
     )
 
 
@@ -149,19 +154,27 @@ class SliceHelper:
 
     @staticmethod
     def is_contiguous_indices(indices: List[int]) -> Optional[slice]:
-        """Check if indices can be represented as a contiguous slice."""
         if not indices:
             return None
 
-        diffs = np.diff(indices)
+        sorted_indices = sorted(list(set(indices)))
+        if not sorted_indices:
+            return None
+
+        if len(sorted_indices) == 1:
+            return slice(sorted_indices[0], sorted_indices[0] + 1, None)
+
+        diffs = np.diff(sorted_indices)
         if np.all(diffs == 1):
-            return slice(indices[0], indices[-1] + 1, None)
+            return slice(sorted_indices[0], sorted_indices[-1] + 1, None)
+
         return None
 
     @staticmethod
-    def normalize_index(idx: Union[int, slice, List[int]], dim_size: int) -> Union[slice, List[int], EllipsisType]:
+    def normalize_index(
+        idx: Union[int, range, slice, List[int], EllipsisType], dim_size: int
+    ) -> Union[slice, List[int], EllipsisType]:
         """Normalize index to handle negative indices and ensure consistency."""
-
         if isinstance(idx, EllipsisType):
             return idx
 
@@ -170,36 +183,61 @@ class SliceHelper:
             idx = slice(idx.start, idx.stop, idx.step)
 
         if isinstance(idx, slice):
-            start = idx.start if idx.start is not None else 0
-            stop = idx.stop if idx.stop is not None else dim_size
+            start = idx.start
+            stop = idx.stop
             step = idx.step
+
+            # Resolve None to full dimension slice parts
+            if start is None:
+                start = 0
+
+            if stop is None:
+                stop = dim_size
 
             # Handle negative indices
             if start < 0:
-                start = dim_size + start
-
+                start += dim_size
             if stop < 0:
-                stop = dim_size + stop
+                stop += dim_size
 
-            if start < 0 or start > dim_size:
-                raise IndexError(f"Start index {start} out of bounds for dimension size {dim_size}")
-            if stop < 0 or stop > dim_size:
-                raise IndexError(f"Stop index {stop} out of bounds for dimension size {dim_size}")
+            # slice allows start > dim_size or stop < 0 to result in empty slices.
+            # Note: start == dim_size is OK for empty slice like arr[dim_size:]
+            if start < 0 or (start >= dim_size and dim_size > 0):
+                if not (start == dim_size and (step is None or step > 0)):
+                    if start >= dim_size:
+                        raise IndexError(
+                            f"Start index {idx.start if idx.start is not None else 'None'} results in {start}, which is out of bounds for dimension size {dim_size}."
+                        )
+
+            # Clamping slice arguments to dimensions
+            stop = min(stop, dim_size)
+            start = max(0, start)
 
             return slice(start, stop, step)
-
         elif isinstance(idx, list):
+            if not idx:
+                return []
+
             norm_idx = [i if i >= 0 else dim_size + i for i in idx]
             if any(i < 0 or i >= dim_size for i in norm_idx):
-                raise IndexError(f"List indices {idx} out of bounds for dimension size {dim_size}")
-            return norm_idx
+                oob_indices = [orig_i for orig_i, norm_i in zip(idx, norm_idx) if not (0 <= norm_i < dim_size)]
+                raise IndexError(
+                    f"List indices {oob_indices} (original values) are out of bounds for dimension size {dim_size}."
+                )
 
-        else:  # Single integer index
-            norm_idx = idx if idx >= 0 else dim_size + idx
+            # TileDB multi_index usually returns data sorted by coordinates
+            return sorted(list(set(norm_idx)))
+        elif isinstance(idx, (int, np.integer)):
+            norm_idx = int(idx)
+            if norm_idx < 0:
+                norm_idx += dim_size
 
-            if norm_idx < 0 or norm_idx >= dim_size:
+            if not (0 <= norm_idx < dim_size):
                 raise IndexError(f"Index {idx} out of bounds for dimension size {dim_size}")
+
             return slice(norm_idx, norm_idx + 1, None)
+        else:
+            raise TypeError(f"Index type {type(idx)} not supported for normalization.")
 
 
 def create_group(output_path, group_name):

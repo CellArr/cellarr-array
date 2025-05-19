@@ -1,4 +1,5 @@
 from typing import Optional
+from warnings import warn
 
 import scipy.sparse as sp
 import tiledb
@@ -54,35 +55,57 @@ class SparseArrayDataset(Dataset):
         self.sparse_format = sparse_format
         self.cellarr_ctx_config = cellarr_ctx_config
         self.transform = transform
-
-        self.cell_array_instance: Optional[SparseCellArray] = None
+        self.cell_array_instance = None
 
         # infer array shape
-        if num_rows is None or num_columns is None:
-            try:
-                with SparseCellArray(
-                    uri=self.array_uri,
-                    attr=self.attribute_name,
-                    config_or_context=tiledb.Ctx(self.cellarr_ctx_config) if self.cellarr_ctx_config else None,
-                    return_sparse=True,
-                    sparse_coerce=self.sparse_format,
-                ) as temp_arr:
-                    self._len = num_rows if num_rows is not None else temp_arr.shape[0]
-                    self.num_columns = num_columns if num_columns is not None else temp_arr.shape[1]
-            except Exception as e:
-                print(f"Warning: Could not infer sparse array shape. Set num_total_samples and num_columns. Error: {e}")
-                if num_rows is None or num_columns is None:
-                    raise ValueError(
-                        "num_total_samples and num_columns must be provided if array size cannot be inferred."
-                    )
-                self._len = num_rows
-                self.num_columns = num_columns
-        else:
+        if num_rows is not None and num_columns is not None:
             self._len = num_rows
             self.num_columns = num_columns
+        else:
+            print(f"Dataset '{array_uri}': num_rows or num_columns not provided. Probing sparse array...")
+            init_ctx_config = tiledb.Config(self.cellarr_ctx_config) if self.cellarr_ctx_config else None
+            try:
+                temp_arr = SparseCellArray(
+                    uri=self.array_uri,
+                    attr=self.attribute_name,
+                    config_or_context=init_ctx_config,
+                    return_sparse=True,  # This is a SparseCellArray param
+                    sparse_format=self.sparse_format,  # This was sparse_coerce, but sparse_format for SparseCellArray applies to output
+                )
+                # For SparseCellArray, sparse_coerce is now sparse_format in its __init__
+                # and it's about the default format it returns.
+                # Here we just need shape.
 
-        if self.num_columns is None:
-            raise ValueError("num_columns could not be determined and was not provided.")
+                if temp_arr.ndim == 1:
+                    self._len = num_rows if num_rows is not None else temp_arr.shape[0]
+                    self.num_columns = 1
+                elif temp_arr.ndim == 2:
+                    self._len = num_rows if num_rows is not None else temp_arr.shape[0]
+                    self.num_columns = num_columns if num_columns is not None else temp_arr.shape[1]
+                else:
+                    raise ValueError(f"Array ndim {temp_arr.ndim} not supported.")
+
+                print(f"Dataset '{array_uri}': Inferred sparse shape. Rows: {self._len}, Columns: {self.num_columns}")
+
+            except Exception as e:
+                if num_rows is None or num_columns is None:
+                    raise ValueError(
+                        f"num_rows and num_columns must be provided if inferring sparse array shape fails for '{array_uri}'. Original error: {e}"
+                    ) from e
+                self._len = num_rows if num_rows is not None else 0
+                self.num_columns = num_columns if num_columns is not None else 0
+                warn(
+                    f"Falling back to provided or zero dimensions for sparse '{array_uri}' due to inference error: {e}",
+                    RuntimeWarning,
+                )
+
+        if self.num_columns is None or self.num_columns <= 0 and self._len > 0:
+            raise ValueError(
+                f"num_columns ({self.num_columns}) is invalid or could not be determined for sparse array '{array_uri}'."
+            )
+
+        if self._len == 0:
+            warn(f"SparseDataset for '{array_uri}' has length 0.", RuntimeWarning)
 
     def _init_worker_state(self):
         if self.cell_array_instance is None:

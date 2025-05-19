@@ -50,7 +50,6 @@ class DenseArrayDataset(Dataset):
         self.attribute_name = attribute_name
         self.cellarr_ctx_config = cellarr_ctx_config
         self.transform = transform
-
         self.cell_array_instance = None
 
         # Determine array shape
@@ -60,23 +59,21 @@ class DenseArrayDataset(Dataset):
         else:
             # Infer the array shape
             print(f"Dataset '{array_uri}': num_rows or num_columns not provided. Probing array...")
+            init_ctx_config = tiledb.Config(self.cellarr_ctx_config) if self.cellarr_ctx_config else None
             try:
-                temp_ctx = tiledb.Ctx(self.cellarr_ctx_config) if self.cellarr_ctx_config else None
-                with DenseCellArray(
-                    uri=self.array_uri, attr=self.attribute_name, config_or_context=temp_ctx
-                ) as temp_arr:
-                    if temp_arr.ndim == 1:
-                        self._len = num_rows if num_rows is not None else temp_arr.shape[0]
-                        if num_columns is not None and num_columns != 1:
-                            raise ValueError("'num_columns' mismatches number of dims from the array.")
-                        self.num_columns = num_columns if num_columns is not None else 1
-                    elif temp_arr.ndim == 2:
-                        self._len = num_rows if num_rows is not None else temp_arr.shape[0]
-                        self.num_columns = num_columns if num_columns is not None else temp_arr.shape[1]
-                    else:
-                        raise ValueError(f"Array ndim {temp_arr.ndim} not supported for this dataset structure.")
+                temp_arr = DenseCellArray(
+                    uri=self.array_uri, attr=self.attribute_name, config_or_context=init_ctx_config
+                )
+                if temp_arr.ndim == 1:
+                    self._len = num_rows if num_rows is not None else temp_arr.shape[0]
+                    self.num_columns = 1
+                elif temp_arr.ndim == 2:
+                    self._len = num_rows if num_rows is not None else temp_arr.shape[0]
+                    self.num_columns = num_columns if num_columns is not None else temp_arr.shape[1]
+                else:
+                    raise ValueError(f"Array ndim {temp_arr.ndim} not supported.")
 
-                print(f"Dataset '{array_uri}': shape. Rows: {self._len}, Columns: {self.num_columns}")
+                print(f"Dataset '{array_uri}': Inferred shape. Rows: {self._len}, Columns: {self.num_columns}")
 
             except Exception as e:
                 if num_rows is None or num_columns is None:
@@ -85,9 +82,15 @@ class DenseArrayDataset(Dataset):
                     ) from e
                 self._len = num_rows
                 self.feature_dim = num_columns
+                warn(
+                    f"Falling back to provided or zero dimensions for '{array_uri}' due to inference error: {e}",
+                    RuntimeWarning,
+                )
 
-        if self.num_columns is None:
-            raise ValueError(f"num_columns could not be determined for array '{array_uri}' and was not provided.")
+        if self.num_columns is None or self.num_columns <= 0 and self._len > 0:  # Check if num_columns is valid
+            raise ValueError(
+                f"num_columns ({self.num_columns}) is invalid or could not be determined for array '{array_uri}'."
+            )
 
         if self._len == 0:
             warn(f"Dataset for '{array_uri}' has length 0.", RuntimeWarning)

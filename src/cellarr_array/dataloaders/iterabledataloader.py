@@ -20,8 +20,6 @@ class CellArrayIterableDataset(IterableDataset):
     An `IterableDataset` dataset is responsible for yielding entire batches of data,
     giving us full control over how a batch is formed, including
     performing a single bulk read from TileDB.
-
-    This dataset is designed to be used with `DataLoader(batch_size=None, ...)`.
     """
 
     def __init__(
