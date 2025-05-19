@@ -172,7 +172,7 @@ def test_invalid_inputs(sample_sparse_array_2d):
     with pytest.raises(ValueError, match="Attribute .* does not exist"):
         SparseCellArray(sample_sparse_array_2d.uri, attr="invalid_attr")
 
-    with pytest.raises(ValueError, match="Only 1D and 2D arrays are supported"):
+    with pytest.raises(ValueError, match="Shape must have 1 or 2 dimensions."):
         create_cellarray(
             uri=str(Path(sample_sparse_array_2d.uri).parent / "invalid"),
             shape=(10, 10, 10),

@@ -14,7 +14,7 @@ __license__ = "MIT"
 def test_dimension_validation(temp_dir):
     uri = str(Path(temp_dir) / "invalid_dims")
 
-    with pytest.raises(ValueError, match="Only 1D and 2D arrays are supported"):
+    with pytest.raises(ValueError, match="Shape must have 1 or 2 dimensions."):
         create_cellarray(uri=uri, shape=(10, 10, 10), attr_dtype=np.float32)
 
 

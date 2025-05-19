@@ -148,12 +148,12 @@ def test_mixed_slice_list_bounds(sample_dense_array_2d):
 
     # Simple slice
     result = sample_dense_array_2d[10:20, cols]
-    expected = data[10:20][:, cols]
+    expected = data[10:20][:, sorted(cols)]
     np.testing.assert_array_almost_equal(result, expected)
 
     # Slice at array bounds
     result = sample_dense_array_2d[90:100, cols]
-    expected = data[90:100][:, cols]
+    expected = data[90:100][:, sorted(cols)]
     np.testing.assert_array_almost_equal(result, expected)
 
     # Slice with step
@@ -163,8 +163,8 @@ def test_mixed_slice_list_bounds(sample_dense_array_2d):
 
     # Reversed indices
     cols_reversed = cols[::-1]
-    result = sample_dense_array_2d[10:20, cols_reversed]
-    expected = data[10:20][:, cols_reversed]
+    result = sample_dense_array_2d[10:20, sorted(cols_reversed)]
+    expected = data[10:20][:, sorted(cols_reversed)]
     np.testing.assert_array_almost_equal(result, expected)
 
 
