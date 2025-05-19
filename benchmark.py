@@ -10,7 +10,6 @@ from cellarr_array.dataloaders import CellArrayIterableDataset, DenseArrayDatase
 from cellarr_array.dataloaders.iterabledataloader import dense_batch_collate_fn, sparse_batch_collate_fn
 from cellarr_array.dataloaders.sparseloader import sparse_coo_collate_fn
 from cellarr_array.dataloaders.utils import seed_worker
-from cellarr_array.utils.mock import generate_tiledb_dense_array, generate_tiledb_sparse_array
 
 
 def benchmark_dataloader(
@@ -72,15 +71,15 @@ def benchmark_dataloader(
                     print(f"  (Map-style with iterate_all=True: Expecting {actual_max_batches} batches this epoch)")
                 else:
                     actual_max_batches = 0
-                    print(f"  (Map-style with iterate_all=True: DataLoader length is 0)")
+                    print("  (Map-style with iterate_all=True: DataLoader length is 0)")
             else:
                 actual_max_batches = float("inf")
-                print(f"  (Iterable with iterate_all=True and unknown length: Iterating until StopIteration)")
+                print("  (Iterable with iterate_all=True and unknown length: Iterating until StopIteration)")
         else:
             actual_max_batches = num_batches_to_iterate_per_epoch
 
         if actual_max_batches == 0:
-            print(f"  Epoch {epoch+1}: No batches to iterate based on configuration. Skipping epoch.")
+            print(f"  Epoch {epoch + 1}: No batches to iterate based on configuration. Skipping epoch.")
             continue
 
         for i, data_batch in enumerate(dataloader):
@@ -101,7 +100,7 @@ def benchmark_dataloader(
 
             if i % 20 == 0 and i > 0 and batches_in_epoch < actual_max_batches:
                 print(
-                    f"    Epoch {epoch+1}, Batch {batches_in_epoch}/{'all' if actual_max_batches == float('inf') else actual_max_batches}: Shape {data_batch.shape if hasattr(data_batch, 'shape') else 'N/A'}"
+                    f"    Epoch {epoch + 1}, Batch {batches_in_epoch}/{'all' if actual_max_batches == float('inf') else actual_max_batches}: Shape {data_batch.shape if hasattr(data_batch, 'shape') else 'N/A'}"
                 )
 
         epoch_end_time = time.time()
@@ -112,7 +111,7 @@ def benchmark_dataloader(
         cells_per_sec_epoch = (cells_in_epoch / epoch_duration) if epoch_duration > 1e-6 else float("inf")
 
         print(
-            f"  Epoch {epoch+1} finished: {batches_in_epoch} batches, {cells_in_epoch} cells in {epoch_duration:.3f}s. "
+            f"  Epoch {epoch + 1} finished: {batches_in_epoch} batches, {cells_in_epoch} cells in {epoch_duration:.3f}s. "
             f"cells/sec: {cells_per_sec_epoch:.2f}"
         )
 
