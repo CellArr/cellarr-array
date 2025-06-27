@@ -112,7 +112,7 @@ def create_cellarray(
                 name=name,
                 # supporting empty dimensions
                 domain=(0, 0 if s == 0 else s - 1),
-                tile=min(config.tile_capacity if s == 0 else s, config.tile_capacity) // 2,
+                tile=min(1 if s == 0 else s // 2, config.tile_capacity // 2),
                 dtype=dt,
             )
             for name, s, dt in zip(dim_names, shape, dim_dtypes)
