@@ -13,7 +13,7 @@ import tiledb
 from scipy import sparse
 
 from ..utils.config import ConsolidationConfig
-from ..utils.helpers import SliceHelper
+from .helpers import SliceHelper
 
 __author__ = "Jayaram Kancherla"
 __copyright__ = "Jayaram Kancherla"

@@ -8,7 +8,7 @@ from typing import List, Optional, Tuple, Union
 import numpy as np
 import tiledb
 
-from .config import CellArrConfig
+from ..utils.config import CellArrConfig
 
 __author__ = "Jayaram Kancherla"
 __copyright__ = "Jayaram Kancherla"
@@ -112,7 +112,7 @@ def create_cellarray(
                 name=name,
                 # supporting empty dimensions
                 domain=(0, 0 if s == 0 else s - 1),
-                tile=min(1 if s == 0 else s, config.tile_capacity),
+                tile=min(config.tile_capacity if s == 0 else s, config.tile_capacity) // 2,
                 dtype=dt,
             )
             for name, s, dt in zip(dim_names, shape, dim_dtypes)
@@ -138,8 +138,8 @@ def create_cellarray(
     tiledb.Array.create(uri, schema, ctx=tiledb_ctx)
 
     # Import here to avoid circular imports
-    from ..core.dense import DenseCellArray
-    from ..core.sparse import SparseCellArray
+    from .dense import DenseCellArray
+    from .sparse import SparseCellArray
 
     # Return appropriate array type
     return (

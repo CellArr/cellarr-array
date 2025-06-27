@@ -6,7 +6,7 @@ import scipy.sparse as sp
 import tiledb
 
 from ..core import DenseCellArray, SparseCellArray
-from .helpers import CellArrConfig, create_cellarray
+from ..core.helpers import CellArrConfig, create_cellarray
 
 
 def generate_tiledb_dense_array(
@@ -62,11 +62,14 @@ def generate_tiledb_dense_array(
     ctx = tiledb.Ctx(cfg.ctx_config) if cfg.ctx_config else None
     arr_writer = DenseCellArray(uri=uri, attr=attr_name, mode="w", config_or_context=ctx)
 
+    print("shape of writer", arr_writer.shape)
+
     print(f"Writing data to dense array '{uri}'...")
     for i in range(0, rows, chunk_size):
         end_row = min(i + chunk_size, rows)
         num_chunk_rows = end_row - i
         data_chunk = np.random.rand(num_chunk_rows, cols).astype(attr_dtype)
+        print(i, end_row, num_chunk_rows, data_chunk.shape)
         arr_writer.write_batch(data_chunk, start_row=i)
         if (i // chunk_size) % 10 == 0:
             print(f"  Dense write: {end_row}/{rows} rows written.")

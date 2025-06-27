@@ -126,7 +126,7 @@ def benchmark_dataloader(
     return avg_cells_per_sec
 
 
-if __name__ == "__main__":
+def run_benchmark(num_rows=50000, num_cols=256):
     torch.manual_seed(0)  # For reproducibility of DataLoader shuffle if used
     np.random.seed(0)
     random.seed(0)
@@ -135,13 +135,13 @@ if __name__ == "__main__":
     DENSE_ARRAY_URI = "benchmark_dense_array.tdb"
     SPARSE_ARRAY_URI = "benchmark_sparse_array.tdb"
 
-    NUM_ROWS_DENSE = 50000  # Number of cells
-    NUM_COLS_DENSE = 256  # Number of features
+    NUM_ROWS_DENSE = num_rows
+    NUM_COLS_DENSE = num_cols
     DENSE_CHUNK_WRITE = 2000
 
-    NUM_ROWS_SPARSE = 100000
-    NUM_COLS_SPARSE = 10000
-    SPARSE_DENSITY = 0.005  # Lower density for larger sparse array
+    NUM_ROWS_SPARSE = num_rows
+    NUM_COLS_SPARSE = num_cols
+    SPARSE_DENSITY = 0.020  # Lower density for larger sparse array
     SPARSE_CHUNK_WRITE = 5000
 
     # DataLoader/Benchmark parameters
@@ -153,7 +153,7 @@ if __name__ == "__main__":
     BENCH_MAX_BATCHES_PER_EPOCH = 50  # Iterate up to 50 batches from the dataloader per epoch for quick bench
 
     MAP_STYLE_BATCH_SIZE = 128
-    ITERABLE_STYLE_BATCH_SIZE_N = 1024  # N random cells per yielded batch
+    ITERABLE_STYLE_BATCH_SIZE_N = 128  # N random cells per yielded batch
 
     # For a fair comparison, num_workers should be the same if possible
     # However, IterableDataset with batch_size=None in DataLoader means workers generate full batches.
@@ -309,3 +309,7 @@ if __name__ == "__main__":
     # Consider cleaning up dummy arrays if they were actually created:
     # if os.path.exists(DENSE_ARRAY_URI): shutil.rmtree(DENSE_ARRAY_URI)
     # if os.path.exists(SPARSE_ARRAY_URI): shutil.rmtree(SPARSE_ARRAY_URI)
+
+
+if __name__ == "__main__":
+    run_benchmark()

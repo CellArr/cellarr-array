@@ -8,7 +8,7 @@ from typing import List, Tuple, Union
 import numpy as np
 
 from .base import CellArray
-from ..utils.helpers import SliceHelper
+from .helpers import SliceHelper
 
 __author__ = "Jayaram Kancherla"
 __copyright__ = "Jayaram Kancherla"
@@ -110,4 +110,5 @@ class DenseCellArray(CellArray):
 
         # write_data = {self._attr: data} if len(self.attr_names) > 1 else data
         with self.open_array(mode="w") as array:
+            print("write_region", write_region)
             array[write_region] = data

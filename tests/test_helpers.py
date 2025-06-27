@@ -5,7 +5,7 @@ import pytest
 import tiledb
 
 from cellarr_array import CellArrConfig, ConsolidationConfig, create_cellarray
-from cellarr_array.utils.helpers import SliceHelper
+from cellarr_array.core.helpers import SliceHelper
 
 __author__ = "Jayaram Kancherla"
 __copyright__ = "Jayaram Kancherla"

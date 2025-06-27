@@ -9,7 +9,7 @@ import numpy as np
 import tiledb
 from scipy import sparse
 
-from ..utils.helpers import SliceHelper
+from .helpers import SliceHelper
 from .base import CellArray
 
 __author__ = "Jayaram Kancherla"
