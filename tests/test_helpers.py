@@ -4,7 +4,8 @@ import numpy as np
 import pytest
 import tiledb
 
-from cellarr_array import CellArrConfig, ConsolidationConfig, SliceHelper, create_cellarray
+from cellarr_array import CellArrConfig, ConsolidationConfig, create_cellarray
+from cellarr_array.core.helpers import SliceHelper
 
 __author__ = "Jayaram Kancherla"
 __copyright__ = "Jayaram Kancherla"
@@ -50,18 +51,29 @@ def test_slice_bounds_validation():
 
     # Test out of bounds positive indices
     with pytest.raises(IndexError, match="out of bounds"):
+        SliceHelper.normalize_index(10, dim_size)
+    with pytest.raises(IndexError, match="out of bounds"):
         SliceHelper.normalize_index(15, dim_size)
 
-    with pytest.raises(IndexError, match="out of bounds"):
-        SliceHelper.normalize_index(slice(0, 15), dim_size)
-
     # Test out of bounds negative indices
+    with pytest.raises(IndexError, match="out of bounds"):
+        SliceHelper.normalize_index(-11, dim_size)
     with pytest.raises(IndexError, match="out of bounds"):
         SliceHelper.normalize_index(-15, dim_size)
 
     # Test out of bounds list indices
     with pytest.raises(IndexError, match="out of bounds"):
         SliceHelper.normalize_index([5, 12], dim_size)
+
+    norm_slice = SliceHelper.normalize_index(slice(5, 15), dim_size)
+    assert norm_slice == slice(5, 10)
+
+    norm_slice_neg_stop = SliceHelper.normalize_index(slice(1, -12), dim_size)
+    assert norm_slice_neg_stop == slice(1, -2)
+
+    # Test list with out of bounds
+    with pytest.raises(IndexError, match="List indices .* are out of bounds"):
+        SliceHelper.normalize_index([1, 10, 2], dim_size)
 
 
 def test_cellarr_config():
@@ -105,7 +117,7 @@ def test_create_cellarray_validation(temp_dir):
     with pytest.raises(ValueError, match="Lengths .* must match"):
         create_cellarray(uri=base_uri + "_2", shape=(10, 10), dim_dtypes=[np.uint32], dim_names=["dim1"])
 
-    with pytest.raises(ValueError, match="Only 1D and 2D arrays are supported"):
+    with pytest.raises(ValueError, match="Shape must have 1 or 2 dimensions."):
         create_cellarray(uri=base_uri + "_3", shape=(10, 10, 10))
 
 

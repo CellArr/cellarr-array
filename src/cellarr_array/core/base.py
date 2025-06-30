@@ -12,7 +12,7 @@ import numpy as np
 import tiledb
 from scipy import sparse
 
-from .config import ConsolidationConfig
+from ..utils.config import ConsolidationConfig
 from .helpers import SliceHelper
 
 __author__ = "Jayaram Kancherla"

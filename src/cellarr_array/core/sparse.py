@@ -9,8 +9,8 @@ import numpy as np
 import tiledb
 from scipy import sparse
 
-from .cellarray_base import CellArray
 from .helpers import SliceHelper
+from .base import CellArray
 
 __author__ = "Jayaram Kancherla"
 __copyright__ = "Jayaram Kancherla"
@@ -28,7 +28,7 @@ class SparseCellArray(CellArray):
         mode: Optional[Literal["r", "w", "d", "m"]] = None,
         config_or_context: Optional[Union[tiledb.Config, tiledb.Ctx]] = None,
         return_sparse: bool = True,
-        sparse_coerce: Union[sparse.csr_matrix, sparse.csc_matrix] = sparse.csr_matrix,
+        sparse_format: Union[sparse.csr_matrix, sparse.csc_matrix] = sparse.csr_matrix,
         validate: bool = True,
         **kwargs,
     ):
@@ -66,7 +66,7 @@ class SparseCellArray(CellArray):
                 Whether to return a sparse representation of the data when object is sliced.
                 Default is to return a dictionary that contains coordinates and values.
 
-            sparse_coerce:
+            sparse_format:
                 Format to return, defaults to csr_matrix.
 
             validate:
@@ -86,7 +86,7 @@ class SparseCellArray(CellArray):
         )
 
         self.return_sparse = return_sparse
-        self.sparse_coerce = sparse.csr_matrix if sparse_coerce is None else sparse_coerce
+        self.sparse_format = sparse.csr_matrix if sparse_format is None else sparse_format
 
     def _validate_matrix_dims(self, data: sparse.spmatrix) -> Tuple[sparse.coo_matrix, bool]:
         """Validate and adjust matrix dimensions if needed.
@@ -126,7 +126,7 @@ class SparseCellArray(CellArray):
                 shape.append(idx.stop - (idx.start or 0))
             elif isinstance(idx, list):
                 shape.append(len(set(idx)))
-            else:  # single integer
+            else:
                 shape.append(1)
 
         # Always return (n,1) shape for CSR matrix
@@ -140,20 +140,17 @@ class SparseCellArray(CellArray):
         """Convert TileDB result to CSR format or dense array."""
         data = result[self._attr]
 
-        # empty result
         if len(data) == 0:
             print("is emoty")
             if not self.return_sparse:
                 return result
             else:
-                # For COO output, return empty sparse matrix
                 if self.ndim == 1:
-                    matrix = self.sparse_coerce((1, shape[0]))
+                    matrix = self.sparse_format((1, shape[0]))
                     return matrix[:, key[0]]
 
-                return self.sparse_coerce(shape)[key]
+                return self.sparse_format(shape)[key]
 
-        # Get coordinates
         coords = []
         for dim_name in self.dim_names:
             dim_coords = result[dim_name]
@@ -164,11 +161,12 @@ class SparseCellArray(CellArray):
             coords = [np.zeros_like(coords[0]), coords[0]]
             shape = (1, shape[0])
 
-        # Create sparse matrix
         matrix = sparse.coo_matrix((data, tuple(coords)), shape=shape)
-        if self.sparse_coerce in (sparse.csr_matrix, sparse.csr_array):
+
+        sliced = matrix
+        if self.sparse_format in (sparse.csr_matrix, sparse.csr_array):
             sliced = matrix.tocsr()
-        elif self.sparse_coerce in (sparse.csc_matrix, sparse.csc_array):
+        elif self.sparse_format in (sparse.csc_matrix, sparse.csc_array):
             sliced = matrix.tocsc()
 
         if self.ndim == 1:
@@ -200,7 +198,6 @@ class SparseCellArray(CellArray):
         if all(isinstance(idx, slice) for idx in optimized_key):
             return self._direct_slice(tuple(optimized_key))
 
-        # For mixed slice-list queries, adjust slice bounds
         tiledb_key = []
         for idx in key:
             if isinstance(idx, slice):
@@ -239,10 +236,8 @@ class SparseCellArray(CellArray):
         if not sparse.issparse(data):
             raise TypeError("Input must be a scipy sparse matrix.")
 
-        # Validate and adjust dimensions
         coo_data, is_1d = self._validate_matrix_dims(data)
 
-        # Check bounds
         end_row = start_row + coo_data.shape[0]
         if end_row > self.shape[0]:
             raise ValueError(

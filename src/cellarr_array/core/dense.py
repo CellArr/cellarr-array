@@ -7,7 +7,7 @@ from typing import List, Tuple, Union
 
 import numpy as np
 
-from .cellarray_base import CellArray
+from .base import CellArray
 from .helpers import SliceHelper
 
 __author__ = "Jayaram Kancherla"
@@ -92,7 +92,6 @@ class DenseCellArray(CellArray):
         if len(data.shape) != self.ndim:
             raise ValueError(f"Data dimensions {data.shape} don't match array dimensions {self.shape}.")
 
-        # Check bounds
         end_row = start_row + data.shape[0]
         if end_row > self.shape[0]:
             raise ValueError(
@@ -102,7 +101,6 @@ class DenseCellArray(CellArray):
         if self.ndim == 2 and data.shape[1] != self.shape[1]:
             raise ValueError(f"Data columns {data.shape[1]} don't match array columns {self.shape[1]}.")
 
-        # Construct write region
         if self.ndim == 1:
             write_region = slice(start_row, end_row)
         else:  # 2D
@@ -110,4 +108,5 @@ class DenseCellArray(CellArray):
 
         # write_data = {self._attr: data} if len(self.attr_names) > 1 else data
         with self.open_array(mode="w") as array:
+            print("write_region", write_region)
             array[write_region] = data
