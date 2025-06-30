@@ -57,7 +57,6 @@ class SparseArrayDataset(Dataset):
         self.transform = transform
         self.cell_array_instance = None
 
-        # infer array shape
         if num_rows is not None and num_columns is not None:
             self._len = num_rows
             self.num_columns = num_columns
@@ -69,12 +68,9 @@ class SparseArrayDataset(Dataset):
                     uri=self.array_uri,
                     attr=self.attribute_name,
                     config_or_context=init_ctx_config,
-                    return_sparse=True,  # This is a SparseCellArray param
-                    sparse_format=self.sparse_format,  # This was sparse_coerce, but sparse_format for SparseCellArray applies to output
+                    return_sparse=True,
+                    sparse_format=self.sparse_format,
                 )
-                # For SparseCellArray, sparse_coerce is now sparse_format in its __init__
-                # and it's about the default format it returns.
-                # Here we just need shape.
 
                 if temp_arr.ndim == 1:
                     self._len = num_rows if num_rows is not None else temp_arr.shape[0]
@@ -115,7 +111,7 @@ class SparseArrayDataset(Dataset):
                 attr=self.attribute_name,
                 mode="r",
                 config_or_context=ctx,
-                return_sparse=True,  # Ensure it returns SciPy sparse matrices
+                return_sparse=True,
                 sparse_coerce=self.sparse_format,
             )
 
@@ -149,8 +145,8 @@ def sparse_coo_collate_fn(batch):
     Each item in 'batch' is a SciPy coo_matrix representing one sample.
     """
     all_data = []
-    all_row_indices = []  # Will become batch indices
-    all_col_indices = []  # Will become feature indices
+    all_row_indices = [] 
+    all_col_indices = []
 
     for i, scipy_coo in enumerate(batch):
         if scipy_coo.nnz > 0:

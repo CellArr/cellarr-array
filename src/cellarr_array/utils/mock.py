@@ -8,6 +8,10 @@ import tiledb
 from ..core import DenseCellArray, SparseCellArray
 from ..core.helpers import CellArrConfig, create_cellarray
 
+__author__ = "Jayaram Kancherla"
+__copyright__ = "Jayaram Kancherla"
+__license__ = "MIT"
+
 
 def generate_tiledb_dense_array(
     uri: str,
@@ -73,6 +77,7 @@ def generate_tiledb_dense_array(
         arr_writer.write_batch(data_chunk, start_row=i)
         if (i // chunk_size) % 10 == 0:
             print(f"  Dense write: {end_row}/{rows} rows written.")
+
     print(f"Finished writing to dense array '{uri}'.")
 
 
@@ -158,4 +163,5 @@ def generate_tiledb_sparse_array(
 
         if (i // chunk_size) % 10 == 0:
             print(f"  Sparse write: {end_row}/{rows} rows processed for writing.")
+
     print(f"Finished writing to sparse array '{uri}'.")

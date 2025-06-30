@@ -52,7 +52,6 @@ class DenseArrayDataset(Dataset):
         self.transform = transform
         self.cell_array_instance = None
 
-        # Determine array shape
         if num_rows is not None and num_columns is not None:
             self._len = num_rows
             self.num_columns = num_columns
@@ -117,7 +116,6 @@ class DenseArrayDataset(Dataset):
         if not 0 <= idx < self._len:
             raise IndexError(f"Index {idx} out of bounds for dataset of length {self._len}.")
 
-        # initalize densecellarr for this worker
         self._init_worker_state()
 
         if self.cell_array_instance.ndim == 2:

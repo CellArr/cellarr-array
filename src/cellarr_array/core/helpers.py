@@ -52,7 +52,7 @@ def create_cellarray(
             Optional list of dimension names.
 
         dim_dtypes:
-            Optional list of dimension dtypes.
+            Optional list of dimension dtypes. Defaults to numpy's uint32.
 
         attr_name:
             Name of the data attribute.
@@ -74,7 +74,6 @@ def create_cellarray(
     if isinstance(attr_dtype, str):
         attr_dtype = np.dtype(attr_dtype)
 
-    # Require either shape or dim_dtypes
     if shape is None and dim_dtypes is None:
         raise ValueError("Either 'shape' or 'dim_dtypes' must be provided.")
 
@@ -90,7 +89,6 @@ def create_cellarray(
             raise ValueError("Array must have 1 or 2 dimensions.")
         dim_dtypes = [np.dtype(dt) if isinstance(dt, str) else dt for dt in dim_dtypes]
 
-    # Calculate shape from dtypes if needed
     if shape is None:
         shape = tuple(np.iinfo(dt).max if np.issubdtype(dt, np.integer) else None for dt in dim_dtypes)
     if None in shape:
@@ -98,7 +96,6 @@ def create_cellarray(
             np.iinfo(dt).max if s is None and np.issubdtype(dt, np.integer) else s for s, dt in zip(shape, dim_dtypes)
         )
 
-    # Set dimension names
     if dim_names is None:
         dim_names = [f"dim_{i}" for i in range(len(shape))]
 
@@ -141,7 +138,6 @@ def create_cellarray(
     from .dense import DenseCellArray
     from .sparse import SparseCellArray
 
-    # Return appropriate array type
     return (
         SparseCellArray(uri=uri, attr=attr_name, mode=mode, config_or_context=tiledb_ctx)
         if sparse

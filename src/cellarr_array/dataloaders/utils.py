@@ -2,6 +2,10 @@ import random
 
 import numpy as np
 
+__author__ = "Jayaram Kancherla"
+__copyright__ = "Jayaram Kancherla"
+__license__ = "MIT"
+
 
 def seed_worker(worker_id: int):
     """Generate seeds for a PyTorch DataLoader worker.
