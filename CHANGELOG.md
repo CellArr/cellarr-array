@@ -2,7 +2,7 @@
 
 ## Version 0.2.0
 
-- Dataloaders for sparse and dense arrays, We provide templates for both map and Iterable style dataloaders. Users are expected the caveats of both of these approaches. 
+- Dataloaders for sparse and dense arrays, We provide templates for both map and Iterable style dataloaders. Users are expected the caveats of both of these approaches.
 - Fixed a bug with slicing on 1D arrays and many improvements for optimizing slicing parameters.
 - Update documentation and tests.
 
