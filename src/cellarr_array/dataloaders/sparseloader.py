@@ -145,7 +145,7 @@ def sparse_coo_collate_fn(batch):
     Each item in 'batch' is a SciPy coo_matrix representing one sample.
     """
     all_data = []
-    all_row_indices = [] 
+    all_row_indices = []
     all_col_indices = []
 
     for i, scipy_coo in enumerate(batch):
