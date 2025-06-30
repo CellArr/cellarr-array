@@ -1,0 +1,45 @@
+cellarr\_array.dataloaders package
+==================================
+
+Submodules
+----------
+
+cellarr\_array.dataloaders.denseloader module
+---------------------------------------------
+
+.. automodule:: cellarr_array.dataloaders.denseloader
+   :members:
+   :show-inheritance:
+   :undoc-members:
+
+cellarr\_array.dataloaders.iterabledataloader module
+----------------------------------------------------
+
+.. automodule:: cellarr_array.dataloaders.iterabledataloader
+   :members:
+   :show-inheritance:
+   :undoc-members:
+
+cellarr\_array.dataloaders.sparseloader module
+----------------------------------------------
+
+.. automodule:: cellarr_array.dataloaders.sparseloader
+   :members:
+   :show-inheritance:
+   :undoc-members:
+
+cellarr\_array.dataloaders.utils module
+---------------------------------------
+
+.. automodule:: cellarr_array.dataloaders.utils
+   :members:
+   :show-inheritance:
+   :undoc-members:
+
+Module contents
+---------------
+
+.. automodule:: cellarr_array.dataloaders
+   :members:
+   :show-inheritance:
+   :undoc-members:

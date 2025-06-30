@@ -3,10 +3,10 @@
   <head><meta charset="utf-8"/>
     <meta name="viewport" content="width=device-width,initial-scale=1"/>
     <meta name="color-scheme" content="light dark"><meta name="viewport" content="width=device-width, initial-scale=1" />
-<link rel="index" title="Index" href="../genindex.html" /><link rel="search" title="Search" href="../search.html" /><link rel="prev" title="cellarr_array" href="modules.html" />
+<link rel="index" title="Index" href="../genindex.html" /><link rel="search" title="Search" href="../search.html" /><link rel="next" title="cellarr_array.core package" href="cellarr_array.core.html" /><link rel="prev" title="cellarr_array" href="modules.html" />
 
     <!-- Generated with Sphinx 8.2.3 and Furo 2024.08.06 -->
-        <title>cellarr_array package - cellarr-array 0.1.0 documentation</title>
+        <title>cellarr_array package - cellarr-array 0.2.0 documentation</title>
       <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=03e43079" />
     <link rel="stylesheet" type="text/css" href="../_static/styles/furo.css?v=354aac6f" />
     <link rel="stylesheet" type="text/css" href="../_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css" />
@@ -167,7 +167,7 @@
       </label>
     </div>
     <div class="header-center">
-      <a href="../index.html"><div class="brand">cellarr-array 0.1.0 documentation</div></a>
+      <a href="../index.html"><div class="brand">cellarr-array 0.2.0 documentation</div></a>
     </div>
     <div class="header-right">
       <div class="theme-toggle-container theme-toggle-header">
@@ -191,7 +191,7 @@
       <div class="sidebar-sticky"><a class="sidebar-brand" href="../index.html">
   
   
-  <span class="sidebar-brand-text">cellarr-array 0.1.0 documentation</span>
+  <span class="sidebar-brand-text">cellarr-array 0.2.0 documentation</span>
   
 </a><form class="sidebar-search-container" method="get" action="../search.html" role="search">
   <input class="sidebar-search" placeholder="Search" name="q" aria-label="Search">
@@ -206,7 +206,12 @@
 <li class="toctree-l1"><a class="reference internal" href="../authors.html">Authors</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../changelog.html">Changelog</a></li>
 <li class="toctree-l1 current has-children"><a class="reference internal" href="modules.html">Module Reference</a><input checked="" class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" role="switch" type="checkbox"/><label for="toctree-checkbox-1"><div class="visually-hidden">Toggle navigation of Module Reference</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul class="current">
-<li class="toctree-l2 current current-page"><a class="current reference internal" href="#">cellarr_array package</a></li>
+<li class="toctree-l2 current has-children current-page"><a class="current reference internal" href="#">cellarr_array package</a><input checked="" class="toctree-checkbox" id="toctree-checkbox-2" name="toctree-checkbox-2" role="switch" type="checkbox"/><label for="toctree-checkbox-2"><div class="visually-hidden">Toggle navigation of cellarr_array package</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l3"><a class="reference internal" href="cellarr_array.core.html">cellarr_array.core package</a></li>
+<li class="toctree-l3"><a class="reference internal" href="cellarr_array.dataloaders.html">cellarr_array.dataloaders package</a></li>
+<li class="toctree-l3"><a class="reference internal" href="cellarr_array.utils.html">cellarr_array.utils package</a></li>
+</ul>
+</li>
 </ul>
 </li>
 </ul>
@@ -251,533 +256,163 @@
         <article role="main" id="furo-main-content">
           <section id="cellarr-array-package">
 <h1>cellarr_array package<a class="headerlink" href="#cellarr-array-package" title="Link to this heading">¶</a></h1>
-<section id="submodules">
-<h2>Submodules<a class="headerlink" href="#submodules" title="Link to this heading">¶</a></h2>
-</section>
-<section id="module-cellarr_array.cellarray_base">
-<span id="cellarr-array-cellarray-base-module"></span><h2>cellarr_array.cellarray_base module<a class="headerlink" href="#module-cellarr_array.cellarray_base" title="Link to this heading">¶</a></h2>
-<dl class="py class">
-<dt class="sig sig-object py" id="cellarr_array.cellarray_base.CellArray">
-<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">cellarr_array.cellarray_base.</span></span><span class="sig-name descname"><span class="pre">CellArray</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">uri</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">tiledb_array_obj</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">attr</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'data'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">mode</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">config_or_context</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">validate</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/cellarr_array/cellarray_base.html#CellArray"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#cellarr_array.cellarray_base.CellArray" title="Link to this definition">¶</a></dt>
-<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3.11/library/abc.html#abc.ABC" title="(in Python v3.11)"><code class="xref py py-class docutils literal notranslate"><span class="pre">ABC</span></code></a></p>
-<p>Abstract base class for TileDB array operations.</p>
-<dl class="py attribute">
-<dt class="sig sig-object py" id="cellarr_array.cellarray_base.CellArray.__abstractmethods__">
-<span class="sig-name descname"><span class="pre">__abstractmethods__</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">frozenset({'_direct_slice',</span> <span class="pre">'_multi_index',</span> <span class="pre">'write_batch'})</span></em><a class="headerlink" href="#cellarr_array.cellarray_base.CellArray.__abstractmethods__" title="Link to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="cellarr_array.cellarray_base.CellArray.__getitem__">
-<span class="sig-name descname"><span class="pre">__getitem__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">key</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/cellarr_array/cellarray_base.html#CellArray.__getitem__"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#cellarr_array.cellarray_base.CellArray.__getitem__" title="Link to this definition">¶</a></dt>
-<dd><p>Get item implementation that routes to either direct slicing or multi_index
-based on the type of indices provided.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>key</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3.11/library/typing.html#typing.Union" title="(in Python v3.11)"><code class="xref py py-data docutils literal notranslate"><span class="pre">Union</span></code></a>[<a class="reference external" href="https://docs.python.org/3.11/library/functions.html#slice" title="(in Python v3.11)"><code class="xref py py-class docutils literal notranslate"><span class="pre">slice</span></code></a>, <a class="reference external" href="https://docs.python.org/3.11/library/types.html#types.EllipsisType" title="(in Python v3.11)"><code class="xref py py-data docutils literal notranslate"><span class="pre">EllipsisType</span></code></a>, <a class="reference external" href="https://docs.python.org/3.11/library/typing.html#typing.Tuple" title="(in Python v3.11)"><code class="xref py py-data docutils literal notranslate"><span class="pre">Tuple</span></code></a>[<a class="reference external" href="https://docs.python.org/3.11/library/typing.html#typing.Union" title="(in Python v3.11)"><code class="xref py py-data docutils literal notranslate"><span class="pre">Union</span></code></a>[<a class="reference external" href="https://docs.python.org/3.11/library/functions.html#slice" title="(in Python v3.11)"><code class="xref py py-class docutils literal notranslate"><span class="pre">slice</span></code></a>, <a class="reference external" href="https://docs.python.org/3.11/library/typing.html#typing.List" title="(in Python v3.11)"><code class="xref py py-class docutils literal notranslate"><span class="pre">List</span></code></a>[<a class="reference external" href="https://docs.python.org/3.11/library/functions.html#int" title="(in Python v3.11)"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></a>]], <a class="reference external" href="https://docs.python.org/3.11/library/constants.html#Ellipsis" title="(in Python v3.11)"><code class="xref py py-data docutils literal notranslate"><span class="pre">...</span></code></a>]]</span>) – Slice or list of indices for each dimension in the array.</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="cellarr_array.cellarray_base.CellArray.__init__">
-<span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">uri</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">tiledb_array_obj</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">attr</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'data'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">mode</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">config_or_context</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">validate</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/cellarr_array/cellarray_base.html#CellArray.__init__"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#cellarr_array.cellarray_base.CellArray.__init__" title="Link to this definition">¶</a></dt>
-<dd><p>Initialize the object.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>uri</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3.11/library/typing.html#typing.Optional" title="(in Python v3.11)"><code class="xref py py-data docutils literal notranslate"><span class="pre">Optional</span></code></a>[<a class="reference external" href="https://docs.python.org/3.11/library/stdtypes.html#str" title="(in Python v3.11)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a>]</span>) – URI to the array.
-Required if ‘tiledb_array_obj’ is not provided.</p></li>
-<li><p><strong>tiledb_array_obj</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3.11/library/typing.html#typing.Optional" title="(in Python v3.11)"><code class="xref py py-data docutils literal notranslate"><span class="pre">Optional</span></code></a>[<a class="reference external" href="https://tiledb-inc-tiledb.readthedocs-hosted.com/projects/tiledb-py/en/stable/python-api.html#tiledb.Array" title="(in TileDB-Py v0.34)"><code class="xref py py-class docutils literal notranslate"><span class="pre">Array</span></code></a>]</span>) – Optional, an already opened <code class="docutils literal notranslate"><span class="pre">tiledb.Array</span></code> instance.
-If provided, ‘uri’ can be None, and ‘config_or_context’ is ignored.</p></li>
-<li><p><strong>attr</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3.11/library/stdtypes.html#str" title="(in Python v3.11)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a></span>) – Attribute to access.
-Defaults to “data”.</p></li>
-<li><p><strong>mode</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3.11/library/typing.html#typing.Optional" title="(in Python v3.11)"><code class="xref py py-data docutils literal notranslate"><span class="pre">Optional</span></code></a>[<a class="reference external" href="https://docs.python.org/3.11/library/typing.html#typing.Literal" title="(in Python v3.11)"><code class="xref py py-data docutils literal notranslate"><span class="pre">Literal</span></code></a>[<code class="docutils literal notranslate"><span class="pre">'r'</span></code>, <code class="docutils literal notranslate"><span class="pre">'w'</span></code>, <code class="docutils literal notranslate"><span class="pre">'d'</span></code>, <code class="docutils literal notranslate"><span class="pre">'m'</span></code>]]</span>) – <p>Open the array object in read ‘r’, write ‘w’, modify
-‘m’ mode, or delete ‘d’ mode.</p>
-<p>Defaults to None for automatic mode switching.</p>
-<p>If ‘tiledb_array_obj’ is provided, this mode should ideally match
-the mode of the provided array or be None.</p>
-</p></li>
-<li><p><strong>config_or_context</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3.11/library/typing.html#typing.Union" title="(in Python v3.11)"><code class="xref py py-data docutils literal notranslate"><span class="pre">Union</span></code></a>[<a class="reference external" href="https://tiledb-inc-tiledb.readthedocs-hosted.com/projects/tiledb-py/en/stable/python-api.html#tiledb.Config" title="(in TileDB-Py v0.34)"><code class="xref py py-class docutils literal notranslate"><span class="pre">Config</span></code></a>, <a class="reference external" href="https://tiledb-inc-tiledb.readthedocs-hosted.com/projects/tiledb-py/en/stable/python-api.html#tiledb.Ctx" title="(in TileDB-Py v0.34)"><code class="xref py py-class docutils literal notranslate"><span class="pre">Ctx</span></code></a>, <a class="reference external" href="https://docs.python.org/3.11/library/constants.html#None" title="(in Python v3.11)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a>]</span>) – <p>Optional config or context object. Ignored if ‘tiledb_array_obj’ is provided,
-as context will be derived from the object.</p>
-<p>Defaults to None.</p>
-</p></li>
-<li><p><strong>validate</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3.11/library/functions.html#bool" title="(in Python v3.11)"><code class="xref py py-class docutils literal notranslate"><span class="pre">bool</span></code></a></span>) – Whether to validate the attributes.
-Defaults to True.</p></li>
+<section id="subpackages">
+<h2>Subpackages<a class="headerlink" href="#subpackages" title="Link to this heading">¶</a></h2>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="cellarr_array.core.html">cellarr_array.core package</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="cellarr_array.core.html#submodules">Submodules</a></li>
+<li class="toctree-l2"><a class="reference internal" href="cellarr_array.core.html#module-cellarr_array.core.base">cellarr_array.core.base module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="cellarr_array.core.html#cellarr_array.core.base.CellArray"><code class="docutils literal notranslate"><span class="pre">CellArray</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="cellarr_array.core.html#cellarr_array.core.base.CellArray.__abstractmethods__"><code class="docutils literal notranslate"><span class="pre">CellArray.__abstractmethods__</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="cellarr_array.core.html#cellarr_array.core.base.CellArray.__getitem__"><code class="docutils literal notranslate"><span class="pre">CellArray.__getitem__()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="cellarr_array.core.html#cellarr_array.core.base.CellArray.__init__"><code class="docutils literal notranslate"><span class="pre">CellArray.__init__()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="cellarr_array.core.html#cellarr_array.core.base.CellArray.attr_names"><code class="docutils literal notranslate"><span class="pre">CellArray.attr_names</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="cellarr_array.core.html#cellarr_array.core.base.CellArray.consolidate"><code class="docutils literal notranslate"><span class="pre">CellArray.consolidate()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="cellarr_array.core.html#cellarr_array.core.base.CellArray.dim_names"><code class="docutils literal notranslate"><span class="pre">CellArray.dim_names</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="cellarr_array.core.html#cellarr_array.core.base.CellArray.mode"><code class="docutils literal notranslate"><span class="pre">CellArray.mode</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="cellarr_array.core.html#cellarr_array.core.base.CellArray.ndim"><code class="docutils literal notranslate"><span class="pre">CellArray.ndim</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="cellarr_array.core.html#cellarr_array.core.base.CellArray.nonempty_domain"><code class="docutils literal notranslate"><span class="pre">CellArray.nonempty_domain</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="cellarr_array.core.html#cellarr_array.core.base.CellArray.open_array"><code class="docutils literal notranslate"><span class="pre">CellArray.open_array()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="cellarr_array.core.html#cellarr_array.core.base.CellArray.shape"><code class="docutils literal notranslate"><span class="pre">CellArray.shape</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="cellarr_array.core.html#cellarr_array.core.base.CellArray.vacuum"><code class="docutils literal notranslate"><span class="pre">CellArray.vacuum()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="cellarr_array.core.html#cellarr_array.core.base.CellArray.write_batch"><code class="docutils literal notranslate"><span class="pre">CellArray.write_batch()</span></code></a></li>
 </ul>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py property">
-<dt class="sig sig-object py" id="cellarr_array.cellarray_base.CellArray.attr_names">
-<em class="property"><span class="k"><span class="pre">property</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">attr_names</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3.11/library/typing.html#typing.List" title="(in Python v3.11)"><span class="pre">List</span></a><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3.11/library/stdtypes.html#str" title="(in Python v3.11)"><span class="pre">str</span></a><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#cellarr_array.cellarray_base.CellArray.attr_names" title="Link to this definition">¶</a></dt>
-<dd><p>Get attribute names of the array.</p>
-</dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="cellarr_array.cellarray_base.CellArray.consolidate">
-<span class="sig-name descname"><span class="pre">consolidate</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">config</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/cellarr_array/cellarray_base.html#CellArray.consolidate"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#cellarr_array.cellarray_base.CellArray.consolidate" title="Link to this definition">¶</a></dt>
-<dd><p>Consolidate array fragments.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>config</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3.11/library/typing.html#typing.Optional" title="(in Python v3.11)"><code class="xref py py-data docutils literal notranslate"><span class="pre">Optional</span></code></a>[<a class="reference internal" href="#cellarr_array.config.ConsolidationConfig" title="cellarr_array.config.ConsolidationConfig"><code class="xref py py-class docutils literal notranslate"><span class="pre">ConsolidationConfig</span></code></a>]</span>) – Optional consolidation configuration.</p>
-</dd>
-<dt class="field-even">Return type<span class="colon">:</span></dt>
-<dd class="field-even"><p><span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3.11/library/constants.html#None" title="(in Python v3.11)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a></span></p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py property">
-<dt class="sig sig-object py" id="cellarr_array.cellarray_base.CellArray.dim_names">
-<em class="property"><span class="k"><span class="pre">property</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">dim_names</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3.11/library/typing.html#typing.List" title="(in Python v3.11)"><span class="pre">List</span></a><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3.11/library/stdtypes.html#str" title="(in Python v3.11)"><span class="pre">str</span></a><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#cellarr_array.cellarray_base.CellArray.dim_names" title="Link to this definition">¶</a></dt>
-<dd><p>Get dimension names of the array.</p>
-</dd></dl>
-
-<dl class="py property">
-<dt class="sig sig-object py" id="cellarr_array.cellarray_base.CellArray.mode">
-<em class="property"><span class="k"><span class="pre">property</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">mode</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3.11/library/stdtypes.html#str" title="(in Python v3.11)"><span class="pre">str</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3.11/library/constants.html#None" title="(in Python v3.11)"><span class="pre">None</span></a></em><a class="headerlink" href="#cellarr_array.cellarray_base.CellArray.mode" title="Link to this definition">¶</a></dt>
-<dd><p>Get current array mode. If an external array is used, this is its open mode.</p>
-</dd></dl>
-
-<dl class="py property">
-<dt class="sig sig-object py" id="cellarr_array.cellarray_base.CellArray.ndim">
-<em class="property"><span class="k"><span class="pre">property</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">ndim</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3.11/library/functions.html#int" title="(in Python v3.11)"><span class="pre">int</span></a></em><a class="headerlink" href="#cellarr_array.cellarray_base.CellArray.ndim" title="Link to this definition">¶</a></dt>
-<dd><p>Get number of dimensions.</p>
-</dd></dl>
-
-<dl class="py property">
-<dt class="sig sig-object py" id="cellarr_array.cellarray_base.CellArray.nonempty_domain">
-<em class="property"><span class="k"><span class="pre">property</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">nonempty_domain</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3.11/library/typing.html#typing.Tuple" title="(in Python v3.11)"><span class="pre">Tuple</span></a><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3.11/library/typing.html#typing.Any" title="(in Python v3.11)"><span class="pre">Any</span></a><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="p"><span class="pre">...</span></span><span class="p"><span class="pre">]</span></span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3.11/library/constants.html#None" title="(in Python v3.11)"><span class="pre">None</span></a></em><a class="headerlink" href="#cellarr_array.cellarray_base.CellArray.nonempty_domain" title="Link to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="cellarr_array.cellarray_base.CellArray.open_array">
-<span class="sig-name descname"><span class="pre">open_array</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">mode</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/cellarr_array/cellarray_base.html#CellArray.open_array"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#cellarr_array.cellarray_base.CellArray.open_array" title="Link to this definition">¶</a></dt>
-<dd><p>Context manager for array operations.</p>
-<p>Uses the externally provided array if available, otherwise opens from URI.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>mode</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3.11/library/typing.html#typing.Optional" title="(in Python v3.11)"><code class="xref py py-data docutils literal notranslate"><span class="pre">Optional</span></code></a>[<a class="reference external" href="https://docs.python.org/3.11/library/stdtypes.html#str" title="(in Python v3.11)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a>]</span>) – <p>Desired mode for the operation (‘r’, ‘w’, ‘m’, ‘d’).
-If an external array is used, this mode must be compatible with
-(or same as) the mode the external array was opened with.</p>
-<p>If None, uses the CellArray’s default mode.</p>
-</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py property">
-<dt class="sig sig-object py" id="cellarr_array.cellarray_base.CellArray.shape">
-<em class="property"><span class="k"><span class="pre">property</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">shape</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3.11/library/typing.html#typing.Tuple" title="(in Python v3.11)"><span class="pre">Tuple</span></a><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3.11/library/functions.html#int" title="(in Python v3.11)"><span class="pre">int</span></a><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="p"><span class="pre">...</span></span><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#cellarr_array.cellarray_base.CellArray.shape" title="Link to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="cellarr_array.cellarray_base.CellArray.vacuum">
-<span class="sig-name descname"><span class="pre">vacuum</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/cellarr_array/cellarray_base.html#CellArray.vacuum"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#cellarr_array.cellarray_base.CellArray.vacuum" title="Link to this definition">¶</a></dt>
-<dd><p>Remove deleted fragments from the array.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p><span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3.11/library/constants.html#None" title="(in Python v3.11)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a></span></p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="cellarr_array.cellarray_base.CellArray.write_batch">
-<em class="property"><span class="k"><span class="pre">abstractmethod</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">write_batch</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">start_row</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/cellarr_array/cellarray_base.html#CellArray.write_batch"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#cellarr_array.cellarray_base.CellArray.write_batch" title="Link to this definition">¶</a></dt>
-<dd><p>Write a batch of data to the array starting at the specified row.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>data</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3.11/library/typing.html#typing.Union" title="(in Python v3.11)"><code class="xref py py-data docutils literal notranslate"><span class="pre">Union</span></code></a>[<a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v2.2)"><code class="xref py py-class docutils literal notranslate"><span class="pre">ndarray</span></code></a>, <a class="reference external" href="https://docs.scipy.org/doc/scipy/reference/generated/scipy.sparse.spmatrix.html#scipy.sparse.spmatrix" title="(in SciPy v1.15.3)"><code class="xref py py-class docutils literal notranslate"><span class="pre">spmatrix</span></code></a>]</span>) – Data to write (numpy array for dense, scipy sparse matrix for sparse).</p></li>
-<li><p><strong>start_row</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3.11/library/functions.html#int" title="(in Python v3.11)"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></a></span>) – Starting row index for writing.</p></li>
-<li><p><strong>**kwargs</strong> – Additional arguments for write operation.</p></li>
+</li>
 </ul>
-</dd>
-<dt class="field-even">Return type<span class="colon">:</span></dt>
-<dd class="field-even"><p><span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3.11/library/constants.html#None" title="(in Python v3.11)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a></span></p>
-</dd>
-</dl>
-</dd></dl>
-
-</dd></dl>
-
-</section>
-<section id="module-cellarr_array.cellarray_dense">
-<span id="cellarr-array-cellarray-dense-module"></span><h2>cellarr_array.cellarray_dense module<a class="headerlink" href="#module-cellarr_array.cellarray_dense" title="Link to this heading">¶</a></h2>
-<dl class="py class">
-<dt class="sig sig-object py" id="cellarr_array.cellarray_dense.DenseCellArray">
-<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">cellarr_array.cellarray_dense.</span></span><span class="sig-name descname"><span class="pre">DenseCellArray</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">uri</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">tiledb_array_obj</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">attr</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'data'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">mode</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">config_or_context</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">validate</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/cellarr_array/cellarray_dense.html#DenseCellArray"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#cellarr_array.cellarray_dense.DenseCellArray" title="Link to this definition">¶</a></dt>
-<dd><p>Bases: <a class="reference internal" href="#cellarr_array.cellarray_base.CellArray" title="cellarr_array.cellarray_base.CellArray"><code class="xref py py-class docutils literal notranslate"><span class="pre">CellArray</span></code></a></p>
-<p>Implementation for dense TileDB arrays.</p>
-<dl class="py attribute">
-<dt class="sig sig-object py" id="cellarr_array.cellarray_dense.DenseCellArray.__abstractmethods__">
-<span class="sig-name descname"><span class="pre">__abstractmethods__</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">frozenset({})</span></em><a class="headerlink" href="#cellarr_array.cellarray_dense.DenseCellArray.__abstractmethods__" title="Link to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="py attribute">
-<dt class="sig sig-object py" id="cellarr_array.cellarray_dense.DenseCellArray.__annotations__">
-<span class="sig-name descname"><span class="pre">__annotations__</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">{}</span></em><a class="headerlink" href="#cellarr_array.cellarray_dense.DenseCellArray.__annotations__" title="Link to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="cellarr_array.cellarray_dense.DenseCellArray.write_batch">
-<span class="sig-name descname"><span class="pre">write_batch</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">start_row</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/cellarr_array/cellarray_dense.html#DenseCellArray.write_batch"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#cellarr_array.cellarray_dense.DenseCellArray.write_batch" title="Link to this definition">¶</a></dt>
-<dd><p>Write a batch of data to the dense array.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>data</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v2.2)"><code class="xref py py-class docutils literal notranslate"><span class="pre">ndarray</span></code></a></span>) – Numpy array to write.</p></li>
-<li><p><strong>start_row</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3.11/library/functions.html#int" title="(in Python v3.11)"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></a></span>) – Starting row index for writing.</p></li>
-<li><p><strong>**kwargs</strong> – Additional arguments passed to TileDB write operation.</p></li>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="cellarr_array.core.html#module-cellarr_array.core.dense">cellarr_array.core.dense module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="cellarr_array.core.html#cellarr_array.core.dense.DenseCellArray"><code class="docutils literal notranslate"><span class="pre">DenseCellArray</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="cellarr_array.core.html#cellarr_array.core.dense.DenseCellArray.__abstractmethods__"><code class="docutils literal notranslate"><span class="pre">DenseCellArray.__abstractmethods__</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="cellarr_array.core.html#cellarr_array.core.dense.DenseCellArray.__annotations__"><code class="docutils literal notranslate"><span class="pre">DenseCellArray.__annotations__</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="cellarr_array.core.html#cellarr_array.core.dense.DenseCellArray.write_batch"><code class="docutils literal notranslate"><span class="pre">DenseCellArray.write_batch()</span></code></a></li>
 </ul>
-</dd>
-<dt class="field-even">Raises<span class="colon">:</span></dt>
-<dd class="field-even"><ul class="simple">
-<li><p><a class="reference external" href="https://docs.python.org/3.11/library/exceptions.html#TypeError" title="(in Python v3.11)"><strong>TypeError</strong></a> – If input is not a numpy array.</p></li>
-<li><p><a class="reference external" href="https://docs.python.org/3.11/library/exceptions.html#ValueError" title="(in Python v3.11)"><strong>ValueError</strong></a> – If dimensions don’t match or bounds are exceeded.</p></li>
+</li>
 </ul>
-</dd>
-<dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p><span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3.11/library/constants.html#None" title="(in Python v3.11)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a></span></p>
-</dd>
-</dl>
-</dd></dl>
-
-</dd></dl>
-
-</section>
-<section id="module-cellarr_array.cellarray_sparse">
-<span id="cellarr-array-cellarray-sparse-module"></span><h2>cellarr_array.cellarray_sparse module<a class="headerlink" href="#module-cellarr_array.cellarray_sparse" title="Link to this heading">¶</a></h2>
-<dl class="py class">
-<dt class="sig sig-object py" id="cellarr_array.cellarray_sparse.SparseCellArray">
-<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">cellarr_array.cellarray_sparse.</span></span><span class="sig-name descname"><span class="pre">SparseCellArray</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">uri=None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">tiledb_array_obj=None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">attr='data'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">mode=None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">config_or_context=None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">return_sparse=True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sparse_coerce=&lt;class</span> <span class="pre">'scipy.sparse._csr.csr_matrix'&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">validate=True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">**kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/cellarr_array/cellarray_sparse.html#SparseCellArray"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#cellarr_array.cellarray_sparse.SparseCellArray" title="Link to this definition">¶</a></dt>
-<dd><p>Bases: <a class="reference internal" href="#cellarr_array.cellarray_base.CellArray" title="cellarr_array.cellarray_base.CellArray"><code class="xref py py-class docutils literal notranslate"><span class="pre">CellArray</span></code></a></p>
-<p>Implementation for sparse TileDB arrays.</p>
-<dl class="py attribute">
-<dt class="sig sig-object py" id="cellarr_array.cellarray_sparse.SparseCellArray.__abstractmethods__">
-<span class="sig-name descname"><span class="pre">__abstractmethods__</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">frozenset({})</span></em><a class="headerlink" href="#cellarr_array.cellarray_sparse.SparseCellArray.__abstractmethods__" title="Link to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="py attribute">
-<dt class="sig sig-object py" id="cellarr_array.cellarray_sparse.SparseCellArray.__annotations__">
-<span class="sig-name descname"><span class="pre">__annotations__</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">{}</span></em><a class="headerlink" href="#cellarr_array.cellarray_sparse.SparseCellArray.__annotations__" title="Link to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="cellarr_array.cellarray_sparse.SparseCellArray.__init__">
-<span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">uri=None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">tiledb_array_obj=None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">attr='data'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">mode=None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">config_or_context=None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">return_sparse=True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sparse_coerce=&lt;class</span> <span class="pre">'scipy.sparse._csr.csr_matrix'&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">validate=True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">**kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/cellarr_array/cellarray_sparse.html#SparseCellArray.__init__"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#cellarr_array.cellarray_sparse.SparseCellArray.__init__" title="Link to this definition">¶</a></dt>
-<dd><p>Initialize the object.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>uri</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3.11/library/typing.html#typing.Optional" title="(in Python v3.11)"><code class="xref py py-data docutils literal notranslate"><span class="pre">Optional</span></code></a>[<a class="reference external" href="https://docs.python.org/3.11/library/stdtypes.html#str" title="(in Python v3.11)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a>]</span>) – URI to the array.
-Required if ‘tiledb_array_obj’ is not provided.</p></li>
-<li><p><strong>tiledb_array_obj</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3.11/library/typing.html#typing.Optional" title="(in Python v3.11)"><code class="xref py py-data docutils literal notranslate"><span class="pre">Optional</span></code></a>[<a class="reference external" href="https://tiledb-inc-tiledb.readthedocs-hosted.com/projects/tiledb-py/en/stable/python-api.html#tiledb.Array" title="(in TileDB-Py v0.34)"><code class="xref py py-class docutils literal notranslate"><span class="pre">Array</span></code></a>]</span>) – Optional, an already opened <code class="docutils literal notranslate"><span class="pre">tiledb.Array</span></code> instance.
-If provided, ‘uri’ can be None, and ‘config_or_context’ is ignored.</p></li>
-<li><p><strong>attr</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3.11/library/stdtypes.html#str" title="(in Python v3.11)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a></span>) – Attribute to access.
-Defaults to “data”.</p></li>
-<li><p><strong>mode</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3.11/library/typing.html#typing.Optional" title="(in Python v3.11)"><code class="xref py py-data docutils literal notranslate"><span class="pre">Optional</span></code></a>[<a class="reference external" href="https://docs.python.org/3.11/library/typing.html#typing.Literal" title="(in Python v3.11)"><code class="xref py py-data docutils literal notranslate"><span class="pre">Literal</span></code></a>[<code class="docutils literal notranslate"><span class="pre">'r'</span></code>, <code class="docutils literal notranslate"><span class="pre">'w'</span></code>, <code class="docutils literal notranslate"><span class="pre">'d'</span></code>, <code class="docutils literal notranslate"><span class="pre">'m'</span></code>]]</span>) – <p>Open the array object in read ‘r’, write ‘w’, modify
-‘m’ mode, or delete ‘d’ mode.</p>
-<p>Defaults to None for automatic mode switching.</p>
-<p>If ‘tiledb_array_obj’ is provided, this mode should ideally match
-the mode of the provided array or be None.</p>
-</p></li>
-<li><p><strong>config_or_context</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3.11/library/typing.html#typing.Union" title="(in Python v3.11)"><code class="xref py py-data docutils literal notranslate"><span class="pre">Union</span></code></a>[<a class="reference external" href="https://tiledb-inc-tiledb.readthedocs-hosted.com/projects/tiledb-py/en/stable/python-api.html#tiledb.Config" title="(in TileDB-Py v0.34)"><code class="xref py py-class docutils literal notranslate"><span class="pre">Config</span></code></a>, <a class="reference external" href="https://tiledb-inc-tiledb.readthedocs-hosted.com/projects/tiledb-py/en/stable/python-api.html#tiledb.Ctx" title="(in TileDB-Py v0.34)"><code class="xref py py-class docutils literal notranslate"><span class="pre">Ctx</span></code></a>, <a class="reference external" href="https://docs.python.org/3.11/library/constants.html#None" title="(in Python v3.11)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a>]</span>) – <p>Optional config or context object. Ignored if ‘tiledb_array_obj’ is provided,
-as context will be derived from the object.</p>
-<p>Defaults to None.</p>
-</p></li>
-<li><p><strong>return_sparse</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3.11/library/functions.html#bool" title="(in Python v3.11)"><code class="xref py py-class docutils literal notranslate"><span class="pre">bool</span></code></a></span>) – Whether to return a sparse representation of the data when object is sliced.
-Default is to return a dictionary that contains coordinates and values.</p></li>
-<li><p><strong>sparse_coerce</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3.11/library/typing.html#typing.Union" title="(in Python v3.11)"><code class="xref py py-data docutils literal notranslate"><span class="pre">Union</span></code></a>[<a class="reference external" href="https://docs.scipy.org/doc/scipy/reference/generated/scipy.sparse.csr_matrix.html#scipy.sparse.csr_matrix" title="(in SciPy v1.15.3)"><code class="xref py py-class docutils literal notranslate"><span class="pre">csr_matrix</span></code></a>, <a class="reference external" href="https://docs.scipy.org/doc/scipy/reference/generated/scipy.sparse.csc_matrix.html#scipy.sparse.csc_matrix" title="(in SciPy v1.15.3)"><code class="xref py py-class docutils literal notranslate"><span class="pre">csc_matrix</span></code></a>]</span>) – Format to return, defaults to csr_matrix.</p></li>
-<li><p><strong>validate</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3.11/library/functions.html#bool" title="(in Python v3.11)"><code class="xref py py-class docutils literal notranslate"><span class="pre">bool</span></code></a></span>) – Whether to validate the attributes.
-Defaults to True.</p></li>
-<li><p><strong>kwargs</strong> – Additional arguments.</p></li>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="cellarr_array.core.html#module-cellarr_array.core.helpers">cellarr_array.core.helpers module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="cellarr_array.core.html#cellarr_array.core.helpers.SliceHelper"><code class="docutils literal notranslate"><span class="pre">SliceHelper</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="cellarr_array.core.html#cellarr_array.core.helpers.SliceHelper.is_contiguous_indices"><code class="docutils literal notranslate"><span class="pre">SliceHelper.is_contiguous_indices()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="cellarr_array.core.html#cellarr_array.core.helpers.SliceHelper.normalize_index"><code class="docutils literal notranslate"><span class="pre">SliceHelper.normalize_index()</span></code></a></li>
 </ul>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="cellarr_array.cellarray_sparse.SparseCellArray.write_batch">
-<span class="sig-name descname"><span class="pre">write_batch</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">start_row</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/cellarr_array/cellarray_sparse.html#SparseCellArray.write_batch"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#cellarr_array.cellarray_sparse.SparseCellArray.write_batch" title="Link to this definition">¶</a></dt>
-<dd><p>Write a batch of sparse data to the array.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>data</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3.11/library/typing.html#typing.Union" title="(in Python v3.11)"><code class="xref py py-data docutils literal notranslate"><span class="pre">Union</span></code></a>[<a class="reference external" href="https://docs.scipy.org/doc/scipy/reference/generated/scipy.sparse.spmatrix.html#scipy.sparse.spmatrix" title="(in SciPy v1.15.3)"><code class="xref py py-class docutils literal notranslate"><span class="pre">spmatrix</span></code></a>, <a class="reference external" href="https://docs.scipy.org/doc/scipy/reference/generated/scipy.sparse.csc_matrix.html#scipy.sparse.csc_matrix" title="(in SciPy v1.15.3)"><code class="xref py py-class docutils literal notranslate"><span class="pre">csc_matrix</span></code></a>, <a class="reference external" href="https://docs.scipy.org/doc/scipy/reference/generated/scipy.sparse.coo_matrix.html#scipy.sparse.coo_matrix" title="(in SciPy v1.15.3)"><code class="xref py py-class docutils literal notranslate"><span class="pre">coo_matrix</span></code></a>]</span>) – Scipy sparse matrix (CSR, CSC, or COO format).</p></li>
-<li><p><strong>start_row</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3.11/library/functions.html#int" title="(in Python v3.11)"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></a></span>) – Starting row index for writing.</p></li>
-<li><p><strong>**kwargs</strong> – Additional arguments passed to TileDB write operation.</p></li>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="cellarr_array.core.html#cellarr_array.core.helpers.create_cellarray"><code class="docutils literal notranslate"><span class="pre">create_cellarray()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="cellarr_array.core.html#cellarr_array.core.helpers.create_group"><code class="docutils literal notranslate"><span class="pre">create_group()</span></code></a></li>
 </ul>
-</dd>
-<dt class="field-even">Raises<span class="colon">:</span></dt>
-<dd class="field-even"><ul class="simple">
-<li><p><a class="reference external" href="https://docs.python.org/3.11/library/exceptions.html#TypeError" title="(in Python v3.11)"><strong>TypeError</strong></a> – If input is not a sparse matrix.</p></li>
-<li><p><a class="reference external" href="https://docs.python.org/3.11/library/exceptions.html#ValueError" title="(in Python v3.11)"><strong>ValueError</strong></a> – If dimensions don’t match or bounds are exceeded.</p></li>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="cellarr_array.core.html#module-cellarr_array.core.sparse">cellarr_array.core.sparse module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="cellarr_array.core.html#cellarr_array.core.sparse.SparseCellArray"><code class="docutils literal notranslate"><span class="pre">SparseCellArray</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="cellarr_array.core.html#cellarr_array.core.sparse.SparseCellArray.__abstractmethods__"><code class="docutils literal notranslate"><span class="pre">SparseCellArray.__abstractmethods__</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="cellarr_array.core.html#cellarr_array.core.sparse.SparseCellArray.__annotations__"><code class="docutils literal notranslate"><span class="pre">SparseCellArray.__annotations__</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="cellarr_array.core.html#cellarr_array.core.sparse.SparseCellArray.__init__"><code class="docutils literal notranslate"><span class="pre">SparseCellArray.__init__()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="cellarr_array.core.html#cellarr_array.core.sparse.SparseCellArray.write_batch"><code class="docutils literal notranslate"><span class="pre">SparseCellArray.write_batch()</span></code></a></li>
 </ul>
-</dd>
-<dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p><span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3.11/library/constants.html#None" title="(in Python v3.11)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a></span></p>
-</dd>
-</dl>
-</dd></dl>
-
-</dd></dl>
-
-</section>
-<section id="module-cellarr_array.config">
-<span id="cellarr-array-config-module"></span><h2>cellarr_array.config module<a class="headerlink" href="#module-cellarr_array.config" title="Link to this heading">¶</a></h2>
-<dl class="py class">
-<dt class="sig sig-object py" id="cellarr_array.config.CellArrConfig">
-<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">cellarr_array.config.</span></span><span class="sig-name descname"><span class="pre">CellArrConfig</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">tile_capacity=100000</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">cell_order='row-major'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">tile_order='row-major'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">coords_filters=&lt;factory&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">offsets_filters=&lt;factory&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">attrs_filters=&lt;factory&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ctx_config=&lt;factory&gt;</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/cellarr_array/config.html#CellArrConfig"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#cellarr_array.config.CellArrConfig" title="Link to this definition">¶</a></dt>
-<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3.11/library/functions.html#object" title="(in Python v3.11)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
-<p>Configuration class for TileDB array creation and access.</p>
-<dl class="py attribute">
-<dt class="sig sig-object py" id="cellarr_array.config.CellArrConfig.__annotations__">
-<span class="sig-name descname"><span class="pre">__annotations__</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">{'attrs_filters':</span> <span class="pre">typing.Dict[str,</span> <span class="pre">typing.List[tiledb.filter.Filter]],</span> <span class="pre">'cell_order':</span> <span class="pre">&lt;class</span> <span class="pre">'str'&gt;,</span> <span class="pre">'coords_filters':</span> <span class="pre">typing.List[tiledb.filter.Filter],</span> <span class="pre">'ctx_config':</span> <span class="pre">typing.Dict[str,</span> <span class="pre">typing.Any],</span> <span class="pre">'offsets_filters':</span> <span class="pre">typing.List[tiledb.filter.Filter],</span> <span class="pre">'tile_capacity':</span> <span class="pre">&lt;class</span> <span class="pre">'int'&gt;,</span> <span class="pre">'tile_order':</span> <span class="pre">&lt;class</span> <span class="pre">'str'&gt;}</span></em><a class="headerlink" href="#cellarr_array.config.CellArrConfig.__annotations__" title="Link to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="py attribute">
-<dt class="sig sig-object py" id="cellarr_array.config.CellArrConfig.__dataclass_fields__">
-<span class="sig-name descname"><span class="pre">__dataclass_fields__</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">{'attrs_filters':</span> <span class="pre">Field(name='attrs_filters',type=typing.Dict[str,</span> <span class="pre">typing.List[tiledb.filter.Filter]],default=&lt;dataclasses._MISSING_TYPE</span> <span class="pre">object&gt;,default_factory=&lt;function</span> <span class="pre">CellArrConfig.&lt;lambda&gt;&gt;,init=True,repr=True,hash=None,compare=True,metadata=mappingproxy({}),kw_only=False,_field_type=_FIELD),</span> <span class="pre">'cell_order':</span> <span class="pre">Field(name='cell_order',type=&lt;class</span> <span class="pre">'str'&gt;,default='row-major',default_factory=&lt;dataclasses._MISSING_TYPE</span> <span class="pre">object&gt;,init=True,repr=True,hash=None,compare=True,metadata=mappingproxy({}),kw_only=False,_field_type=_FIELD),</span> <span class="pre">'coords_filters':</span> <span class="pre">Field(name='coords_filters',type=typing.List[tiledb.filter.Filter],default=&lt;dataclasses._MISSING_TYPE</span> <span class="pre">object&gt;,default_factory=&lt;function</span> <span class="pre">CellArrConfig.&lt;lambda&gt;&gt;,init=True,repr=True,hash=None,compare=True,metadata=mappingproxy({}),kw_only=False,_field_type=_FIELD),</span> <span class="pre">'ctx_config':</span> <span class="pre">Field(name='ctx_config',type=typing.Dict[str,</span> <span class="pre">typing.Any],default=&lt;dataclasses._MISSING_TYPE</span> <span class="pre">object&gt;,default_factory=&lt;class</span> <span class="pre">'dict'&gt;,init=True,repr=True,hash=None,compare=True,metadata=mappingproxy({}),kw_only=False,_field_type=_FIELD),</span> <span class="pre">'offsets_filters':</span> <span class="pre">Field(name='offsets_filters',type=typing.List[tiledb.filter.Filter],default=&lt;dataclasses._MISSING_TYPE</span> <span class="pre">object&gt;,default_factory=&lt;function</span> <span class="pre">CellArrConfig.&lt;lambda&gt;&gt;,init=True,repr=True,hash=None,compare=True,metadata=mappingproxy({}),kw_only=False,_field_type=_FIELD),</span> <span class="pre">'tile_capacity':</span> <span class="pre">Field(name='tile_capacity',type=&lt;class</span> <span class="pre">'int'&gt;,default=100000,default_factory=&lt;dataclasses._MISSING_TYPE</span> <span class="pre">object&gt;,init=True,repr=True,hash=None,compare=True,metadata=mappingproxy({}),kw_only=False,_field_type=_FIELD),</span> <span class="pre">'tile_order':</span> <span class="pre">Field(name='tile_order',type=&lt;class</span> <span class="pre">'str'&gt;,default='row-major',default_factory=&lt;dataclasses._MISSING_TYPE</span> <span class="pre">object&gt;,init=True,repr=True,hash=None,compare=True,metadata=mappingproxy({}),kw_only=False,_field_type=_FIELD)}</span></em><a class="headerlink" href="#cellarr_array.config.CellArrConfig.__dataclass_fields__" title="Link to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="py attribute">
-<dt class="sig sig-object py" id="cellarr_array.config.CellArrConfig.__dataclass_params__">
-<span class="sig-name descname"><span class="pre">__dataclass_params__</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">_DataclassParams(init=True,repr=True,eq=True,order=False,unsafe_hash=False,frozen=False)</span></em><a class="headerlink" href="#cellarr_array.config.CellArrConfig.__dataclass_params__" title="Link to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="cellarr_array.config.CellArrConfig.__eq__">
-<span class="sig-name descname"><span class="pre">__eq__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">other</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#cellarr_array.config.CellArrConfig.__eq__" title="Link to this definition">¶</a></dt>
-<dd><p>Return self==value.</p>
-</dd></dl>
-
-<dl class="py attribute">
-<dt class="sig sig-object py" id="cellarr_array.config.CellArrConfig.__hash__">
-<span class="sig-name descname"><span class="pre">__hash__</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">None</span></em><a class="headerlink" href="#cellarr_array.config.CellArrConfig.__hash__" title="Link to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="cellarr_array.config.CellArrConfig.__init__">
-<span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">tile_capacity=100000</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">cell_order='row-major'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">tile_order='row-major'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">coords_filters=&lt;factory&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">offsets_filters=&lt;factory&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">attrs_filters=&lt;factory&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ctx_config=&lt;factory&gt;</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#cellarr_array.config.CellArrConfig.__init__" title="Link to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="py attribute">
-<dt class="sig sig-object py" id="cellarr_array.config.CellArrConfig.__match_args__">
-<span class="sig-name descname"><span class="pre">__match_args__</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">('tile_capacity',</span> <span class="pre">'cell_order',</span> <span class="pre">'tile_order',</span> <span class="pre">'coords_filters',</span> <span class="pre">'offsets_filters',</span> <span class="pre">'attrs_filters',</span> <span class="pre">'ctx_config')</span></em><a class="headerlink" href="#cellarr_array.config.CellArrConfig.__match_args__" title="Link to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="cellarr_array.config.CellArrConfig.__post_init__">
-<span class="sig-name descname"><span class="pre">__post_init__</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/cellarr_array/config.html#CellArrConfig.__post_init__"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#cellarr_array.config.CellArrConfig.__post_init__" title="Link to this definition">¶</a></dt>
-<dd><p>Convert filter configurations to TileDB Filter objects.</p>
-</dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="cellarr_array.config.CellArrConfig.__repr__">
-<span class="sig-name descname"><span class="pre">__repr__</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#cellarr_array.config.CellArrConfig.__repr__" title="Link to this definition">¶</a></dt>
-<dd><p>Return repr(self).</p>
-</dd></dl>
-
-<dl class="py attribute">
-<dt class="sig sig-object py" id="cellarr_array.config.CellArrConfig.attrs_filters">
-<span class="sig-name descname"><span class="pre">attrs_filters</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3.11/library/typing.html#typing.Dict" title="(in Python v3.11)"><code class="xref py py-class docutils literal notranslate"><span class="pre">Dict</span></code></a><span class="pre">[</span><a class="reference external" href="https://docs.python.org/3.11/library/stdtypes.html#str" title="(in Python v3.11)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a><span class="pre">,</span> <a class="reference external" href="https://docs.python.org/3.11/library/typing.html#typing.List" title="(in Python v3.11)"><code class="xref py py-class docutils literal notranslate"><span class="pre">List</span></code></a><span class="pre">[</span><code class="xref py py-class docutils literal notranslate"><span class="pre">Filter</span></code><span class="pre">]]</span></em><a class="headerlink" href="#cellarr_array.config.CellArrConfig.attrs_filters" title="Link to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="py attribute">
-<dt class="sig sig-object py" id="cellarr_array.config.CellArrConfig.cell_order">
-<span class="sig-name descname"><span class="pre">cell_order</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3.11/library/stdtypes.html#str" title="(in Python v3.11)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'row-major'</span></em><a class="headerlink" href="#cellarr_array.config.CellArrConfig.cell_order" title="Link to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="py attribute">
-<dt class="sig sig-object py" id="cellarr_array.config.CellArrConfig.coords_filters">
-<span class="sig-name descname"><span class="pre">coords_filters</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3.11/library/typing.html#typing.List" title="(in Python v3.11)"><code class="xref py py-class docutils literal notranslate"><span class="pre">List</span></code></a><span class="pre">[</span><code class="xref py py-class docutils literal notranslate"><span class="pre">Filter</span></code><span class="pre">]</span></em><a class="headerlink" href="#cellarr_array.config.CellArrConfig.coords_filters" title="Link to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="cellarr_array.config.CellArrConfig.create_filter">
-<em class="property"><span class="k"><span class="pre">static</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">create_filter</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">filter_config</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/cellarr_array/config.html#CellArrConfig.create_filter"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#cellarr_array.config.CellArrConfig.create_filter" title="Link to this definition">¶</a></dt>
-<dd><p>Create a TileDB Filter object from configuration.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p><span class="sphinx_autodoc_typehints-type"><code class="xref py py-class docutils literal notranslate"><span class="pre">Filter</span></code></span></p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py attribute">
-<dt class="sig sig-object py" id="cellarr_array.config.CellArrConfig.ctx_config">
-<span class="sig-name descname"><span class="pre">ctx_config</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3.11/library/typing.html#typing.Dict" title="(in Python v3.11)"><code class="xref py py-class docutils literal notranslate"><span class="pre">Dict</span></code></a><span class="pre">[</span><a class="reference external" href="https://docs.python.org/3.11/library/stdtypes.html#str" title="(in Python v3.11)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a><span class="pre">,</span> <a class="reference external" href="https://docs.python.org/3.11/library/typing.html#typing.Any" title="(in Python v3.11)"><code class="xref py py-data docutils literal notranslate"><span class="pre">Any</span></code></a><span class="pre">]</span></em><a class="headerlink" href="#cellarr_array.config.CellArrConfig.ctx_config" title="Link to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="py attribute">
-<dt class="sig sig-object py" id="cellarr_array.config.CellArrConfig.offsets_filters">
-<span class="sig-name descname"><span class="pre">offsets_filters</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3.11/library/typing.html#typing.List" title="(in Python v3.11)"><code class="xref py py-class docutils literal notranslate"><span class="pre">List</span></code></a><span class="pre">[</span><code class="xref py py-class docutils literal notranslate"><span class="pre">Filter</span></code><span class="pre">]</span></em><a class="headerlink" href="#cellarr_array.config.CellArrConfig.offsets_filters" title="Link to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="py attribute">
-<dt class="sig sig-object py" id="cellarr_array.config.CellArrConfig.tile_capacity">
-<span class="sig-name descname"><span class="pre">tile_capacity</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3.11/library/functions.html#int" title="(in Python v3.11)"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></a></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">100000</span></em><a class="headerlink" href="#cellarr_array.config.CellArrConfig.tile_capacity" title="Link to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="py attribute">
-<dt class="sig sig-object py" id="cellarr_array.config.CellArrConfig.tile_order">
-<span class="sig-name descname"><span class="pre">tile_order</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3.11/library/stdtypes.html#str" title="(in Python v3.11)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'row-major'</span></em><a class="headerlink" href="#cellarr_array.config.CellArrConfig.tile_order" title="Link to this definition">¶</a></dt>
-<dd></dd></dl>
-
-</dd></dl>
-
-<dl class="py class">
-<dt class="sig sig-object py" id="cellarr_array.config.ConsolidationConfig">
-<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">cellarr_array.config.</span></span><span class="sig-name descname"><span class="pre">ConsolidationConfig</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">steps</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">100000</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">step_min_frags</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">2</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">step_max_frags</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">10</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">buffer_size</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">15000000000</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">total_budget</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">40000000000</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">num_threads</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">4</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">vacuum_after</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/cellarr_array/config.html#ConsolidationConfig"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#cellarr_array.config.ConsolidationConfig" title="Link to this definition">¶</a></dt>
-<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3.11/library/functions.html#object" title="(in Python v3.11)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
-<p>Configuration for array consolidation.</p>
-<dl class="py attribute">
-<dt class="sig sig-object py" id="cellarr_array.config.ConsolidationConfig.__annotations__">
-<span class="sig-name descname"><span class="pre">__annotations__</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">{'buffer_size':</span> <span class="pre">&lt;class</span> <span class="pre">'int'&gt;,</span> <span class="pre">'num_threads':</span> <span class="pre">&lt;class</span> <span class="pre">'int'&gt;,</span> <span class="pre">'step_max_frags':</span> <span class="pre">&lt;class</span> <span class="pre">'int'&gt;,</span> <span class="pre">'step_min_frags':</span> <span class="pre">&lt;class</span> <span class="pre">'int'&gt;,</span> <span class="pre">'steps':</span> <span class="pre">&lt;class</span> <span class="pre">'int'&gt;,</span> <span class="pre">'total_budget':</span> <span class="pre">&lt;class</span> <span class="pre">'int'&gt;,</span> <span class="pre">'vacuum_after':</span> <span class="pre">&lt;class</span> <span class="pre">'bool'&gt;}</span></em><a class="headerlink" href="#cellarr_array.config.ConsolidationConfig.__annotations__" title="Link to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="py attribute">
-<dt class="sig sig-object py" id="cellarr_array.config.ConsolidationConfig.__dataclass_fields__">
-<span class="sig-name descname"><span class="pre">__dataclass_fields__</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">{'buffer_size':</span> <span class="pre">Field(name='buffer_size',type=&lt;class</span> <span class="pre">'int'&gt;,default=15000000000,default_factory=&lt;dataclasses._MISSING_TYPE</span> <span class="pre">object&gt;,init=True,repr=True,hash=None,compare=True,metadata=mappingproxy({}),kw_only=False,_field_type=_FIELD),</span> <span class="pre">'num_threads':</span> <span class="pre">Field(name='num_threads',type=&lt;class</span> <span class="pre">'int'&gt;,default=4,default_factory=&lt;dataclasses._MISSING_TYPE</span> <span class="pre">object&gt;,init=True,repr=True,hash=None,compare=True,metadata=mappingproxy({}),kw_only=False,_field_type=_FIELD),</span> <span class="pre">'step_max_frags':</span> <span class="pre">Field(name='step_max_frags',type=&lt;class</span> <span class="pre">'int'&gt;,default=10,default_factory=&lt;dataclasses._MISSING_TYPE</span> <span class="pre">object&gt;,init=True,repr=True,hash=None,compare=True,metadata=mappingproxy({}),kw_only=False,_field_type=_FIELD),</span> <span class="pre">'step_min_frags':</span> <span class="pre">Field(name='step_min_frags',type=&lt;class</span> <span class="pre">'int'&gt;,default=2,default_factory=&lt;dataclasses._MISSING_TYPE</span> <span class="pre">object&gt;,init=True,repr=True,hash=None,compare=True,metadata=mappingproxy({}),kw_only=False,_field_type=_FIELD),</span> <span class="pre">'steps':</span> <span class="pre">Field(name='steps',type=&lt;class</span> <span class="pre">'int'&gt;,default=100000,default_factory=&lt;dataclasses._MISSING_TYPE</span> <span class="pre">object&gt;,init=True,repr=True,hash=None,compare=True,metadata=mappingproxy({}),kw_only=False,_field_type=_FIELD),</span> <span class="pre">'total_budget':</span> <span class="pre">Field(name='total_budget',type=&lt;class</span> <span class="pre">'int'&gt;,default=40000000000,default_factory=&lt;dataclasses._MISSING_TYPE</span> <span class="pre">object&gt;,init=True,repr=True,hash=None,compare=True,metadata=mappingproxy({}),kw_only=False,_field_type=_FIELD),</span> <span class="pre">'vacuum_after':</span> <span class="pre">Field(name='vacuum_after',type=&lt;class</span> <span class="pre">'bool'&gt;,default=True,default_factory=&lt;dataclasses._MISSING_TYPE</span> <span class="pre">object&gt;,init=True,repr=True,hash=None,compare=True,metadata=mappingproxy({}),kw_only=False,_field_type=_FIELD)}</span></em><a class="headerlink" href="#cellarr_array.config.ConsolidationConfig.__dataclass_fields__" title="Link to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="py attribute">
-<dt class="sig sig-object py" id="cellarr_array.config.ConsolidationConfig.__dataclass_params__">
-<span class="sig-name descname"><span class="pre">__dataclass_params__</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">_DataclassParams(init=True,repr=True,eq=True,order=False,unsafe_hash=False,frozen=False)</span></em><a class="headerlink" href="#cellarr_array.config.ConsolidationConfig.__dataclass_params__" title="Link to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="cellarr_array.config.ConsolidationConfig.__eq__">
-<span class="sig-name descname"><span class="pre">__eq__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">other</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#cellarr_array.config.ConsolidationConfig.__eq__" title="Link to this definition">¶</a></dt>
-<dd><p>Return self==value.</p>
-</dd></dl>
-
-<dl class="py attribute">
-<dt class="sig sig-object py" id="cellarr_array.config.ConsolidationConfig.__hash__">
-<span class="sig-name descname"><span class="pre">__hash__</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">None</span></em><a class="headerlink" href="#cellarr_array.config.ConsolidationConfig.__hash__" title="Link to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="cellarr_array.config.ConsolidationConfig.__init__">
-<span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">steps</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">100000</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">step_min_frags</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">2</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">step_max_frags</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">10</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">buffer_size</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">15000000000</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">total_budget</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">40000000000</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">num_threads</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">4</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">vacuum_after</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#cellarr_array.config.ConsolidationConfig.__init__" title="Link to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="py attribute">
-<dt class="sig sig-object py" id="cellarr_array.config.ConsolidationConfig.__match_args__">
-<span class="sig-name descname"><span class="pre">__match_args__</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">('steps',</span> <span class="pre">'step_min_frags',</span> <span class="pre">'step_max_frags',</span> <span class="pre">'buffer_size',</span> <span class="pre">'total_budget',</span> <span class="pre">'num_threads',</span> <span class="pre">'vacuum_after')</span></em><a class="headerlink" href="#cellarr_array.config.ConsolidationConfig.__match_args__" title="Link to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="cellarr_array.config.ConsolidationConfig.__repr__">
-<span class="sig-name descname"><span class="pre">__repr__</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#cellarr_array.config.ConsolidationConfig.__repr__" title="Link to this definition">¶</a></dt>
-<dd><p>Return repr(self).</p>
-</dd></dl>
-
-<dl class="py attribute">
-<dt class="sig sig-object py" id="cellarr_array.config.ConsolidationConfig.buffer_size">
-<span class="sig-name descname"><span class="pre">buffer_size</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3.11/library/functions.html#int" title="(in Python v3.11)"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></a></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">15000000000</span></em><a class="headerlink" href="#cellarr_array.config.ConsolidationConfig.buffer_size" title="Link to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="py attribute">
-<dt class="sig sig-object py" id="cellarr_array.config.ConsolidationConfig.num_threads">
-<span class="sig-name descname"><span class="pre">num_threads</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3.11/library/functions.html#int" title="(in Python v3.11)"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></a></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">4</span></em><a class="headerlink" href="#cellarr_array.config.ConsolidationConfig.num_threads" title="Link to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="py attribute">
-<dt class="sig sig-object py" id="cellarr_array.config.ConsolidationConfig.step_max_frags">
-<span class="sig-name descname"><span class="pre">step_max_frags</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3.11/library/functions.html#int" title="(in Python v3.11)"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></a></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">10</span></em><a class="headerlink" href="#cellarr_array.config.ConsolidationConfig.step_max_frags" title="Link to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="py attribute">
-<dt class="sig sig-object py" id="cellarr_array.config.ConsolidationConfig.step_min_frags">
-<span class="sig-name descname"><span class="pre">step_min_frags</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3.11/library/functions.html#int" title="(in Python v3.11)"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></a></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">2</span></em><a class="headerlink" href="#cellarr_array.config.ConsolidationConfig.step_min_frags" title="Link to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="py attribute">
-<dt class="sig sig-object py" id="cellarr_array.config.ConsolidationConfig.steps">
-<span class="sig-name descname"><span class="pre">steps</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3.11/library/functions.html#int" title="(in Python v3.11)"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></a></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">100000</span></em><a class="headerlink" href="#cellarr_array.config.ConsolidationConfig.steps" title="Link to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="py attribute">
-<dt class="sig sig-object py" id="cellarr_array.config.ConsolidationConfig.total_budget">
-<span class="sig-name descname"><span class="pre">total_budget</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3.11/library/functions.html#int" title="(in Python v3.11)"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></a></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">40000000000</span></em><a class="headerlink" href="#cellarr_array.config.ConsolidationConfig.total_budget" title="Link to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="py attribute">
-<dt class="sig sig-object py" id="cellarr_array.config.ConsolidationConfig.vacuum_after">
-<span class="sig-name descname"><span class="pre">vacuum_after</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3.11/library/functions.html#bool" title="(in Python v3.11)"><code class="xref py py-class docutils literal notranslate"><span class="pre">bool</span></code></a></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">True</span></em><a class="headerlink" href="#cellarr_array.config.ConsolidationConfig.vacuum_after" title="Link to this definition">¶</a></dt>
-<dd></dd></dl>
-
-</dd></dl>
-
-</section>
-<section id="module-cellarr_array.helpers">
-<span id="cellarr-array-helpers-module"></span><h2>cellarr_array.helpers module<a class="headerlink" href="#module-cellarr_array.helpers" title="Link to this heading">¶</a></h2>
-<dl class="py class">
-<dt class="sig sig-object py" id="cellarr_array.helpers.SliceHelper">
-<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">cellarr_array.helpers.</span></span><span class="sig-name descname"><span class="pre">SliceHelper</span></span><a class="reference internal" href="../_modules/cellarr_array/helpers.html#SliceHelper"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#cellarr_array.helpers.SliceHelper" title="Link to this definition">¶</a></dt>
-<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3.11/library/functions.html#object" title="(in Python v3.11)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
-<p>Helper class for handling array slicing operations.</p>
-<dl class="py method">
-<dt class="sig sig-object py" id="cellarr_array.helpers.SliceHelper.is_contiguous_indices">
-<em class="property"><span class="k"><span class="pre">static</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">is_contiguous_indices</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">indices</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/cellarr_array/helpers.html#SliceHelper.is_contiguous_indices"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#cellarr_array.helpers.SliceHelper.is_contiguous_indices" title="Link to this definition">¶</a></dt>
-<dd><p>Check if indices can be represented as a contiguous slice.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p><span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3.11/library/typing.html#typing.Optional" title="(in Python v3.11)"><code class="xref py py-data docutils literal notranslate"><span class="pre">Optional</span></code></a>[<a class="reference external" href="https://docs.python.org/3.11/library/functions.html#slice" title="(in Python v3.11)"><code class="xref py py-class docutils literal notranslate"><span class="pre">slice</span></code></a>]</span></p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="cellarr_array.helpers.SliceHelper.normalize_index">
-<em class="property"><span class="k"><span class="pre">static</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">normalize_index</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">idx</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dim_size</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/cellarr_array/helpers.html#SliceHelper.normalize_index"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#cellarr_array.helpers.SliceHelper.normalize_index" title="Link to this definition">¶</a></dt>
-<dd><p>Normalize index to handle negative indices and ensure consistency.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p><span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3.11/library/typing.html#typing.Union" title="(in Python v3.11)"><code class="xref py py-data docutils literal notranslate"><span class="pre">Union</span></code></a>[<a class="reference external" href="https://docs.python.org/3.11/library/functions.html#slice" title="(in Python v3.11)"><code class="xref py py-class docutils literal notranslate"><span class="pre">slice</span></code></a>, <a class="reference external" href="https://docs.python.org/3.11/library/typing.html#typing.List" title="(in Python v3.11)"><code class="xref py py-class docutils literal notranslate"><span class="pre">List</span></code></a>[<a class="reference external" href="https://docs.python.org/3.11/library/functions.html#int" title="(in Python v3.11)"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></a>], <a class="reference external" href="https://docs.python.org/3.11/library/types.html#types.EllipsisType" title="(in Python v3.11)"><code class="xref py py-data docutils literal notranslate"><span class="pre">EllipsisType</span></code></a>]</span></p>
-</dd>
-</dl>
-</dd></dl>
-
-</dd></dl>
-
-<dl class="py function">
-<dt class="sig sig-object py" id="cellarr_array.helpers.create_cellarray">
-<span class="sig-prename descclassname"><span class="pre">cellarr_array.helpers.</span></span><span class="sig-name descname"><span class="pre">create_cellarray</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">uri</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">shape</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">attr_dtype</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sparse</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">mode</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">config</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dim_names</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dim_dtypes</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">attr_name</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'data'</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/cellarr_array/helpers.html#create_cellarray"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#cellarr_array.helpers.create_cellarray" title="Link to this definition">¶</a></dt>
-<dd><p>Factory function to create a new TileDB cell array.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>uri</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3.11/library/stdtypes.html#str" title="(in Python v3.11)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a></span>) – Array URI.</p></li>
-<li><p><strong>shape</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3.11/library/typing.html#typing.Optional" title="(in Python v3.11)"><code class="xref py py-data docutils literal notranslate"><span class="pre">Optional</span></code></a>[<a class="reference external" href="https://docs.python.org/3.11/library/typing.html#typing.Tuple" title="(in Python v3.11)"><code class="xref py py-data docutils literal notranslate"><span class="pre">Tuple</span></code></a>[<a class="reference external" href="https://docs.python.org/3.11/library/typing.html#typing.Optional" title="(in Python v3.11)"><code class="xref py py-data docutils literal notranslate"><span class="pre">Optional</span></code></a>[<a class="reference external" href="https://docs.python.org/3.11/library/functions.html#int" title="(in Python v3.11)"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></a>], <a class="reference external" href="https://docs.python.org/3.11/library/constants.html#Ellipsis" title="(in Python v3.11)"><code class="xref py py-data docutils literal notranslate"><span class="pre">...</span></code></a>]]</span>) – Optional array shape. If None or contains None, uses dtype max.</p></li>
-<li><p><strong>attr_dtype</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3.11/library/typing.html#typing.Union" title="(in Python v3.11)"><code class="xref py py-data docutils literal notranslate"><span class="pre">Union</span></code></a>[<a class="reference external" href="https://docs.python.org/3.11/library/stdtypes.html#str" title="(in Python v3.11)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a>, <a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.dtype.html#numpy.dtype" title="(in NumPy v2.2)"><code class="xref py py-class docutils literal notranslate"><span class="pre">dtype</span></code></a>, <a class="reference external" href="https://docs.python.org/3.11/library/constants.html#None" title="(in Python v3.11)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a>]</span>) – Data type for the attribute. Defaults to float32.</p></li>
-<li><p><strong>sparse</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3.11/library/functions.html#bool" title="(in Python v3.11)"><code class="xref py py-class docutils literal notranslate"><span class="pre">bool</span></code></a></span>) – Whether to create a sparse array.</p></li>
-<li><p><strong>mode</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3.11/library/stdtypes.html#str" title="(in Python v3.11)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a></span>) – Array open mode. Defaults to None for automatic switching.</p></li>
-<li><p><strong>config</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3.11/library/typing.html#typing.Optional" title="(in Python v3.11)"><code class="xref py py-data docutils literal notranslate"><span class="pre">Optional</span></code></a>[<a class="reference internal" href="#cellarr_array.config.CellArrConfig" title="cellarr_array.config.CellArrConfig"><code class="xref py py-class docutils literal notranslate"><span class="pre">CellArrConfig</span></code></a>]</span>) – Optional configuration.</p></li>
-<li><p><strong>dim_names</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3.11/library/typing.html#typing.Optional" title="(in Python v3.11)"><code class="xref py py-data docutils literal notranslate"><span class="pre">Optional</span></code></a>[<a class="reference external" href="https://docs.python.org/3.11/library/typing.html#typing.List" title="(in Python v3.11)"><code class="xref py py-class docutils literal notranslate"><span class="pre">List</span></code></a>[<a class="reference external" href="https://docs.python.org/3.11/library/stdtypes.html#str" title="(in Python v3.11)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a>]]</span>) – Optional list of dimension names.</p></li>
-<li><p><strong>dim_dtypes</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3.11/library/typing.html#typing.Optional" title="(in Python v3.11)"><code class="xref py py-data docutils literal notranslate"><span class="pre">Optional</span></code></a>[<a class="reference external" href="https://docs.python.org/3.11/library/typing.html#typing.List" title="(in Python v3.11)"><code class="xref py py-class docutils literal notranslate"><span class="pre">List</span></code></a>[<a class="reference external" href="https://docs.python.org/3.11/library/typing.html#typing.Union" title="(in Python v3.11)"><code class="xref py py-data docutils literal notranslate"><span class="pre">Union</span></code></a>[<a class="reference external" href="https://docs.python.org/3.11/library/stdtypes.html#str" title="(in Python v3.11)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a>, <a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.dtype.html#numpy.dtype" title="(in NumPy v2.2)"><code class="xref py py-class docutils literal notranslate"><span class="pre">dtype</span></code></a>]]]</span>) – Optional list of dimension dtypes.</p></li>
-<li><p><strong>attr_name</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3.11/library/stdtypes.html#str" title="(in Python v3.11)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a></span>) – Name of the data attribute.</p></li>
-<li><p><strong>**kwargs</strong> – Additional arguments for array creation.</p></li>
+</li>
 </ul>
-</dd>
-<dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p>CellArray instance.</p>
-</dd>
-<dt class="field-odd">Raises<span class="colon">:</span></dt>
-<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3.11/library/exceptions.html#ValueError" title="(in Python v3.11)"><strong>ValueError</strong></a> – If dimensions are invalid or inputs are inconsistent.</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py function">
-<dt class="sig sig-object py" id="cellarr_array.helpers.create_group">
-<span class="sig-prename descclassname"><span class="pre">cellarr_array.helpers.</span></span><span class="sig-name descname"><span class="pre">create_group</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">output_path</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">group_name</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/cellarr_array/helpers.html#create_group"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#cellarr_array.helpers.create_group" title="Link to this definition">¶</a></dt>
-<dd></dd></dl>
-
+</li>
+<li class="toctree-l2"><a class="reference internal" href="cellarr_array.core.html#module-cellarr_array.core">Module contents</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="cellarr_array.dataloaders.html">cellarr_array.dataloaders package</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="cellarr_array.dataloaders.html#submodules">Submodules</a></li>
+<li class="toctree-l2"><a class="reference internal" href="cellarr_array.dataloaders.html#module-cellarr_array.dataloaders.denseloader">cellarr_array.dataloaders.denseloader module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="cellarr_array.dataloaders.html#cellarr_array.dataloaders.denseloader.DenseArrayDataset"><code class="docutils literal notranslate"><span class="pre">DenseArrayDataset</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="cellarr_array.dataloaders.html#cellarr_array.dataloaders.denseloader.DenseArrayDataset.__getitem__"><code class="docutils literal notranslate"><span class="pre">DenseArrayDataset.__getitem__()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="cellarr_array.dataloaders.html#cellarr_array.dataloaders.denseloader.DenseArrayDataset.__init__"><code class="docutils literal notranslate"><span class="pre">DenseArrayDataset.__init__()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="cellarr_array.dataloaders.html#cellarr_array.dataloaders.denseloader.DenseArrayDataset.__len__"><code class="docutils literal notranslate"><span class="pre">DenseArrayDataset.__len__()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="cellarr_array.dataloaders.html#cellarr_array.dataloaders.denseloader.DenseArrayDataset.__parameters__"><code class="docutils literal notranslate"><span class="pre">DenseArrayDataset.__parameters__</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="cellarr_array.dataloaders.html#cellarr_array.dataloaders.denseloader.construct_dense_array_dataloader"><code class="docutils literal notranslate"><span class="pre">construct_dense_array_dataloader()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="cellarr_array.dataloaders.html#module-cellarr_array.dataloaders.iterabledataloader">cellarr_array.dataloaders.iterabledataloader module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="cellarr_array.dataloaders.html#cellarr_array.dataloaders.iterabledataloader.CellArrayIterableDataset"><code class="docutils literal notranslate"><span class="pre">CellArrayIterableDataset</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="cellarr_array.dataloaders.html#cellarr_array.dataloaders.iterabledataloader.CellArrayIterableDataset.__abstractmethods__"><code class="docutils literal notranslate"><span class="pre">CellArrayIterableDataset.__abstractmethods__</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="cellarr_array.dataloaders.html#cellarr_array.dataloaders.iterabledataloader.CellArrayIterableDataset.__annotations__"><code class="docutils literal notranslate"><span class="pre">CellArrayIterableDataset.__annotations__</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="cellarr_array.dataloaders.html#cellarr_array.dataloaders.iterabledataloader.CellArrayIterableDataset.__init__"><code class="docutils literal notranslate"><span class="pre">CellArrayIterableDataset.__init__()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="cellarr_array.dataloaders.html#cellarr_array.dataloaders.iterabledataloader.CellArrayIterableDataset.__iter__"><code class="docutils literal notranslate"><span class="pre">CellArrayIterableDataset.__iter__()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="cellarr_array.dataloaders.html#cellarr_array.dataloaders.iterabledataloader.CellArrayIterableDataset.__parameters__"><code class="docutils literal notranslate"><span class="pre">CellArrayIterableDataset.__parameters__</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="cellarr_array.dataloaders.html#cellarr_array.dataloaders.iterabledataloader.construct_iterable_dataloader"><code class="docutils literal notranslate"><span class="pre">construct_iterable_dataloader()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="cellarr_array.dataloaders.html#cellarr_array.dataloaders.iterabledataloader.dense_batch_collate_fn"><code class="docutils literal notranslate"><span class="pre">dense_batch_collate_fn()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="cellarr_array.dataloaders.html#cellarr_array.dataloaders.iterabledataloader.sparse_batch_collate_fn"><code class="docutils literal notranslate"><span class="pre">sparse_batch_collate_fn()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="cellarr_array.dataloaders.html#module-cellarr_array.dataloaders.sparseloader">cellarr_array.dataloaders.sparseloader module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="cellarr_array.dataloaders.html#cellarr_array.dataloaders.sparseloader.SparseArrayDataset"><code class="docutils literal notranslate"><span class="pre">SparseArrayDataset</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="cellarr_array.dataloaders.html#cellarr_array.dataloaders.sparseloader.SparseArrayDataset.__annotations__"><code class="docutils literal notranslate"><span class="pre">SparseArrayDataset.__annotations__</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="cellarr_array.dataloaders.html#cellarr_array.dataloaders.sparseloader.SparseArrayDataset.__getitem__"><code class="docutils literal notranslate"><span class="pre">SparseArrayDataset.__getitem__()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="cellarr_array.dataloaders.html#cellarr_array.dataloaders.sparseloader.SparseArrayDataset.__init__"><code class="docutils literal notranslate"><span class="pre">SparseArrayDataset.__init__()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="cellarr_array.dataloaders.html#cellarr_array.dataloaders.sparseloader.SparseArrayDataset.__len__"><code class="docutils literal notranslate"><span class="pre">SparseArrayDataset.__len__()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="cellarr_array.dataloaders.html#cellarr_array.dataloaders.sparseloader.SparseArrayDataset.__parameters__"><code class="docutils literal notranslate"><span class="pre">SparseArrayDataset.__parameters__</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="cellarr_array.dataloaders.html#cellarr_array.dataloaders.sparseloader.construct_sparse_array_dataloader"><code class="docutils literal notranslate"><span class="pre">construct_sparse_array_dataloader()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="cellarr_array.dataloaders.html#cellarr_array.dataloaders.sparseloader.sparse_coo_collate_fn"><code class="docutils literal notranslate"><span class="pre">sparse_coo_collate_fn()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="cellarr_array.dataloaders.html#module-cellarr_array.dataloaders.utils">cellarr_array.dataloaders.utils module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="cellarr_array.dataloaders.html#cellarr_array.dataloaders.utils.seed_worker"><code class="docutils literal notranslate"><span class="pre">seed_worker()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="cellarr_array.dataloaders.html#module-cellarr_array.dataloaders">Module contents</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="cellarr_array.utils.html">cellarr_array.utils package</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="cellarr_array.utils.html#submodules">Submodules</a></li>
+<li class="toctree-l2"><a class="reference internal" href="cellarr_array.utils.html#module-cellarr_array.utils.config">cellarr_array.utils.config module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="cellarr_array.utils.html#cellarr_array.utils.config.CellArrConfig"><code class="docutils literal notranslate"><span class="pre">CellArrConfig</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="cellarr_array.utils.html#cellarr_array.utils.config.CellArrConfig.__annotations__"><code class="docutils literal notranslate"><span class="pre">CellArrConfig.__annotations__</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="cellarr_array.utils.html#cellarr_array.utils.config.CellArrConfig.__dataclass_fields__"><code class="docutils literal notranslate"><span class="pre">CellArrConfig.__dataclass_fields__</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="cellarr_array.utils.html#cellarr_array.utils.config.CellArrConfig.__dataclass_params__"><code class="docutils literal notranslate"><span class="pre">CellArrConfig.__dataclass_params__</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="cellarr_array.utils.html#cellarr_array.utils.config.CellArrConfig.__eq__"><code class="docutils literal notranslate"><span class="pre">CellArrConfig.__eq__()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="cellarr_array.utils.html#cellarr_array.utils.config.CellArrConfig.__hash__"><code class="docutils literal notranslate"><span class="pre">CellArrConfig.__hash__</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="cellarr_array.utils.html#cellarr_array.utils.config.CellArrConfig.__init__"><code class="docutils literal notranslate"><span class="pre">CellArrConfig.__init__()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="cellarr_array.utils.html#cellarr_array.utils.config.CellArrConfig.__match_args__"><code class="docutils literal notranslate"><span class="pre">CellArrConfig.__match_args__</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="cellarr_array.utils.html#cellarr_array.utils.config.CellArrConfig.__post_init__"><code class="docutils literal notranslate"><span class="pre">CellArrConfig.__post_init__()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="cellarr_array.utils.html#cellarr_array.utils.config.CellArrConfig.__repr__"><code class="docutils literal notranslate"><span class="pre">CellArrConfig.__repr__()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="cellarr_array.utils.html#cellarr_array.utils.config.CellArrConfig.attrs_filters"><code class="docutils literal notranslate"><span class="pre">CellArrConfig.attrs_filters</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="cellarr_array.utils.html#cellarr_array.utils.config.CellArrConfig.cell_order"><code class="docutils literal notranslate"><span class="pre">CellArrConfig.cell_order</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="cellarr_array.utils.html#cellarr_array.utils.config.CellArrConfig.coords_filters"><code class="docutils literal notranslate"><span class="pre">CellArrConfig.coords_filters</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="cellarr_array.utils.html#cellarr_array.utils.config.CellArrConfig.create_filter"><code class="docutils literal notranslate"><span class="pre">CellArrConfig.create_filter()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="cellarr_array.utils.html#cellarr_array.utils.config.CellArrConfig.ctx_config"><code class="docutils literal notranslate"><span class="pre">CellArrConfig.ctx_config</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="cellarr_array.utils.html#cellarr_array.utils.config.CellArrConfig.offsets_filters"><code class="docutils literal notranslate"><span class="pre">CellArrConfig.offsets_filters</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="cellarr_array.utils.html#cellarr_array.utils.config.CellArrConfig.tile_capacity"><code class="docutils literal notranslate"><span class="pre">CellArrConfig.tile_capacity</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="cellarr_array.utils.html#cellarr_array.utils.config.CellArrConfig.tile_order"><code class="docutils literal notranslate"><span class="pre">CellArrConfig.tile_order</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="cellarr_array.utils.html#cellarr_array.utils.config.ConsolidationConfig"><code class="docutils literal notranslate"><span class="pre">ConsolidationConfig</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="cellarr_array.utils.html#cellarr_array.utils.config.ConsolidationConfig.__annotations__"><code class="docutils literal notranslate"><span class="pre">ConsolidationConfig.__annotations__</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="cellarr_array.utils.html#cellarr_array.utils.config.ConsolidationConfig.__dataclass_fields__"><code class="docutils literal notranslate"><span class="pre">ConsolidationConfig.__dataclass_fields__</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="cellarr_array.utils.html#cellarr_array.utils.config.ConsolidationConfig.__dataclass_params__"><code class="docutils literal notranslate"><span class="pre">ConsolidationConfig.__dataclass_params__</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="cellarr_array.utils.html#cellarr_array.utils.config.ConsolidationConfig.__eq__"><code class="docutils literal notranslate"><span class="pre">ConsolidationConfig.__eq__()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="cellarr_array.utils.html#cellarr_array.utils.config.ConsolidationConfig.__hash__"><code class="docutils literal notranslate"><span class="pre">ConsolidationConfig.__hash__</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="cellarr_array.utils.html#cellarr_array.utils.config.ConsolidationConfig.__init__"><code class="docutils literal notranslate"><span class="pre">ConsolidationConfig.__init__()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="cellarr_array.utils.html#cellarr_array.utils.config.ConsolidationConfig.__match_args__"><code class="docutils literal notranslate"><span class="pre">ConsolidationConfig.__match_args__</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="cellarr_array.utils.html#cellarr_array.utils.config.ConsolidationConfig.__repr__"><code class="docutils literal notranslate"><span class="pre">ConsolidationConfig.__repr__()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="cellarr_array.utils.html#cellarr_array.utils.config.ConsolidationConfig.buffer_size"><code class="docutils literal notranslate"><span class="pre">ConsolidationConfig.buffer_size</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="cellarr_array.utils.html#cellarr_array.utils.config.ConsolidationConfig.num_threads"><code class="docutils literal notranslate"><span class="pre">ConsolidationConfig.num_threads</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="cellarr_array.utils.html#cellarr_array.utils.config.ConsolidationConfig.step_max_frags"><code class="docutils literal notranslate"><span class="pre">ConsolidationConfig.step_max_frags</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="cellarr_array.utils.html#cellarr_array.utils.config.ConsolidationConfig.step_min_frags"><code class="docutils literal notranslate"><span class="pre">ConsolidationConfig.step_min_frags</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="cellarr_array.utils.html#cellarr_array.utils.config.ConsolidationConfig.steps"><code class="docutils literal notranslate"><span class="pre">ConsolidationConfig.steps</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="cellarr_array.utils.html#cellarr_array.utils.config.ConsolidationConfig.total_budget"><code class="docutils literal notranslate"><span class="pre">ConsolidationConfig.total_budget</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="cellarr_array.utils.html#cellarr_array.utils.config.ConsolidationConfig.vacuum_after"><code class="docutils literal notranslate"><span class="pre">ConsolidationConfig.vacuum_after</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="cellarr_array.utils.html#module-cellarr_array.utils.mock">cellarr_array.utils.mock module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="cellarr_array.utils.html#cellarr_array.utils.mock.generate_tiledb_dense_array"><code class="docutils literal notranslate"><span class="pre">generate_tiledb_dense_array()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="cellarr_array.utils.html#cellarr_array.utils.mock.generate_tiledb_sparse_array"><code class="docutils literal notranslate"><span class="pre">generate_tiledb_sparse_array()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="cellarr_array.utils.html#module-cellarr_array.utils">Module contents</a></li>
+</ul>
+</li>
+</ul>
+</div>
 </section>
 <section id="module-cellarr_array">
 <span id="module-contents"></span><h2>Module contents<a class="headerlink" href="#module-cellarr_array" title="Link to this heading">¶</a></h2>
@@ -789,7 +424,15 @@ Defaults to True.</p></li>
       <footer>
         
         <div class="related-pages">
-          
+          <a class="next-page" href="cellarr_array.core.html">
+              <div class="page-info">
+                <div class="context">
+                  <span>Next</span>
+                </div>
+                <div class="title">cellarr_array.core package</div>
+              </div>
+              <svg class="furo-related-icon"><use href="#svg-arrow-right"></use></svg>
+            </a>
           <a class="prev-page" href="modules.html">
               <svg class="furo-related-icon"><use href="#svg-arrow-right"></use></svg>
               <div class="page-info">
@@ -832,96 +475,7 @@ Defaults to True.</p></li>
           <div class="toc-tree">
             <ul>
 <li><a class="reference internal" href="#">cellarr_array package</a><ul>
-<li><a class="reference internal" href="#submodules">Submodules</a></li>
-<li><a class="reference internal" href="#module-cellarr_array.cellarray_base">cellarr_array.cellarray_base module</a><ul>
-<li><a class="reference internal" href="#cellarr_array.cellarray_base.CellArray"><code class="docutils literal notranslate"><span class="pre">CellArray</span></code></a><ul>
-<li><a class="reference internal" href="#cellarr_array.cellarray_base.CellArray.__abstractmethods__"><code class="docutils literal notranslate"><span class="pre">CellArray.__abstractmethods__</span></code></a></li>
-<li><a class="reference internal" href="#cellarr_array.cellarray_base.CellArray.__getitem__"><code class="docutils literal notranslate"><span class="pre">CellArray.__getitem__()</span></code></a></li>
-<li><a class="reference internal" href="#cellarr_array.cellarray_base.CellArray.__init__"><code class="docutils literal notranslate"><span class="pre">CellArray.__init__()</span></code></a></li>
-<li><a class="reference internal" href="#cellarr_array.cellarray_base.CellArray.attr_names"><code class="docutils literal notranslate"><span class="pre">CellArray.attr_names</span></code></a></li>
-<li><a class="reference internal" href="#cellarr_array.cellarray_base.CellArray.consolidate"><code class="docutils literal notranslate"><span class="pre">CellArray.consolidate()</span></code></a></li>
-<li><a class="reference internal" href="#cellarr_array.cellarray_base.CellArray.dim_names"><code class="docutils literal notranslate"><span class="pre">CellArray.dim_names</span></code></a></li>
-<li><a class="reference internal" href="#cellarr_array.cellarray_base.CellArray.mode"><code class="docutils literal notranslate"><span class="pre">CellArray.mode</span></code></a></li>
-<li><a class="reference internal" href="#cellarr_array.cellarray_base.CellArray.ndim"><code class="docutils literal notranslate"><span class="pre">CellArray.ndim</span></code></a></li>
-<li><a class="reference internal" href="#cellarr_array.cellarray_base.CellArray.nonempty_domain"><code class="docutils literal notranslate"><span class="pre">CellArray.nonempty_domain</span></code></a></li>
-<li><a class="reference internal" href="#cellarr_array.cellarray_base.CellArray.open_array"><code class="docutils literal notranslate"><span class="pre">CellArray.open_array()</span></code></a></li>
-<li><a class="reference internal" href="#cellarr_array.cellarray_base.CellArray.shape"><code class="docutils literal notranslate"><span class="pre">CellArray.shape</span></code></a></li>
-<li><a class="reference internal" href="#cellarr_array.cellarray_base.CellArray.vacuum"><code class="docutils literal notranslate"><span class="pre">CellArray.vacuum()</span></code></a></li>
-<li><a class="reference internal" href="#cellarr_array.cellarray_base.CellArray.write_batch"><code class="docutils literal notranslate"><span class="pre">CellArray.write_batch()</span></code></a></li>
-</ul>
-</li>
-</ul>
-</li>
-<li><a class="reference internal" href="#module-cellarr_array.cellarray_dense">cellarr_array.cellarray_dense module</a><ul>
-<li><a class="reference internal" href="#cellarr_array.cellarray_dense.DenseCellArray"><code class="docutils literal notranslate"><span class="pre">DenseCellArray</span></code></a><ul>
-<li><a class="reference internal" href="#cellarr_array.cellarray_dense.DenseCellArray.__abstractmethods__"><code class="docutils literal notranslate"><span class="pre">DenseCellArray.__abstractmethods__</span></code></a></li>
-<li><a class="reference internal" href="#cellarr_array.cellarray_dense.DenseCellArray.__annotations__"><code class="docutils literal notranslate"><span class="pre">DenseCellArray.__annotations__</span></code></a></li>
-<li><a class="reference internal" href="#cellarr_array.cellarray_dense.DenseCellArray.write_batch"><code class="docutils literal notranslate"><span class="pre">DenseCellArray.write_batch()</span></code></a></li>
-</ul>
-</li>
-</ul>
-</li>
-<li><a class="reference internal" href="#module-cellarr_array.cellarray_sparse">cellarr_array.cellarray_sparse module</a><ul>
-<li><a class="reference internal" href="#cellarr_array.cellarray_sparse.SparseCellArray"><code class="docutils literal notranslate"><span class="pre">SparseCellArray</span></code></a><ul>
-<li><a class="reference internal" href="#cellarr_array.cellarray_sparse.SparseCellArray.__abstractmethods__"><code class="docutils literal notranslate"><span class="pre">SparseCellArray.__abstractmethods__</span></code></a></li>
-<li><a class="reference internal" href="#cellarr_array.cellarray_sparse.SparseCellArray.__annotations__"><code class="docutils literal notranslate"><span class="pre">SparseCellArray.__annotations__</span></code></a></li>
-<li><a class="reference internal" href="#cellarr_array.cellarray_sparse.SparseCellArray.__init__"><code class="docutils literal notranslate"><span class="pre">SparseCellArray.__init__()</span></code></a></li>
-<li><a class="reference internal" href="#cellarr_array.cellarray_sparse.SparseCellArray.write_batch"><code class="docutils literal notranslate"><span class="pre">SparseCellArray.write_batch()</span></code></a></li>
-</ul>
-</li>
-</ul>
-</li>
-<li><a class="reference internal" href="#module-cellarr_array.config">cellarr_array.config module</a><ul>
-<li><a class="reference internal" href="#cellarr_array.config.CellArrConfig"><code class="docutils literal notranslate"><span class="pre">CellArrConfig</span></code></a><ul>
-<li><a class="reference internal" href="#cellarr_array.config.CellArrConfig.__annotations__"><code class="docutils literal notranslate"><span class="pre">CellArrConfig.__annotations__</span></code></a></li>
-<li><a class="reference internal" href="#cellarr_array.config.CellArrConfig.__dataclass_fields__"><code class="docutils literal notranslate"><span class="pre">CellArrConfig.__dataclass_fields__</span></code></a></li>
-<li><a class="reference internal" href="#cellarr_array.config.CellArrConfig.__dataclass_params__"><code class="docutils literal notranslate"><span class="pre">CellArrConfig.__dataclass_params__</span></code></a></li>
-<li><a class="reference internal" href="#cellarr_array.config.CellArrConfig.__eq__"><code class="docutils literal notranslate"><span class="pre">CellArrConfig.__eq__()</span></code></a></li>
-<li><a class="reference internal" href="#cellarr_array.config.CellArrConfig.__hash__"><code class="docutils literal notranslate"><span class="pre">CellArrConfig.__hash__</span></code></a></li>
-<li><a class="reference internal" href="#cellarr_array.config.CellArrConfig.__init__"><code class="docutils literal notranslate"><span class="pre">CellArrConfig.__init__()</span></code></a></li>
-<li><a class="reference internal" href="#cellarr_array.config.CellArrConfig.__match_args__"><code class="docutils literal notranslate"><span class="pre">CellArrConfig.__match_args__</span></code></a></li>
-<li><a class="reference internal" href="#cellarr_array.config.CellArrConfig.__post_init__"><code class="docutils literal notranslate"><span class="pre">CellArrConfig.__post_init__()</span></code></a></li>
-<li><a class="reference internal" href="#cellarr_array.config.CellArrConfig.__repr__"><code class="docutils literal notranslate"><span class="pre">CellArrConfig.__repr__()</span></code></a></li>
-<li><a class="reference internal" href="#cellarr_array.config.CellArrConfig.attrs_filters"><code class="docutils literal notranslate"><span class="pre">CellArrConfig.attrs_filters</span></code></a></li>
-<li><a class="reference internal" href="#cellarr_array.config.CellArrConfig.cell_order"><code class="docutils literal notranslate"><span class="pre">CellArrConfig.cell_order</span></code></a></li>
-<li><a class="reference internal" href="#cellarr_array.config.CellArrConfig.coords_filters"><code class="docutils literal notranslate"><span class="pre">CellArrConfig.coords_filters</span></code></a></li>
-<li><a class="reference internal" href="#cellarr_array.config.CellArrConfig.create_filter"><code class="docutils literal notranslate"><span class="pre">CellArrConfig.create_filter()</span></code></a></li>
-<li><a class="reference internal" href="#cellarr_array.config.CellArrConfig.ctx_config"><code class="docutils literal notranslate"><span class="pre">CellArrConfig.ctx_config</span></code></a></li>
-<li><a class="reference internal" href="#cellarr_array.config.CellArrConfig.offsets_filters"><code class="docutils literal notranslate"><span class="pre">CellArrConfig.offsets_filters</span></code></a></li>
-<li><a class="reference internal" href="#cellarr_array.config.CellArrConfig.tile_capacity"><code class="docutils literal notranslate"><span class="pre">CellArrConfig.tile_capacity</span></code></a></li>
-<li><a class="reference internal" href="#cellarr_array.config.CellArrConfig.tile_order"><code class="docutils literal notranslate"><span class="pre">CellArrConfig.tile_order</span></code></a></li>
-</ul>
-</li>
-<li><a class="reference internal" href="#cellarr_array.config.ConsolidationConfig"><code class="docutils literal notranslate"><span class="pre">ConsolidationConfig</span></code></a><ul>
-<li><a class="reference internal" href="#cellarr_array.config.ConsolidationConfig.__annotations__"><code class="docutils literal notranslate"><span class="pre">ConsolidationConfig.__annotations__</span></code></a></li>
-<li><a class="reference internal" href="#cellarr_array.config.ConsolidationConfig.__dataclass_fields__"><code class="docutils literal notranslate"><span class="pre">ConsolidationConfig.__dataclass_fields__</span></code></a></li>
-<li><a class="reference internal" href="#cellarr_array.config.ConsolidationConfig.__dataclass_params__"><code class="docutils literal notranslate"><span class="pre">ConsolidationConfig.__dataclass_params__</span></code></a></li>
-<li><a class="reference internal" href="#cellarr_array.config.ConsolidationConfig.__eq__"><code class="docutils literal notranslate"><span class="pre">ConsolidationConfig.__eq__()</span></code></a></li>
-<li><a class="reference internal" href="#cellarr_array.config.ConsolidationConfig.__hash__"><code class="docutils literal notranslate"><span class="pre">ConsolidationConfig.__hash__</span></code></a></li>
-<li><a class="reference internal" href="#cellarr_array.config.ConsolidationConfig.__init__"><code class="docutils literal notranslate"><span class="pre">ConsolidationConfig.__init__()</span></code></a></li>
-<li><a class="reference internal" href="#cellarr_array.config.ConsolidationConfig.__match_args__"><code class="docutils literal notranslate"><span class="pre">ConsolidationConfig.__match_args__</span></code></a></li>
-<li><a class="reference internal" href="#cellarr_array.config.ConsolidationConfig.__repr__"><code class="docutils literal notranslate"><span class="pre">ConsolidationConfig.__repr__()</span></code></a></li>
-<li><a class="reference internal" href="#cellarr_array.config.ConsolidationConfig.buffer_size"><code class="docutils literal notranslate"><span class="pre">ConsolidationConfig.buffer_size</span></code></a></li>
-<li><a class="reference internal" href="#cellarr_array.config.ConsolidationConfig.num_threads"><code class="docutils literal notranslate"><span class="pre">ConsolidationConfig.num_threads</span></code></a></li>
-<li><a class="reference internal" href="#cellarr_array.config.ConsolidationConfig.step_max_frags"><code class="docutils literal notranslate"><span class="pre">ConsolidationConfig.step_max_frags</span></code></a></li>
-<li><a class="reference internal" href="#cellarr_array.config.ConsolidationConfig.step_min_frags"><code class="docutils literal notranslate"><span class="pre">ConsolidationConfig.step_min_frags</span></code></a></li>
-<li><a class="reference internal" href="#cellarr_array.config.ConsolidationConfig.steps"><code class="docutils literal notranslate"><span class="pre">ConsolidationConfig.steps</span></code></a></li>
-<li><a class="reference internal" href="#cellarr_array.config.ConsolidationConfig.total_budget"><code class="docutils literal notranslate"><span class="pre">ConsolidationConfig.total_budget</span></code></a></li>
-<li><a class="reference internal" href="#cellarr_array.config.ConsolidationConfig.vacuum_after"><code class="docutils literal notranslate"><span class="pre">ConsolidationConfig.vacuum_after</span></code></a></li>
-</ul>
-</li>
-</ul>
-</li>
-<li><a class="reference internal" href="#module-cellarr_array.helpers">cellarr_array.helpers module</a><ul>
-<li><a class="reference internal" href="#cellarr_array.helpers.SliceHelper"><code class="docutils literal notranslate"><span class="pre">SliceHelper</span></code></a><ul>
-<li><a class="reference internal" href="#cellarr_array.helpers.SliceHelper.is_contiguous_indices"><code class="docutils literal notranslate"><span class="pre">SliceHelper.is_contiguous_indices()</span></code></a></li>
-<li><a class="reference internal" href="#cellarr_array.helpers.SliceHelper.normalize_index"><code class="docutils literal notranslate"><span class="pre">SliceHelper.normalize_index()</span></code></a></li>
-</ul>
-</li>
-<li><a class="reference internal" href="#cellarr_array.helpers.create_cellarray"><code class="docutils literal notranslate"><span class="pre">create_cellarray()</span></code></a></li>
-<li><a class="reference internal" href="#cellarr_array.helpers.create_group"><code class="docutils literal notranslate"><span class="pre">create_group()</span></code></a></li>
-</ul>
-</li>
+<li><a class="reference internal" href="#subpackages">Subpackages</a></li>
 <li><a class="reference internal" href="#module-cellarr_array">Module contents</a></li>
 </ul>
 </li>
@@ -934,7 +488,7 @@ Defaults to True.</p></li>
       
     </aside>
   </div>
-</div><script src="../_static/documentation_options.js?v=01f34227"></script>
+</div><script src="../_static/documentation_options.js?v=938c9ccc"></script>
     <script src="../_static/doctools.js?v=9bcbadda"></script>
     <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../_static/scripts/furo.js?v=5fa4622c"></script>

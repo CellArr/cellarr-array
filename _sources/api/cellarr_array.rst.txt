@@ -1,48 +1,15 @@
 cellarr\_array package
 ======================
 
-Submodules
-----------
+Subpackages
+-----------
 
-cellarr\_array.cellarray\_base module
--------------------------------------
+.. toctree::
+   :maxdepth: 4
 
-.. automodule:: cellarr_array.cellarray_base
-   :members:
-   :show-inheritance:
-   :undoc-members:
-
-cellarr\_array.cellarray\_dense module
---------------------------------------
-
-.. automodule:: cellarr_array.cellarray_dense
-   :members:
-   :show-inheritance:
-   :undoc-members:
-
-cellarr\_array.cellarray\_sparse module
----------------------------------------
-
-.. automodule:: cellarr_array.cellarray_sparse
-   :members:
-   :show-inheritance:
-   :undoc-members:
-
-cellarr\_array.config module
-----------------------------
-
-.. automodule:: cellarr_array.config
-   :members:
-   :show-inheritance:
-   :undoc-members:
-
-cellarr\_array.helpers module
------------------------------
-
-.. automodule:: cellarr_array.helpers
-   :members:
-   :show-inheritance:
-   :undoc-members:
+   cellarr_array.core
+   cellarr_array.dataloaders
+   cellarr_array.utils
 
 Module contents
 ---------------

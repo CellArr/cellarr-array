@@ -1,0 +1,45 @@
+cellarr\_array.core package
+===========================
+
+Submodules
+----------
+
+cellarr\_array.core.base module
+-------------------------------
+
+.. automodule:: cellarr_array.core.base
+   :members:
+   :show-inheritance:
+   :undoc-members:
+
+cellarr\_array.core.dense module
+--------------------------------
+
+.. automodule:: cellarr_array.core.dense
+   :members:
+   :show-inheritance:
+   :undoc-members:
+
+cellarr\_array.core.helpers module
+----------------------------------
+
+.. automodule:: cellarr_array.core.helpers
+   :members:
+   :show-inheritance:
+   :undoc-members:
+
+cellarr\_array.core.sparse module
+---------------------------------
+
+.. automodule:: cellarr_array.core.sparse
+   :members:
+   :show-inheritance:
+   :undoc-members:
+
+Module contents
+---------------
+
+.. automodule:: cellarr_array.core
+   :members:
+   :show-inheritance:
+   :undoc-members:
