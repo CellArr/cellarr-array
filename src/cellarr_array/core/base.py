@@ -399,7 +399,7 @@ class CellArray(ABC):
         """Destructor to ensure cleanup."""
         try:
             self.close()
-        except:
+        except Exception as e:
             pass
 
     def __repr__(self) -> str:
