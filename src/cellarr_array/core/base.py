@@ -185,7 +185,16 @@ class CellArray(ABC):
     def shape(self) -> Tuple[int, ...]:
         if self._shape is None:
             with self.open_array(mode="r") as A:
-                self._shape = tuple(int(dim.domain[1] - dim.domain[0] + 1) for dim in A.schema.domain)
+                shape_list = []
+                for dim in A.schema.domain:
+                    try:
+                        # This will fail for string dimensions
+                        shape_list.append(dim.shape[0])
+                    except TypeError:
+                        # For string dimensions, the shape is not well-defined.
+                        # We use a large number as a placeholder for slicing purposes.
+                        shape_list.append(2**63 - 1)
+                self._shape = tuple(shape_list)
         return self._shape
 
     @property

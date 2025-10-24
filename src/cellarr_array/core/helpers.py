@@ -103,19 +103,27 @@ def create_cellarray(
     if not (len(shape) == len(dim_dtypes) == len(dim_names)):
         raise ValueError("Lengths of 'shape', 'dim_dtypes', and 'dim_names' must match.")
 
-    dom = tiledb.Domain(
-        *[
+    dims = []
+    for name, s, dt in zip(dim_names, shape, dim_dtypes):
+        if np.issubdtype(dt, np.integer):
+            domain = (0, 0 if s == 0 else s - 1)
+            tile = min(1 if s == 0 else s // 2, config.tile_capacity // 2)
+            dim_dtype = dt
+        else:  # Assumes string or object dtype
+            domain = (None, None)
+            tile = None
+            dim_dtype = "ascii"
+
+        dims.append(
             tiledb.Dim(
                 name=name,
-                # supporting empty dimensions
-                domain=(0, 0 if s == 0 else s - 1),
-                tile=min(1 if s == 0 else s // 2, config.tile_capacity // 2),
-                dtype=dt,
+                domain=domain,
+                tile=tile,
+                dtype=dim_dtype,
             )
-            for name, s, dt in zip(dim_names, shape, dim_dtypes)
-        ],
-        ctx=tiledb_ctx,
-    )
+        )
+
+    dom = tiledb.Domain(*dims, ctx=tiledb_ctx)
     attr_obj = tiledb.Attr(
         name=attr_name,
         dtype=attr_dtype,
