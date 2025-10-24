@@ -351,3 +351,16 @@ class CellArray(ABC):
                 Additional arguments for write operation.
         """
         pass
+
+    def get_unique_dim_values(self, dim_name: str) -> np.ndarray:
+        """Get unique values for a dimension.
+
+        Args:
+            dim_name:
+                The name of the dimension.
+
+        Returns:
+            An array of unique dimension values.
+        """
+        with self.open_array(mode="r") as A:
+            return A.unique_dim_values(dim_name)
