@@ -275,7 +275,14 @@ class CellArray(ABC):
         Args:
             key:
                 Slice or list of indices for each dimension in the array.
+
+                Alternatively, may be string to specify query conditions.
         """
+        # This is a query condition
+        if isinstance(key, str):
+            with self.open_array(mode="r") as array:
+                return array.query(cond=key)[:]
+
         if not isinstance(key, tuple):
             key = (key,)
 
