@@ -16,4 +16,5 @@ finally:
     del version, PackageNotFoundError
 
 from .core import DenseCellArray, SparseCellArray
-from .utils import CellArrConfig, ConsolidationConfig, create_cellarray
+from .core.helpers import create_cellarray
+from .utils import CellArrConfig, ConsolidationConfig

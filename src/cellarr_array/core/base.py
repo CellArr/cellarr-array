@@ -359,12 +359,13 @@ class CellArray(ABC):
         """
         pass
 
-    def get_unique_dim_values(self, dim_name: str) -> np.ndarray:
+    def get_unique_dim_values(self, dim_name: Optional[str] = None) -> np.ndarray:
         """Get unique values for a dimension.
 
         Args:
             dim_name:
-                The name of the dimension.
+                The name of the dimension. If None, unique values for all
+                dimensions are returned.
 
         Returns:
             An array of unique dimension values.
