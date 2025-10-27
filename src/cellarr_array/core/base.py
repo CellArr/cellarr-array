@@ -69,6 +69,7 @@ class CellArray(ABC):
         self._array_passed_in = False
         self._opened_array_external = None
         self._ctx = None
+        self._dim_dtypes = None
 
         if tiledb_array_obj is not None:
             if not isinstance(tiledb_array_obj, tiledb.Array):
@@ -218,6 +219,14 @@ class CellArray(ABC):
                 # self._ndim = len(self.shape)
         return self._ndim
 
+    @property
+    def dim_dtypes(self) -> List[np.dtype]:
+        """Get dimension dtypes of the array."""
+        if self._dim_dtypes is None:
+            with self.open_array(mode="r") as A:
+                self._dim_dtypes = [dim.dtype for dim in A.schema.domain]
+        return self._dim_dtypes
+
     @contextmanager
     def open_array(self, mode: Optional[str] = None):
         """Context manager for array operations.
@@ -292,8 +301,13 @@ class CellArray(ABC):
         if len(key) > self.ndim:
             raise IndexError(f"Invalid number of dimensions: got {len(key)}, expected {self.ndim}")
 
+        if len(key) < self.ndim:
+            key = key + (slice(None),) * (self.ndim - len(key))
+
         # Normalize all indices
-        normalized_key = tuple(SliceHelper.normalize_index(idx, self.shape[i]) for i, idx in enumerate(key))
+        normalized_key = tuple(
+            SliceHelper.normalize_index(idx, self.shape[i], self.dim_dtypes[i]) for i, idx in enumerate(key)
+        )
 
         num_ellipsis = sum(isinstance(i, EllipsisType) for i in normalized_key)
         if num_ellipsis > 1:
