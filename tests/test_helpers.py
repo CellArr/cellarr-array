@@ -30,20 +30,20 @@ def test_slice_normalize_index():
     dim_size = 10
 
     # Test positive slice
-    assert SliceHelper.normalize_index(slice(1, 5), dim_size) == slice(1, 5, None)
+    assert SliceHelper.normalize_index(slice(1, 5), dim_size, dim_dtype=np.int32) == slice(1, 5, None)
 
     # Test negative slice
-    assert SliceHelper.normalize_index(slice(-3, -1), dim_size) == slice(7, 9, None)
+    assert SliceHelper.normalize_index(slice(-3, -1), dim_size, dim_dtype=np.int32) == slice(7, 9, None)
 
     # Test None values in slice
-    assert SliceHelper.normalize_index(slice(None, None), dim_size) == slice(0, 10, None)
+    assert SliceHelper.normalize_index(slice(None, None), dim_size, dim_dtype=np.int32) == slice(0, 10, None)
 
     # Test list of indices
-    assert SliceHelper.normalize_index([1, -1], dim_size) == [1, 9]
+    assert SliceHelper.normalize_index([1, -1], dim_size, dim_dtype=np.int32) == [1, 9]
 
     # Test single integer
-    assert SliceHelper.normalize_index(5, dim_size) == slice(5, 6, None)
-    assert SliceHelper.normalize_index(-1, dim_size) == slice(9, 10, None)
+    assert SliceHelper.normalize_index(5, dim_size, dim_dtype=np.int32) == slice(5, 6, None)
+    assert SliceHelper.normalize_index(-1, dim_size, dim_dtype=np.int32) == slice(9, 10, None)
 
 
 def test_slice_bounds_validation():
@@ -51,29 +51,29 @@ def test_slice_bounds_validation():
 
     # Test out of bounds positive indices
     with pytest.raises(IndexError, match="out of bounds"):
-        SliceHelper.normalize_index(10, dim_size)
+        SliceHelper.normalize_index(10, dim_size, dim_dtype=np.int32)
     with pytest.raises(IndexError, match="out of bounds"):
-        SliceHelper.normalize_index(15, dim_size)
+        SliceHelper.normalize_index(15, dim_size, dim_dtype=np.int32)
 
     # Test out of bounds negative indices
     with pytest.raises(IndexError, match="out of bounds"):
-        SliceHelper.normalize_index(-11, dim_size)
+        SliceHelper.normalize_index(-11, dim_size, dim_dtype=np.int32)
     with pytest.raises(IndexError, match="out of bounds"):
-        SliceHelper.normalize_index(-15, dim_size)
+        SliceHelper.normalize_index(-15, dim_size, dim_dtype=np.int32)
 
     # Test out of bounds list indices
     with pytest.raises(IndexError, match="out of bounds"):
-        SliceHelper.normalize_index([5, 12], dim_size)
+        SliceHelper.normalize_index([5, 12], dim_size, dim_dtype=np.int32)
 
-    norm_slice = SliceHelper.normalize_index(slice(5, 15), dim_size)
+    norm_slice = SliceHelper.normalize_index(slice(5, 15), dim_size, dim_dtype=np.int32)
     assert norm_slice == slice(5, 10)
 
-    norm_slice_neg_stop = SliceHelper.normalize_index(slice(1, -12), dim_size)
+    norm_slice_neg_stop = SliceHelper.normalize_index(slice(1, -12), dim_size, dim_dtype=np.int32)
     assert norm_slice_neg_stop == slice(1, -2)
 
     # Test list with out of bounds
-    with pytest.raises(IndexError, match="List indices .* are out of bounds"):
-        SliceHelper.normalize_index([1, 10, 2], dim_size)
+    with pytest.raises(IndexError, match="List indices .*"):
+        SliceHelper.normalize_index([1, 10, 2], dim_size, dim_dtype=np.int32)
 
 
 def test_cellarr_config():

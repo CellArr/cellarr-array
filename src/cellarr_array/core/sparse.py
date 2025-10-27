@@ -141,7 +141,6 @@ class SparseCellArray(CellArray):
         data = result[self._attr]
 
         if len(data) == 0:
-            print("is emoty")
             if not self.return_sparse:
                 return result
             else:

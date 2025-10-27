@@ -103,19 +103,27 @@ def create_cellarray(
     if not (len(shape) == len(dim_dtypes) == len(dim_names)):
         raise ValueError("Lengths of 'shape', 'dim_dtypes', and 'dim_names' must match.")
 
-    dom = tiledb.Domain(
-        *[
+    dims = []
+    for name, s, dt in zip(dim_names, shape, dim_dtypes):
+        if np.issubdtype(dt, np.integer):
+            domain = (0, 0 if s == 0 else s - 1)
+            tile = min(1 if s == 0 else s // 2, config.tile_capacity // 2)
+            dim_dtype = dt
+        else:  # Assumes string or object dtype
+            domain = (None, None)
+            tile = None
+            dim_dtype = "ascii"
+
+        dims.append(
             tiledb.Dim(
                 name=name,
-                # supporting empty dimensions
-                domain=(0, 0 if s == 0 else s - 1),
-                tile=min(1 if s == 0 else s // 2, config.tile_capacity // 2),
-                dtype=dt,
+                domain=domain,
+                tile=tile,
+                dtype=dim_dtype,
             )
-            for name, s, dt in zip(dim_names, shape, dim_dtypes)
-        ],
-        ctx=tiledb_ctx,
-    )
+        )
+
+    dom = tiledb.Domain(*dims, ctx=tiledb_ctx)
     attr_obj = tiledb.Attr(
         name=attr_name,
         dtype=attr_dtype,
@@ -149,8 +157,15 @@ class SliceHelper:
     """Helper class for handling array slicing operations."""
 
     @staticmethod
-    def is_contiguous_indices(indices: List[int]) -> Optional[slice]:
+    def is_contiguous_indices(indices: List) -> Optional[slice]:
+        """Checks if a list of indices is contiguous and can be converted to a slice.
+
+        Returns None if the list is not contiguous or contains non-integers.
+        """
         if not indices:
+            return None
+
+        if not all(isinstance(i, (int, np.integer)) for i in indices):
             return None
 
         sorted_indices = sorted(list(set(indices)))
@@ -168,20 +183,33 @@ class SliceHelper:
 
     @staticmethod
     def normalize_index(
-        idx: Union[int, range, slice, List[int], EllipsisType], dim_size: int
-    ) -> Union[slice, List[int], EllipsisType]:
+        idx: Union[int, range, slice, List, str, EllipsisType],
+        dim_size: int,
+        dim_dtype: np.dtype,
+    ):
         """Normalize index to handle negative indices and ensure consistency."""
+        is_string_dim = np.issubdtype(dim_dtype, np.str_) or np.issubdtype(dim_dtype, np.bytes_)
+
+        if is_string_dim:
+            if isinstance(idx, (str, bytes)):
+                return [idx]
+            if isinstance(idx, list) and all(isinstance(i, (str, bytes)) for i in idx):
+                return idx
+            if isinstance(idx, slice):
+                # For string dimensions, we do not normalize the slice with integer sizes
+                return idx
+            if isinstance(idx, EllipsisType):
+                return idx
+            raise TypeError(f"Unsupported index type '{type(idx).__name__}' for string dimension.")
+
         if isinstance(idx, EllipsisType):
             return idx
 
-        # Convert ranges to slices
         if isinstance(idx, range):
             idx = slice(idx.start, idx.stop, idx.step)
 
         if isinstance(idx, slice):
-            start = idx.start
-            stop = idx.stop
-            step = idx.step
+            start, stop, step = idx.start, idx.stop, idx.step
 
             # Resolve None to full dimension slice parts
             if start is None:
@@ -196,44 +224,32 @@ class SliceHelper:
             if stop < 0:
                 stop += dim_size
 
-            # slice allows start > dim_size or stop < 0 to result in empty slices.
-            # Note: start == dim_size is OK for empty slice like arr[dim_size:]
-            if start < 0 or (start >= dim_size and dim_size > 0):
-                if not (start == dim_size and (step is None or step > 0)):
-                    if start >= dim_size:
-                        raise IndexError(
-                            f"Start index {idx.start if idx.start is not None else 'None'} results in {start}, which is out of bounds for dimension size {dim_size}."
-                        )
-
             # Clamping slice arguments to dimensions
             stop = min(stop, dim_size)
             start = max(0, start)
-
             return slice(start, stop, step)
-        elif isinstance(idx, list):
+
+        if isinstance(idx, list):
             if not idx:
                 return []
+            # This check only applies to integer lists
+            if not all(isinstance(i, (int, np.integer)) for i in idx):
+                raise TypeError("List indices must be integers for numeric dimensions.")
 
             norm_idx = [i if i >= 0 else dim_size + i for i in idx]
             if any(i < 0 or i >= dim_size for i in norm_idx):
-                oob_indices = [orig_i for orig_i, norm_i in zip(idx, norm_idx) if not (0 <= norm_i < dim_size)]
-                raise IndexError(
-                    f"List indices {oob_indices} (original values) are out of bounds for dimension size {dim_size}."
-                )
-
-            # TileDB multi_index usually returns data sorted by coordinates
+                raise IndexError("List indices out of bounds for dimension size.")
             return sorted(list(set(norm_idx)))
-        elif isinstance(idx, (int, np.integer)):
+
+        if isinstance(idx, (int, np.integer)):
             norm_idx = int(idx)
             if norm_idx < 0:
                 norm_idx += dim_size
-
             if not (0 <= norm_idx < dim_size):
-                raise IndexError(f"Index {idx} out of bounds for dimension size {dim_size}")
-
+                raise IndexError(f"Index {idx} out of bounds for dimension size.")
             return slice(norm_idx, norm_idx + 1, None)
-        else:
-            raise TypeError(f"Index type {type(idx)} not supported for normalization.")
+
+        raise TypeError(f"Index type {type(idx)} not supported for normalization.")
 
 
 def create_group(output_path, group_name):

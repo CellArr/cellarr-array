@@ -69,6 +69,7 @@ class CellArray(ABC):
         self._array_passed_in = False
         self._opened_array_external = None
         self._ctx = None
+        self._dim_dtypes = None
 
         if tiledb_array_obj is not None:
             if not isinstance(tiledb_array_obj, tiledb.Array):
@@ -185,7 +186,16 @@ class CellArray(ABC):
     def shape(self) -> Tuple[int, ...]:
         if self._shape is None:
             with self.open_array(mode="r") as A:
-                self._shape = tuple(int(dim.domain[1] - dim.domain[0] + 1) for dim in A.schema.domain)
+                shape_list = []
+                for dim in A.schema.domain:
+                    try:
+                        # This will fail for string dimensions
+                        shape_list.append(dim.shape[0])
+                    except TypeError:
+                        # For string dimensions, the shape is not well-defined.
+                        # We use a large number as a placeholder for slicing purposes.
+                        shape_list.append(2**63 - 1)
+                self._shape = tuple(shape_list)
         return self._shape
 
     @property
@@ -208,6 +218,14 @@ class CellArray(ABC):
                 self._ndim = A.schema.ndim
                 # self._ndim = len(self.shape)
         return self._ndim
+
+    @property
+    def dim_dtypes(self) -> List[np.dtype]:
+        """Get dimension dtypes of the array."""
+        if self._dim_dtypes is None:
+            with self.open_array(mode="r") as A:
+                self._dim_dtypes = [dim.dtype for dim in A.schema.domain]
+        return self._dim_dtypes
 
     @contextmanager
     def open_array(self, mode: Optional[str] = None):
@@ -266,15 +284,30 @@ class CellArray(ABC):
         Args:
             key:
                 Slice or list of indices for each dimension in the array.
+
+                Alternatively, may be string to specify query conditions.
         """
+        # This is a query condition
+        if isinstance(key, str):
+            with self.open_array(mode="r") as array:
+                if self._attr is not None:
+                    return array.query(cond=key, attrs=[self._attr])[:]
+                else:
+                    array.query(cond=key)[:]
+
         if not isinstance(key, tuple):
             key = (key,)
 
         if len(key) > self.ndim:
             raise IndexError(f"Invalid number of dimensions: got {len(key)}, expected {self.ndim}")
 
+        if len(key) < self.ndim:
+            key = key + (slice(None),) * (self.ndim - len(key))
+
         # Normalize all indices
-        normalized_key = tuple(SliceHelper.normalize_index(idx, self.shape[i]) for i, idx in enumerate(key))
+        normalized_key = tuple(
+            SliceHelper.normalize_index(idx, self.shape[i], self.dim_dtypes[i]) for i, idx in enumerate(key)
+        )
 
         num_ellipsis = sum(isinstance(i, EllipsisType) for i in normalized_key)
         if num_ellipsis > 1:
@@ -342,3 +375,17 @@ class CellArray(ABC):
                 Additional arguments for write operation.
         """
         pass
+
+    def get_unique_dim_values(self, dim_name: Optional[str] = None) -> np.ndarray:
+        """Get unique values for a dimension.
+
+        Args:
+            dim_name:
+                The name of the dimension. If None, unique values for all
+                dimensions are returned.
+
+        Returns:
+            An array of unique dimension values.
+        """
+        with self.open_array(mode="r") as A:
+            return A.unique_dim_values(dim_name)

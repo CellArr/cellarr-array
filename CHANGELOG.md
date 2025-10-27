@@ -1,5 +1,12 @@
 # Changelog
 
+## Version 0.3.0
+
+- Support for string dimensions when creating cellarr arrays.
+- Support query conditions for slice operations.
+- Added unique dim values. Only supported for sparse arrays.
+- EOL for Python 3.9
+
 ## Version 0.2.0
 
 - Dataloaders for sparse and dense arrays, We provide templates for both map and Iterable style dataloaders. Users are expected the caveats of both of these approaches.
