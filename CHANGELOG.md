@@ -5,6 +5,7 @@
 - Support for string dimensions when creating cellarr arrays.
 - Support query conditions for slice operations.
 - Added unique dim values. Only supported for sparse arrays.
+- EOL for Python 3.9
 
 ## Version 0.2.0
 
