@@ -281,7 +281,10 @@ class CellArray(ABC):
         # This is a query condition
         if isinstance(key, str):
             with self.open_array(mode="r") as array:
-                return array.query(cond=key)[:]
+                if self._attr is not None:
+                    return array.query(cond=key, attrs=[self._attr])[:]
+                else:
+                    array.query(cond=key)[:]
 
         if not isinstance(key, tuple):
             key = (key,)
