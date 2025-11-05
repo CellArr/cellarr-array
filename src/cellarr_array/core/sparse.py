@@ -9,8 +9,8 @@ import numpy as np
 import tiledb
 from scipy import sparse
 
-from .helpers import SliceHelper
 from .base import CellArray
+from .helpers import SliceHelper
 
 __author__ = "Jayaram Kancherla"
 __copyright__ = "Jayaram Kancherla"
@@ -158,9 +158,11 @@ class SparseCellArray(CellArray):
         # For 1D arrays, add zero column coordinates, also (N, 1)
         if self.ndim == 1:
             coords = [np.zeros_like(coords[0]), coords[0]]
-            shape = (1, shape[0])
+            shape = (1, max(coords[0]) + 1)
+        else:
+            shape = (max(coords[0]) + 1, max(coords[1]) + 1)
 
-        matrix = sparse.coo_matrix((data, tuple(coords)), shape=shape)
+        matrix = sparse.coo_array((data, tuple(coords)), shape=shape)
 
         sliced = matrix
         if self.sparse_format in (sparse.csr_matrix, sparse.csr_array):
