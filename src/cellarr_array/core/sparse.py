@@ -162,7 +162,7 @@ class SparseCellArray(CellArray):
         else:
             shape = (max(coords[0]) + 1, max(coords[1]) + 1)
 
-        matrix = sparse.coo_array((data, tuple(coords)), shape=shape)
+        matrix = sparse.coo_matrix((data, tuple(coords)), shape=shape)
 
         sliced = matrix
         if self.sparse_format in (sparse.csr_matrix, sparse.csr_array):
