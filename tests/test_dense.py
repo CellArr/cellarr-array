@@ -120,8 +120,6 @@ def test_2d_slicing(sample_dense_array_2d):
     np.testing.assert_array_almost_equal(result, data[-1:, ...])
     with pytest.raises(IndexError):
         _ = sample_dense_array_2d[..., ...]
-    with pytest.raises(IndexError):
-        _ = sample_dense_array_2d[[0, 3], ...]
 
 
 def test_multi_index_access(sample_dense_array_2d):

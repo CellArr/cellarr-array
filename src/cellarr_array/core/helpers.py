@@ -120,6 +120,7 @@ def create_cellarray(
                 domain=domain,
                 tile=tile,
                 dtype=dim_dtype,
+                filters=config.coords_filters,
             )
         )
 
@@ -136,13 +137,11 @@ def create_cellarray(
         cell_order=config.cell_order,
         tile_order=config.tile_order,
         sparse=sparse,
-        coords_filters=config.coords_filters,
         offsets_filters=config.offsets_filters,
         ctx=tiledb_ctx,
     )
     tiledb.Array.create(uri, schema, ctx=tiledb_ctx)
 
-    # Import here to avoid circular imports
     from .dense import DenseCellArray
     from .sparse import SparseCellArray
 
@@ -157,7 +156,7 @@ class SliceHelper:
     """Helper class for handling array slicing operations."""
 
     @staticmethod
-    def is_contiguous_indices(indices: List) -> Optional[slice]:
+    def is_contiguous_indices(indices: List[int]) -> Optional[slice]:
         """Checks if a list of indices is contiguous and can be converted to a slice.
 
         Returns None if the list is not contiguous or contains non-integers.
@@ -186,8 +185,9 @@ class SliceHelper:
         idx: Union[int, range, slice, List, str, EllipsisType],
         dim_size: int,
         dim_dtype: np.dtype,
-    ):
+    ) -> Union[slice, List, EllipsisType]:
         """Normalize index to handle negative indices and ensure consistency."""
+
         is_string_dim = np.issubdtype(dim_dtype, np.str_) or np.issubdtype(dim_dtype, np.bytes_)
 
         if is_string_dim:
@@ -197,8 +197,6 @@ class SliceHelper:
                 return idx
             if isinstance(idx, slice):
                 # For string dimensions, we do not normalize the slice with integer sizes
-                return idx
-            if isinstance(idx, EllipsisType):
                 return idx
             raise TypeError(f"Unsupported index type '{type(idx).__name__}' for string dimension.")
 
@@ -232,9 +230,12 @@ class SliceHelper:
         if isinstance(idx, list):
             if not idx:
                 return []
+
             # This check only applies to integer lists
             if not all(isinstance(i, (int, np.integer)) for i in idx):
-                raise TypeError("List indices must be integers for numeric dimensions.")
+                raise TypeError(
+                    f"List indices must be all integers or all strings, but got mixed types or non-string/int types."
+                )
 
             norm_idx = [i if i >= 0 else dim_size + i for i in idx]
             if any(i < 0 or i >= dim_size for i in norm_idx):
