@@ -69,7 +69,6 @@ class CellArray(ABC):
         self._array_passed_in = False
         self._opened_array_external = None
         self._ctx = None
-        self._dim_dtypes = None
 
         if tiledb_array_obj is not None:
             if not isinstance(tiledb_array_obj, tiledb.Array):
@@ -120,6 +119,7 @@ class CellArray(ABC):
         self._shape = None
         self._ndim = None
         self._dim_names = None
+        self._dim_dtypes = None
         self._attr_names = None
         self._nonempty_domain = None
 
@@ -253,8 +253,8 @@ class CellArray(ABC):
                     ) from e
 
             effective_mode = mode if mode is not None else self._opened_array_external.mode
-
             current_external_mode = self._opened_array_external.mode
+
             if effective_mode == "r" and current_external_mode not in ["r", "w", "m"]:
                 # Read ops ok on write/modify modes
                 pass
@@ -277,9 +277,9 @@ class CellArray(ABC):
             finally:
                 array.close()
 
-    def __getitem__(self, key: Union[slice, EllipsisType, Tuple[Union[slice, List[int]], ...], EllipsisType]):
-        """Get item implementation that routes to either direct slicing or multi_index
-        based on the type of indices provided.
+    def __getitem__(self, key: Union[slice, EllipsisType, Tuple[Union[slice, List[int]], ...], EllipsisType, str]):
+        """Get item implementation that routes to either direct slicing, multi_index,
+        or query based on the type of indices provided.
 
         Args:
             key:
@@ -298,29 +298,33 @@ class CellArray(ABC):
         if not isinstance(key, tuple):
             key = (key,)
 
-        if len(key) > self.ndim:
-            raise IndexError(f"Invalid number of dimensions: got {len(key)}, expected {self.ndim}")
+        num_ellipsis = sum(isinstance(i, EllipsisType) for i in key)
+        if num_ellipsis > 1:
+            raise IndexError("an index can only have a single ellipsis ('...')")
+
+        if num_ellipsis == 1:
+            ellipsis_idx = key.index(Ellipsis)
+            num_other_indices = len(key) - 1
+            num_slices_to_add = self.ndim - num_other_indices
+
+            key = key[:ellipsis_idx] + (slice(None),) * num_slices_to_add + key[ellipsis_idx + 1 :]
 
         if len(key) < self.ndim:
             key = key + (slice(None),) * (self.ndim - len(key))
+        elif len(key) > self.ndim:
+            raise IndexError(f"Invalid number of dimensions: got {len(key)}, expected {self.ndim}")
 
         # Normalize all indices
         normalized_key = tuple(
             SliceHelper.normalize_index(idx, self.shape[i], self.dim_dtypes[i]) for i, idx in enumerate(key)
         )
 
-        num_ellipsis = sum(isinstance(i, EllipsisType) for i in normalized_key)
-        if num_ellipsis > 1:
-            raise IndexError(f"Found more than 1 Ellipsis (...) in key: {normalized_key}")
-
         # Check if we can use direct slicing
-        use_direct = all(isinstance(idx, (slice, EllipsisType)) for idx in normalized_key)
+        use_direct = all(isinstance(idx, slice) for idx in normalized_key)
 
         if use_direct:
             return self._direct_slice(normalized_key)
         else:
-            if num_ellipsis > 0:
-                raise IndexError(f"tiledb does not support ellipsis in multi-index access: {normalized_key}")
             return self._multi_index(normalized_key)
 
     @abstractmethod

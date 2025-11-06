@@ -9,8 +9,8 @@ import numpy as np
 import tiledb
 from scipy import sparse
 
-from .helpers import SliceHelper
 from .base import CellArray
+from .helpers import SliceHelper
 
 __author__ = "Jayaram Kancherla"
 __copyright__ = "Jayaram Kancherla"
@@ -87,6 +87,7 @@ class SparseCellArray(CellArray):
 
         self.return_sparse = return_sparse
         self.sparse_format = sparse.csr_matrix if sparse_format is None else sparse_format
+        self._list_remaps = {}
 
     def _validate_matrix_dims(self, data: sparse.spmatrix) -> Tuple[sparse.coo_matrix, bool]:
         """Validate and adjust matrix dimensions if needed.
@@ -115,80 +116,107 @@ class SparseCellArray(CellArray):
 
         return coo_data, is_1d
 
-    def _get_slice_shape(self, key: Tuple[Union[slice, List[int]], ...]) -> Tuple[int, ...]:
-        """Calculate shape of sliced result.
-
-        Always returns 2D shape (n,1) for csr matrix compatibility.
-        """
+    def _get_slice_details(self, key: Tuple[Union[slice, List], ...]) -> ...:
+        """Calculates the shape, remapping info, and if a remap is needed for a slice."""
         shape = []
-        for i, idx in enumerate(key):
-            if isinstance(idx, slice):
-                shape.append(idx.stop - (idx.start or 0))
-            elif isinstance(idx, list):
-                shape.append(len(set(idx)))
-            else:
-                shape.append(1)
+        origins_or_maps = []
+        is_list_remap = []
 
-        # Always return (n,1) shape for CSR matrix
+        for i, idx in enumerate(key):
+            dim_dtype = self.dim_dtypes[i]
+
+            if isinstance(idx, slice):
+                if np.issubdtype(dim_dtype, np.integer) or np.issubdtype(dim_dtype, np.datetime64):
+                    start = idx.start if idx.start is not None else 0
+                    stop = idx.stop if idx.stop is not None else self.shape[i]
+                    shape.append(stop - start)
+                    origins_or_maps.append(start)
+                    is_list_remap.append(False)
+                else:  # String dim
+                    shape.append(self.shape[i])
+                    origins_or_maps.append(None)
+                    is_list_remap.append(False)
+
+            elif isinstance(idx, list):
+                shape.append(len(idx))
+                remap_dict = {val: i for i, val in enumerate(idx)}
+                origins_or_maps.append(remap_dict)
+                self._list_remaps[i] = remap_dict
+                is_list_remap.append(True)
+
+            else:
+                raise TypeError(f"Unsupported index type in key: {type(idx)}")
+
+        # Handle 1D array case
         if self.ndim == 1:
-            return (shape[0], 1)
-        return tuple(shape)
+            shape = (shape[0], 1)
+
+        return tuple(shape), origins_or_maps, is_list_remap
 
     def _to_sparse_format(
-        self, result: Dict[str, np.ndarray], key: Tuple[Union[slice, List[int]], ...], shape: Tuple[int, ...]
+        self, result: Dict[str, np.ndarray], key: Tuple[Union[slice, List[int]], ...]
     ) -> Union[np.ndarray, sparse.spmatrix]:
         """Convert TileDB result to CSR format or dense array."""
         data = result[self._attr]
 
+        slice_shape, origins_or_maps, is_list_remap = self._get_slice_details(key)
+
         if len(data) == 0:
-            if not self.return_sparse:
-                return result
+            return self.sparse_format(slice_shape)
+
+        # Remap coordinates similar to cellarrdataset
+        new_coords = []
+        dim_names = self.dim_names
+
+        for i in range(self.ndim):
+            dim_name = dim_names[i]
+            global_coords = result[dim_name]
+
+            if is_list_remap[i]:
+                remap_dict = self._list_remaps.get(i)
+                if remap_dict is None:
+                    raise RuntimeError("Internal error: Coordinate remap dictionary not found.")
+
+                new_coords.append(np.array([remap_dict[val] for val in global_coords]))
+
+            elif origins_or_maps[i] is not None:
+                new_coords.append(global_coords - origins_or_maps[i])
             else:
-                if self.ndim == 1:
-                    matrix = self.sparse_format((1, shape[0]))
-                    return matrix[:, key[0]]
+                new_coords.append(global_coords)
 
-                return self.sparse_format(shape)[key]
-
-        coords = []
-        for dim_name in self.dim_names:
-            dim_coords = result[dim_name]
-            coords.append(dim_coords)
-
-        # For 1D arrays, add zero column coordinates, also (N, 1)
         if self.ndim == 1:
-            coords = [np.zeros_like(coords[0]), coords[0]]
-            shape = (1, shape[0])
+            final_coords = (new_coords[0], np.zeros_like(new_coords[0]))
+        else:
+            final_coords = tuple(new_coords)
 
-        matrix = sparse.coo_matrix((data, tuple(coords)), shape=shape)
+        matrix = sparse.coo_matrix((data, final_coords), shape=slice_shape)
 
-        sliced = matrix
         if self.sparse_format in (sparse.csr_matrix, sparse.csr_array):
-            sliced = matrix.tocsr()
+            return matrix.tocsr()
         elif self.sparse_format in (sparse.csc_matrix, sparse.csc_array):
-            sliced = matrix.tocsc()
+            return matrix.tocsc()
 
-        if self.ndim == 1:
-            return sliced[:, key[0]]
-
-        return sliced[key]
+        return matrix
 
     def _direct_slice(self, key: Tuple[Union[slice, EllipsisType], ...]) -> Union[np.ndarray, sparse.coo_matrix]:
         """Implementation for direct slicing of sparse arrays."""
+        self._list_remaps.clear()
+
         with self.open_array(mode="r") as array:
             result = array[key]
 
             if not self.return_sparse:
                 return result
 
-            return self._to_sparse_format(result, key, self.shape)
+            return self._to_sparse_format(result, key)
 
     def _multi_index(self, key: Tuple[Union[slice, List[int]], ...]) -> Union[np.ndarray, sparse.coo_matrix]:
         """Implementation for multi-index access of sparse arrays."""
-        # Try to optimize contiguous indices to slices
+        self._list_remaps.clear()
+
         optimized_key = []
-        for idx in key:
-            if isinstance(idx, list):
+        for i, idx in enumerate(key):
+            if isinstance(idx, list) and np.issubdtype(self.dim_dtypes[i], np.integer):
                 slice_idx = SliceHelper.is_contiguous_indices(idx)
                 optimized_key.append(slice_idx if slice_idx is not None else idx)
             else:
@@ -211,7 +239,7 @@ class SparseCellArray(CellArray):
             if not self.return_sparse:
                 return result
 
-            return self._to_sparse_format(result, key, self.shape)
+            return self._to_sparse_format(result, key)
 
     def write_batch(
         self, data: Union[sparse.spmatrix, sparse.csc_matrix, sparse.coo_matrix], start_row: int, **kwargs

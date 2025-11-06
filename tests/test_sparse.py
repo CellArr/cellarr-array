@@ -75,8 +75,9 @@ def test_1d_empty_regions(sample_sparse_array_1d):
     result = read_arr[7:10]
     expected = sparse_data.toarray()[7:10].flatten()
     np.testing.assert_array_almost_equal(result.toarray().flatten(), expected)
-    assert result.shape[1] == 3  # Should return full slice length
-    assert np.all(result.data == 0)  # All values should be zero
+    assert result.shape[0] == 3
+    assert result.shape[1] == 1
+    assert np.all(result.data == 0)
 
 
 def test_2d_formats(sample_sparse_array_2d):
