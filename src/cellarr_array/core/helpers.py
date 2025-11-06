@@ -234,7 +234,7 @@ class SliceHelper:
             # This check only applies to integer lists
             if not all(isinstance(i, (int, np.integer)) for i in idx):
                 raise TypeError(
-                    f"List indices must be all integers or all strings, but got mixed types or non-string/int types."
+                    "List indices must be all integers or all strings, but got mixed types or non-string/int types."
                 )
 
             norm_idx = [i if i >= 0 else dim_size + i for i in idx]
