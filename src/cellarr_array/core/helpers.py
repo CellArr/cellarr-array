@@ -71,6 +71,7 @@ def create_cellarray(
 
     if attr_dtype is None:
         attr_dtype = np.float32
+
     if isinstance(attr_dtype, str):
         attr_dtype = np.dtype(attr_dtype)
 
@@ -91,6 +92,7 @@ def create_cellarray(
 
     if shape is None:
         shape = tuple(np.iinfo(dt).max if np.issubdtype(dt, np.integer) else None for dt in dim_dtypes)
+
     if None in shape:
         shape = tuple(
             np.iinfo(dt).max if s is None and np.issubdtype(dt, np.integer) else s for s, dt in zip(shape, dim_dtypes)
@@ -99,7 +101,6 @@ def create_cellarray(
     if dim_names is None:
         dim_names = [f"dim_{i}" for i in range(len(shape))]
 
-    # Validate all input lengths
     if not (len(shape) == len(dim_dtypes) == len(dim_names)):
         raise ValueError("Lengths of 'shape', 'dim_dtypes', and 'dim_names' must match.")
 
@@ -107,6 +108,7 @@ def create_cellarray(
     for name, s, dt in zip(dim_names, shape, dim_dtypes):
         if np.issubdtype(dt, np.integer):
             domain = (0, 0 if s == 0 else s - 1)
+
             is_max_domain = s == np.iinfo(dt).max
             if is_max_domain:
                 # If domain is maxed out, we cannot set a tile extent
@@ -114,6 +116,7 @@ def create_cellarray(
                 tile = None
             else:
                 tile = min(1 if s == 0 else s // 2, config.tile_capacity // 2)
+
             dim_dtype = dt
         else:  # Assumes string or object dtype
             domain = (None, None)

@@ -178,7 +178,6 @@ class SparseCellArray(CellArray):
                     raise RuntimeError("Internal error: Coordinate remap dictionary not found.")
 
                 new_coords.append(np.array([remap_dict[val] for val in global_coords]))
-
             elif origins_or_maps[i] is not None:
                 new_coords.append(global_coords - origins_or_maps[i])
             else:

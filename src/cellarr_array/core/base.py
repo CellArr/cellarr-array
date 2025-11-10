@@ -172,6 +172,7 @@ class CellArray(ABC):
         if self._dim_names is None:
             with self.open_array(mode="r") as A:
                 self._dim_names = [dim.name for dim in A.schema.domain]
+
         return self._dim_names
 
     @property
@@ -180,6 +181,7 @@ class CellArray(ABC):
         if self._attr_names is None:
             with self.open_array(mode="r") as A:
                 self._attr_names = [A.schema.attr(i).name for i in range(A.schema.nattr)]
+
         return self._attr_names
 
     @property
@@ -196,6 +198,7 @@ class CellArray(ABC):
                         # We use a large number as a placeholder for slicing purposes.
                         shape_list.append(2**63 - 1)
                 self._shape = tuple(shape_list)
+
         return self._shape
 
     @property
@@ -208,6 +211,7 @@ class CellArray(ABC):
                     self._nonempty_domain = None
                 else:
                     self._nonempty_domain = tuple(ned) if isinstance(ned[0], tuple) else (ned,)
+
         return self._nonempty_domain
 
     @property
@@ -217,6 +221,7 @@ class CellArray(ABC):
             with self.open_array(mode="r") as A:
                 self._ndim = A.schema.ndim
                 # self._ndim = len(self.shape)
+
         return self._ndim
 
     @property
@@ -225,6 +230,7 @@ class CellArray(ABC):
         if self._dim_dtypes is None:
             with self.open_array(mode="r") as A:
                 self._dim_dtypes = [dim.dtype for dim in A.schema.domain]
+
         return self._dim_dtypes
 
     @contextmanager
