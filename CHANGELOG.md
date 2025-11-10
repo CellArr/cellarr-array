@@ -6,6 +6,7 @@
 - Support query conditions for slice operations.
 - Added unique dim values. Only supported for sparse arrays.
 - Fix a minor bug causing memory leaks on large sparse arrays.
+- Fix an issue when domain is max dimension.
 - EOL for Python 3.9
 
 ## Version 0.2.0
