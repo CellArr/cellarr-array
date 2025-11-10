@@ -1,6 +1,6 @@
 # Changelog
 
-## Version 0.3.0 - 0.3.1
+## Version 0.3.0 - 0.3.2
 
 - Support for string dimensions when creating cellarr arrays.
 - Support query conditions for slice operations.
