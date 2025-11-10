@@ -1,11 +1,12 @@
 # Changelog
 
-## Version 0.3.0 - 0.3.1
+## Version 0.3.0 - 0.3.2
 
 - Support for string dimensions when creating cellarr arrays.
 - Support query conditions for slice operations.
 - Added unique dim values. Only supported for sparse arrays.
 - Fix a minor bug causing memory leaks on large sparse arrays.
+- Fix an issue when domain is max dimension.
 - EOL for Python 3.9
 
 ## Version 0.2.0
