@@ -107,7 +107,13 @@ def create_cellarray(
     for name, s, dt in zip(dim_names, shape, dim_dtypes):
         if np.issubdtype(dt, np.integer):
             domain = (0, 0 if s == 0 else s - 1)
-            tile = min(1 if s == 0 else s // 2, config.tile_capacity // 2)
+            is_max_domain = s == np.iinfo(dt).max
+            if is_max_domain:
+                # If domain is maxed out, we cannot set a tile extent
+                # or TileDB will fail on domain expansion.
+                tile = None
+            else:
+                tile = min(1 if s == 0 else s // 2, config.tile_capacity // 2)
             dim_dtype = dt
         else:  # Assumes string or object dtype
             domain = (None, None)
