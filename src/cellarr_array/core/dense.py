@@ -6,6 +6,7 @@ except ImportError:
 from typing import List, Tuple, Union
 
 import numpy as np
+from scipy import sparse as sp
 
 from .base import CellArray
 from .helpers import SliceHelper
@@ -69,12 +70,16 @@ class DenseCellArray(CellArray):
             res = array.multi_index[tuple(tiledb_key)]
             return res[self._attr] if self._attr is not None else res
 
-    def write_batch(self, data: np.ndarray, start_row: int, **kwargs) -> None:
+    def write_batch(self, data: Union[np.ndarray, sp.spmatrix], start_row: int, **kwargs) -> None:
         """Write a batch of data to the dense array.
+
+        This method supports both dense (numpy.ndarray) and sparse
+        (scipy.sparse.spmatrix) inputs.
 
         Args:
             data:
-                Numpy array to write.
+                Numpy array (for dense write) or Scipy sparse matrix
+                (for sparse write) to write.
 
             start_row:
                 Starting row index for writing.
@@ -83,14 +88,9 @@ class DenseCellArray(CellArray):
                 Additional arguments passed to TileDB write operation.
 
         Raises:
-            TypeError: If input is not a numpy array.
+            TypeError: If input is not a numpy array or sparse matrix.
             ValueError: If dimensions don't match or bounds are exceeded.
         """
-        if not isinstance(data, np.ndarray):
-            raise TypeError("Input must be a numpy array.")
-
-        if len(data.shape) != self.ndim:
-            raise ValueError(f"Data dimensions {data.shape} don't match array dimensions {self.shape}.")
 
         end_row = start_row + data.shape[0]
         if end_row > self.shape[0]:
@@ -100,13 +100,42 @@ class DenseCellArray(CellArray):
 
         if self.ndim == 2 and data.shape[1] != self.shape[1]:
             raise ValueError(f"Data columns {data.shape[1]} don't match array columns {self.shape[1]}.")
+        elif self.ndim == 1 and data.ndim > 1 and data.shape[1] != 1:
+            raise ValueError(f"1D array expects (N, 1) matrix, got {data.shape}")
 
-        if self.ndim == 1:
-            write_region = slice(start_row, end_row)
-        else:  # 2D
-            write_region = (slice(start_row, end_row), slice(0, self.shape[1]))
+        if isinstance(data, np.ndarray):
+            if len(data.shape) != self.ndim:
+                raise ValueError(f"Data dimensions {data.shape} don't match array dimensions {self.shape}.")
 
-        # write_data = {self._attr: data} if len(self.attr_names) > 1 else data
-        with self.open_array(mode="w") as array:
-            print("write_region", write_region)
-            array[write_region] = data
+            if self.ndim == 1:
+                write_region = slice(start_row, end_row)
+            else:
+                write_region = (slice(start_row, end_row), slice(0, self.shape[1]))
+
+            with self.open_array(mode="w") as array:
+                array[write_region] = data
+
+        elif sp.issparse(data):
+            coo_data = data.tocoo() if not isinstance(data, sp.coo_matrix) else data
+            is_1d = self.ndim == 1
+            if is_1d:
+                if coo_data.shape[0] == 1:  # Convert (1,N) to (N,1)
+                    coo_data = sp.coo_matrix(
+                        (coo_data.data, (coo_data.col, np.zeros_like(coo_data.col))), shape=(coo_data.shape[1], 1)
+                    )
+                elif coo_data.shape[1] != 1:
+                    raise ValueError(f"1D array expects (N, 1) matrix, got {coo_data.shape}")
+
+            with self.open_array(mode="w") as array:
+                if is_1d:
+                    for r, val in zip(coo_data.row, coo_data.data):
+                        # row_idx = r + start_row
+                        array[r : r + 1] = val
+                else:
+                    for r, c, val in zip(coo_data.row, coo_data.col, coo_data.data):
+                        row_idx = r + start_row
+                        col_idx = c
+                        array[row_idx : row_idx + 1, col_idx : col_idx + 1] = val
+
+        else:
+            raise TypeError("Input must be a numpy array or a scipy sparse matrix.")
