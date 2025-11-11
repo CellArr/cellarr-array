@@ -2,6 +2,7 @@ from pathlib import Path
 
 import numpy as np
 import pytest
+import scipy.sparse as sp
 import tiledb
 
 from cellarr_array import DenseCellArray, create_cellarray
@@ -63,6 +64,65 @@ def test_2d_bounds_check(sample_dense_array_2d):
     data = np.random.random((10, 60)).astype(np.float32)
     with pytest.raises(ValueError, match="Data columns"):
         sample_dense_array_2d.write_batch(data, start_row=0)
+
+
+def test_1d_sparse_write_batch(sample_dense_array_1d):
+    data_points = np.array([1.1, 2.2, 3.3], dtype=np.float32)
+    indices = np.array([2, 5, 8])
+    sparse_data = sp.csr_matrix((data_points, (indices, np.zeros(3))), shape=(10, 1))
+
+    sample_dense_array_1d.write_batch(sparse_data, start_row=0)
+    result = sample_dense_array_1d[0:10]
+    expected = sparse_data.toarray().flatten().astype(float)
+    expected[expected == 0] = np.nan
+    np.testing.assert_array_almost_equal(result, expected)
+
+
+def test_2d_sparse_write_batch(sample_dense_array_2d):
+    sparse_data = sp.random(10, 50, density=0.1, format="csr", dtype=np.float32)
+
+    sample_dense_array_2d.write_batch(sparse_data, start_row=0)
+    result = sample_dense_array_2d[0:10, :]
+    expected = sparse_data.toarray().astype(float)
+    expected[expected == 0] = np.nan
+    np.testing.assert_array_almost_equal(result, expected)
+
+
+def test_2d_sparse_write_with_offset(sample_dense_array_2d):
+    sparse_data = sp.random(10, 50, density=0.1, format="csr", dtype=np.float32)
+
+    sample_dense_array_2d.write_batch(sparse_data, start_row=20)
+    result = sample_dense_array_2d[20:30, :]
+    expected = sparse_data.toarray().astype(float)
+    expected[expected == 0] = np.nan
+    np.testing.assert_array_almost_equal(result, expected)
+
+    result_before = sample_dense_array_2d[0:10, :]
+    assert np.all(np.isnan(result_before))
+
+
+def test_2d_mixed_dense_sparse_writes(sample_dense_array_2d):
+    dense_data = np.ones((10, 50), dtype=np.float32)
+    sample_dense_array_2d.write_batch(dense_data, start_row=0)
+
+    sparse_data = sp.csr_matrix(([99.0], ([5], [5])), shape=(10, 50), dtype=np.float32)
+
+    sample_dense_array_2d.write_batch(sparse_data, start_row=0)
+    result = sample_dense_array_2d[0:10, :]
+    expected = np.ones((10, 50), dtype=np.float32)
+    expected[5, 5] = 99.0
+
+    np.testing.assert_array_almost_equal(result, expected)
+
+
+def test_2d_sparse_bounds_check(sample_dense_array_2d):
+    sparse_data_rows = sp.random(150, 50, format="csr", dtype=np.float32)
+    with pytest.raises(ValueError, match="would exceed array bounds"):
+        sample_dense_array_2d.write_batch(sparse_data_rows, start_row=0)
+
+    sparse_data_cols = sp.random(10, 60, format="csr", dtype=np.float32)
+    with pytest.raises(ValueError, match="Data columns"):
+        sample_dense_array_2d.write_batch(sparse_data_cols, start_row=0)
 
 
 def test_1d_slicing(sample_dense_array_1d):
