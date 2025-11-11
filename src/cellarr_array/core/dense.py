@@ -131,7 +131,7 @@ class DenseCellArray(CellArray):
                 if is_1d:
                     for r, val in zip(coo_data.row, coo_data.data):
                         # row_idx = r + start_row
-                        array[start_row : start_row + 1] = val
+                        array[r : r + 1] = val
                 else:
                     for r, c, val in zip(coo_data.row, coo_data.col, coo_data.data):
                         row_idx = r + start_row
