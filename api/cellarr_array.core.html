@@ -6,7 +6,7 @@
 <link rel="index" title="Index" href="../genindex.html"><link rel="search" title="Search" href="../search.html"><link rel="next" title="cellarr_array.dataloaders package" href="cellarr_array.dataloaders.html"><link rel="prev" title="cellarr_array package" href="cellarr_array.html">
 
     <!-- Generated with Sphinx 8.2.3 and Furo 2025.09.25 -->
-        <title>cellarr_array.core package - cellarr-array 0.3.2 documentation</title>
+        <title>cellarr_array.core package - cellarr-array 0.3.3 documentation</title>
       <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=03e43079" />
     <link rel="stylesheet" type="text/css" href="../_static/styles/furo.css?v=580074bf" />
     <link rel="stylesheet" type="text/css" href="../_static/mystnb.8ecb98da25f57f5357bf6f572d296f466b2cfe2517ffebfabe82451661e28f02.css" />
@@ -162,7 +162,7 @@
       </label>
     </div>
     <div class="header-center">
-      <a href="../index.html"><div class="brand">cellarr-array 0.3.2 documentation</div></a>
+      <a href="../index.html"><div class="brand">cellarr-array 0.3.3 documentation</div></a>
     </div>
     <div class="header-right">
       <div class="theme-toggle-container theme-toggle-header">
@@ -183,7 +183,7 @@
       
       <div class="sidebar-sticky"><a class="sidebar-brand" href="../index.html">
   
-  <span class="sidebar-brand-text">cellarr-array 0.3.2 documentation</span>
+  <span class="sidebar-brand-text">cellarr-array 0.3.3 documentation</span>
   
 </a><form class="sidebar-search-container" method="get" action="../search.html" role="search">
   <input class="sidebar-search" placeholder="Search" name="q" aria-label="Search">
@@ -446,17 +446,20 @@ If an external array is used, this mode must be compatible with
 <dt class="sig sig-object py" id="cellarr_array.core.dense.DenseCellArray.write_batch">
 <span class="sig-name descname"><span class="pre">write_batch</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">start_row</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/cellarr_array/core/dense.html#DenseCellArray.write_batch"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#cellarr_array.core.dense.DenseCellArray.write_batch" title="Link to this definition">¶</a></dt>
 <dd><p>Write a batch of data to the dense array.</p>
+<p>This method supports both dense (numpy.ndarray) and sparse
+(scipy.sparse.spmatrix) inputs.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>data</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v2.3)"><code class="xref py py-class docutils literal notranslate"><span class="pre">ndarray</span></code></a></span>) – Numpy array to write.</p></li>
+<li><p><strong>data</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3.12/library/typing.html#typing.Union" title="(in Python v3.12)"><code class="xref py py-data docutils literal notranslate"><span class="pre">Union</span></code></a>[<a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v2.3)"><code class="xref py py-class docutils literal notranslate"><span class="pre">ndarray</span></code></a>, <a class="reference external" href="https://docs.scipy.org/doc/scipy/reference/generated/scipy.sparse.spmatrix.html#scipy.sparse.spmatrix" title="(in SciPy v1.16.2)"><code class="xref py py-class docutils literal notranslate"><span class="pre">spmatrix</span></code></a>]</span>) – Numpy array (for dense write) or Scipy sparse matrix
+(for sparse write) to write.</p></li>
 <li><p><strong>start_row</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3.12/library/functions.html#int" title="(in Python v3.12)"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></a></span>) – Starting row index for writing.</p></li>
 <li><p><strong>**kwargs</strong> – Additional arguments passed to TileDB write operation.</p></li>
 </ul>
 </dd>
 <dt class="field-even">Raises<span class="colon">:</span></dt>
 <dd class="field-even"><ul class="simple">
-<li><p><a class="reference external" href="https://docs.python.org/3.12/library/exceptions.html#TypeError" title="(in Python v3.12)"><strong>TypeError</strong></a> – If input is not a numpy array.</p></li>
+<li><p><a class="reference external" href="https://docs.python.org/3.12/library/exceptions.html#TypeError" title="(in Python v3.12)"><strong>TypeError</strong></a> – If input is not a numpy array or sparse matrix.</p></li>
 <li><p><a class="reference external" href="https://docs.python.org/3.12/library/exceptions.html#ValueError" title="(in Python v3.12)"><strong>ValueError</strong></a> – If dimensions don’t match or bounds are exceeded.</p></li>
 </ul>
 </dd>
@@ -737,7 +740,7 @@ Defaults to True.</p></li>
       
     </aside>
   </div>
-</div><script src="../_static/documentation_options.js?v=71d9d8e6"></script>
+</div><script src="../_static/documentation_options.js?v=d5a15cff"></script>
     <script src="../_static/doctools.js?v=9bcbadda"></script>
     <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../_static/scripts/furo.js?v=46bd48cc"></script>
