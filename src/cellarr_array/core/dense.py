@@ -6,7 +6,6 @@ except ImportError:
 from typing import List, Tuple, Union
 
 import numpy as np
-import tiledb
 from scipy import sparse as sp
 
 from .base import CellArray
