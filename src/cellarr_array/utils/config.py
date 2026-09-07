@@ -1,5 +1,5 @@
 from dataclasses import dataclass, field
-from typing import Any, Dict, List, Union
+from typing import Any
 
 import tiledb
 
@@ -15,13 +15,13 @@ class CellArrConfig:
     tile_capacity: int = 100000
     cell_order: str = "row-major"
     tile_order: str = "row-major"
-    coords_filters: List[tiledb.Filter] = field(default_factory=lambda: [tiledb.LZ4Filter()])
-    offsets_filters: List[tiledb.Filter] = field(default_factory=lambda: [tiledb.LZ4Filter()])
-    attrs_filters: Dict[str, List[tiledb.Filter]] = field(default_factory=lambda: {"": [tiledb.LZ4Filter()]})
-    ctx_config: Dict[str, Any] = field(default_factory=dict)
+    coords_filters: list[tiledb.Filter] = field(default_factory=lambda: [tiledb.LZ4Filter()])
+    offsets_filters: list[tiledb.Filter] = field(default_factory=lambda: [tiledb.LZ4Filter()])
+    attrs_filters: dict[str, list[tiledb.Filter]] = field(default_factory=lambda: {"": [tiledb.LZ4Filter()]})
+    ctx_config: dict[str, Any] = field(default_factory=dict)
 
     @staticmethod
-    def create_filter(filter_config: Union[Dict[str, Any], tiledb.Filter]) -> tiledb.Filter:
+    def create_filter(filter_config: dict[str, Any] | tiledb.Filter) -> tiledb.Filter:
         """Create a TileDB Filter object from configuration."""
         if isinstance(filter_config, tiledb.Filter):
             return filter_config

@@ -1,4 +1,3 @@
-from typing import Optional
 from warnings import warn
 
 import numpy as np
@@ -18,9 +17,9 @@ class DenseArrayDataset(Dataset):
         self,
         array_uri: str,
         attribute_name: str = "data",
-        num_rows: Optional[int] = None,
-        num_columns: Optional[int] = None,
-        cellarr_ctx_config: Optional[dict] = None,
+        num_rows: int | None = None,
+        num_columns: int | None = None,
+        cellarr_ctx_config: dict | None = None,
         transform=None,
     ):
         """PyTorch Dataset for dense TileDB arrays accessed via DenseCellArray.
@@ -142,8 +141,8 @@ class DenseArrayDataset(Dataset):
 def construct_dense_array_dataloader(
     array_uri: str,
     attribute_name: str = "data",
-    num_rows: Optional[int] = None,
-    num_columns: Optional[int] = None,
+    num_rows: int | None = None,
+    num_columns: int | None = None,
     batch_size: int = 1000,
     num_workers_dl: int = 2,
 ) -> DataLoader:
