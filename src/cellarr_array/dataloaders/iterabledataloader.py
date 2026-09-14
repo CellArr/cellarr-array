@@ -1,4 +1,4 @@
-from typing import Callable, Dict, Iterator, Optional, Union
+from collections.abc import Callable, Iterator
 
 import numpy as np
 import scipy.sparse as sp
@@ -30,9 +30,9 @@ class CellArrayIterableDataset(IterableDataset):
         num_columns: int,
         is_sparse: bool,
         batch_size: int = 1000,
-        num_yields_per_epoch_per_worker: Optional[int] = None,
-        cellarr_ctx_config: Optional[Dict] = None,
-        transform: Optional[Callable] = None,
+        num_yields_per_epoch_per_worker: int | None = None,
+        cellarr_ctx_config: dict | None = None,
+        transform: Callable | None = None,
     ):
         """Initializes the `CellArrayIterableDataset`.
 
@@ -128,7 +128,7 @@ class CellArrayIterableDataset(IterableDataset):
                     uri=self.array_uri, attr=self.attribute_name, mode="r", config_or_context=ctx
                 )
 
-    def _fetch_one_random_batch(self) -> Union[np.ndarray, sp.spmatrix]:
+    def _fetch_one_random_batch(self) -> np.ndarray | sp.spmatrix:
         """Randomly selects `self.batch_size` row indices and fetches them from
         the TileDB array in a single multi-index read operation.
 
@@ -163,7 +163,7 @@ class CellArrayIterableDataset(IterableDataset):
 
         return data_chunk
 
-    def __iter__(self) -> Iterator[Union[np.ndarray, sp.spmatrix]]:
+    def __iter__(self) -> Iterator[np.ndarray | sp.spmatrix]:
         """Yields batches of randomly sampled data.
 
         This method is called by the DataLoader for each worker.

@@ -3,7 +3,6 @@ try:
 except ImportError:
     # TODO: This is required for Python <3.10. Remove once Python 3.9 reaches EOL in October 2025
     EllipsisType = type(...)
-from typing import List, Tuple, Union
 
 import numpy as np
 from scipy import sparse as sp
@@ -19,7 +18,7 @@ __license__ = "MIT"
 class DenseCellArray(CellArray):
     """Implementation for dense TileDB arrays."""
 
-    def _direct_slice(self, key: Tuple[Union[slice, EllipsisType], ...]) -> np.ndarray:
+    def _direct_slice(self, key: tuple[slice | EllipsisType, ...]) -> np.ndarray:
         """Implementation for direct slicing of dense arrays.
 
         Args:
@@ -33,7 +32,7 @@ class DenseCellArray(CellArray):
             res = array[key]
             return res[self._attr] if self._attr is not None else res
 
-    def _multi_index(self, key: Tuple[Union[slice, List[int]], ...]) -> np.ndarray:
+    def _multi_index(self, key: tuple[slice | list[int], ...]) -> np.ndarray:
         """Implementation for multi-index access of dense arrays.
 
         Args:
@@ -70,7 +69,7 @@ class DenseCellArray(CellArray):
             res = array.multi_index[tuple(tiledb_key)]
             return res[self._attr] if self._attr is not None else res
 
-    def write_batch(self, data: Union[np.ndarray, sp.spmatrix], start_row: int, **kwargs) -> None:
+    def write_batch(self, data: np.ndarray | sp.spmatrix, start_row: int, **kwargs) -> None:
         """Write a batch of data to the dense array.
 
         This method supports both dense (numpy.ndarray) and sparse
