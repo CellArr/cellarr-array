@@ -6,7 +6,7 @@ try:
 except ImportError:
     # TODO: This is required for Python <3.10. Remove once Python 3.9 reaches EOL in October 2025
     EllipsisType = type(...)
-from typing import Any, List, Literal, Optional, Tuple, Union
+from typing import Any, Literal
 
 import numpy as np
 import tiledb
@@ -25,11 +25,11 @@ class CellArray(ABC):
 
     def __init__(
         self,
-        uri: Optional[str] = None,
-        tiledb_array_obj: Optional[tiledb.Array] = None,
+        uri: str | None = None,
+        tiledb_array_obj: tiledb.Array | None = None,
         attr: str = "data",
-        mode: Optional[Literal["r", "w", "d", "m"]] = None,
-        config_or_context: Optional[Union[tiledb.Config, tiledb.Ctx]] = None,
+        mode: Literal["r", "w", "d", "m"] | None = None,
+        config_or_context: tiledb.Config | tiledb.Ctx | None = None,
         validate: bool = True,
     ):
         """Initialize the object.
@@ -141,14 +141,14 @@ class CellArray(ABC):
                 )
 
     @property
-    def mode(self) -> Optional[str]:
+    def mode(self) -> str | None:
         """Get current array mode. If an external array is used, this is its open mode."""
         if self._array_passed_in and self._opened_array_external is not None:
             return self._opened_array_external.mode
         return self._mode
 
     @mode.setter
-    def mode(self, value: Optional[str]):
+    def mode(self, value: str | None):
         """Set array mode for subsequent operations if not using an external array.
 
         This action does not affect an already passed-in external array's mode.
@@ -167,7 +167,7 @@ class CellArray(ABC):
         self._mode = value
 
     @property
-    def dim_names(self) -> List[str]:
+    def dim_names(self) -> list[str]:
         """Get dimension names of the array."""
         if self._dim_names is None:
             with self.open_array(mode="r") as A:
@@ -176,7 +176,7 @@ class CellArray(ABC):
         return self._dim_names
 
     @property
-    def attr_names(self) -> List[str]:
+    def attr_names(self) -> list[str]:
         """Get attribute names of the array."""
         if self._attr_names is None:
             with self.open_array(mode="r") as A:
@@ -185,7 +185,7 @@ class CellArray(ABC):
         return self._attr_names
 
     @property
-    def shape(self) -> Tuple[int, ...]:
+    def shape(self) -> tuple[int, ...]:
         if self._shape is None:
             with self.open_array(mode="r") as A:
                 shape_list = []
@@ -202,7 +202,7 @@ class CellArray(ABC):
         return self._shape
 
     @property
-    def nonempty_domain(self) -> Optional[Tuple[Any, ...]]:
+    def nonempty_domain(self) -> tuple[Any, ...] | None:
         if self._nonempty_domain is None:
             with self.open_array(mode="r") as A:
                 # nonempty_domain() can return None if the array is empty.
@@ -225,7 +225,7 @@ class CellArray(ABC):
         return self._ndim
 
     @property
-    def dim_dtypes(self) -> List[np.dtype]:
+    def dim_dtypes(self) -> list[np.dtype]:
         """Get dimension dtypes of the array."""
         if self._dim_dtypes is None:
             with self.open_array(mode="r") as A:
@@ -234,7 +234,7 @@ class CellArray(ABC):
         return self._dim_dtypes
 
     @contextmanager
-    def open_array(self, mode: Optional[str] = None):
+    def open_array(self, mode: str | None = None):
         """Context manager for array operations.
 
         Uses the externally provided array if available, otherwise opens from URI.
@@ -283,7 +283,7 @@ class CellArray(ABC):
             finally:
                 array.close()
 
-    def __getitem__(self, key: Union[slice, EllipsisType, Tuple[Union[slice, List[int]], ...], EllipsisType, str]):
+    def __getitem__(self, key: slice | EllipsisType | tuple[slice | list[int], ...] | str):
         """Get item implementation that routes to either direct slicing, multi_index,
         or query based on the type of indices provided.
 
@@ -334,20 +334,18 @@ class CellArray(ABC):
             return self._multi_index(normalized_key)
 
     @abstractmethod
-    def _direct_slice(self, key: Tuple[Union[slice, EllipsisType], ...]) -> np.ndarray:
+    def _direct_slice(self, key: tuple[slice | EllipsisType, ...]) -> np.ndarray:
         """Implementation for direct slicing."""
-        pass
 
     @abstractmethod
-    def _multi_index(self, key: Tuple[Union[slice, List[int]], ...]) -> np.ndarray:
+    def _multi_index(self, key: tuple[slice | list[int], ...]) -> np.ndarray:
         """Implementation for multi-index access."""
-        pass
 
     def vacuum(self) -> None:
         """Remove deleted fragments from the array."""
         tiledb.vacuum(self.uri)
 
-    def consolidate(self, config: Optional[ConsolidationConfig] = None) -> None:
+    def consolidate(self, config: ConsolidationConfig | None = None) -> None:
         """Consolidate array fragments.
 
         Args:
@@ -371,7 +369,7 @@ class CellArray(ABC):
             self.vacuum()
 
     @abstractmethod
-    def write_batch(self, data: Union[np.ndarray, sparse.spmatrix], start_row: int, **kwargs) -> None:
+    def write_batch(self, data: np.ndarray | sparse.spmatrix, start_row: int, **kwargs) -> None:
         """Write a batch of data to the array starting at the specified row.
 
         Args:
@@ -384,9 +382,8 @@ class CellArray(ABC):
             **kwargs:
                 Additional arguments for write operation.
         """
-        pass
 
-    def get_unique_dim_values(self, dim_name: Optional[str] = None) -> np.ndarray:
+    def get_unique_dim_values(self, dim_name: str | None = None) -> np.ndarray:
         """Get unique values for a dimension.
 
         Args:
