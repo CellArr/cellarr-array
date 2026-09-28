@@ -1,5 +1,4 @@
 import shutil
-from typing import Dict, Optional
 
 import numpy as np
 import scipy.sparse as sp
@@ -20,7 +19,7 @@ def generate_tiledb_dense_array(
     attr_name: str = "data",
     attr_dtype: np.dtype = np.float32,
     chunk_size: int = 1000,
-    tiledb_config: Optional[Dict] = None,
+    tiledb_config: dict | None = None,
 ):
     """Generates a dense TileDB array and fills it with random float32 data.
 
@@ -89,7 +88,7 @@ def generate_tiledb_sparse_array(
     attr_name: str = "data",
     attr_dtype: np.dtype = np.float32,
     chunk_size: int = 1000,
-    tiledb_config: Optional[Dict] = None,
+    tiledb_config: dict | None = None,
     sparse_format_to_write="coo",
 ):
     """Generates a sparse TileDB array and fills it with random float32 data.

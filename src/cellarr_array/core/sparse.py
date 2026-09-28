@@ -3,7 +3,7 @@ try:
 except ImportError:
     # TODO: This is required for Python <3.10. Remove once Python 3.9 reaches EOL in October 2025
     EllipsisType = type(...)
-from typing import Dict, List, Literal, Optional, Tuple, Union
+from typing import Literal
 
 import numpy as np
 import tiledb
@@ -22,13 +22,13 @@ class SparseCellArray(CellArray):
 
     def __init__(
         self,
-        uri: Optional[str] = None,
-        tiledb_array_obj: Optional[tiledb.Array] = None,
+        uri: str | None = None,
+        tiledb_array_obj: tiledb.Array | None = None,
         attr: str = "data",
-        mode: Optional[Literal["r", "w", "d", "m"]] = None,
-        config_or_context: Optional[Union[tiledb.Config, tiledb.Ctx]] = None,
+        mode: Literal["r", "w", "d", "m"] | None = None,
+        config_or_context: tiledb.Config | tiledb.Ctx | None = None,
         return_sparse: bool = True,
-        sparse_format: Union[sparse.csr_matrix, sparse.csc_matrix] = sparse.csr_matrix,
+        sparse_format: sparse.csr_matrix | sparse.csc_matrix = sparse.csr_matrix,
         validate: bool = True,
         **kwargs,
     ):
@@ -89,7 +89,7 @@ class SparseCellArray(CellArray):
         self.sparse_format = sparse.csr_matrix if sparse_format is None else sparse_format
         self._list_remaps = {}
 
-    def _validate_matrix_dims(self, data: sparse.spmatrix) -> Tuple[sparse.coo_matrix, bool]:
+    def _validate_matrix_dims(self, data: sparse.spmatrix) -> tuple[sparse.coo_matrix, bool]:
         """Validate and adjust matrix dimensions if needed.
 
         Args:
@@ -116,7 +116,7 @@ class SparseCellArray(CellArray):
 
         return coo_data, is_1d
 
-    def _get_slice_details(self, key: Tuple[Union[slice, List], ...]) -> ...:
+    def _get_slice_details(self, key: tuple[slice | list, ...]) -> ...:
         """Calculates the shape, remapping info, and if a remap is needed for a slice."""
         shape = []
         origins_or_maps = []
@@ -154,8 +154,8 @@ class SparseCellArray(CellArray):
         return tuple(shape), origins_or_maps, is_list_remap
 
     def _to_sparse_format(
-        self, result: Dict[str, np.ndarray], key: Tuple[Union[slice, List[int]], ...]
-    ) -> Union[np.ndarray, sparse.spmatrix]:
+        self, result: dict[str, np.ndarray], key: tuple[slice | list[int], ...]
+    ) -> np.ndarray | sparse.spmatrix:
         """Convert TileDB result to CSR format or dense array."""
         data = result[self._attr]
 
@@ -197,7 +197,7 @@ class SparseCellArray(CellArray):
 
         return matrix
 
-    def _direct_slice(self, key: Tuple[Union[slice, EllipsisType], ...]) -> Union[np.ndarray, sparse.coo_matrix]:
+    def _direct_slice(self, key: tuple[slice | EllipsisType, ...]) -> np.ndarray | sparse.coo_matrix:
         """Implementation for direct slicing of sparse arrays."""
         self._list_remaps.clear()
 
@@ -209,7 +209,7 @@ class SparseCellArray(CellArray):
 
             return self._to_sparse_format(result, key)
 
-    def _multi_index(self, key: Tuple[Union[slice, List[int]], ...]) -> Union[np.ndarray, sparse.coo_matrix]:
+    def _multi_index(self, key: tuple[slice | list[int], ...]) -> np.ndarray | sparse.coo_matrix:
         """Implementation for multi-index access of sparse arrays."""
         self._list_remaps.clear()
 
@@ -241,7 +241,7 @@ class SparseCellArray(CellArray):
             return self._to_sparse_format(result, key)
 
     def write_batch(
-        self, data: Union[sparse.spmatrix, sparse.csc_matrix, sparse.coo_matrix], start_row: int, **kwargs
+        self, data: sparse.spmatrix | sparse.csc_matrix | sparse.coo_matrix, start_row: int, **kwargs
     ) -> None:
         """Write a batch of sparse data to the array.
 
