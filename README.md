@@ -24,34 +24,22 @@ from cellarr_array import create_cellarray, CellArrConfig
 
 # Create a dense 2D array
 dense_array = create_cellarray(
-    uri="dense_matrix.tdb",
-    shape=(10000, 5000),
-    attr_dtype=np.float32,
-    sparse=False,
-    dim_names=["cells", "genes"]
+    uri="dense_matrix.tdb", shape=(10000, 5000), attr_dtype=np.float32, sparse=False, dim_names=["cells", "genes"]
 )
 
 # Create a sparse 2D array with custom compression
-config = CellArrConfig(
-    tile_capacity=1000,
-    attrs_filters={"data": [{"name": "zstd", "level": 7}]}
-)
+config = CellArrConfig(tile_capacity=1000, attrs_filters={"data": [{"name": "zstd", "level": 7}]})
 sparse_array = create_cellarray(
     uri="sparse_matrix.tdb",
     shape=(10000, 5000),
     attr_dtype=np.float32,
     sparse=True,
     config=config,
-    dim_names=["cells", "genes"]
+    dim_names=["cells", "genes"],
 )
 
 # Create a 1D array
-array_1d = create_cellarray(
-    uri="vector.tdb",
-    shape=(1000,),
-    attr_dtype=np.float32,
-    sparse=False
-)
+array_1d = create_cellarray(uri="vector.tdb", shape=(1000,), attr_dtype=np.float32, sparse=False)
 ```
 
 ### Writing Data
@@ -96,10 +84,7 @@ subset = dense_array[100:200, genes]
 from cellarr_array import SparseCellArray
 
 # Create a sparse array with CSR output format
-csr_array = SparseCellArray(
-    uri="sparse_matrix.tdb",
-    return_sparse=True
-)
+csr_array = SparseCellArray(uri="sparse_matrix.tdb", return_sparse=True)
 
 # Get result as CSR matrix
 result = csr_array[100:200, 500:1000]
@@ -121,11 +106,7 @@ Likewise create a CSC output format
 from scipy import sparse
 
 # Create a sparse array with CSC output format
-csc_array = SparseCellArray(
-    uri="sparse_matrix.tdb",
-    return_sparse=True,
-    sparse_coerce=sparse.csc_matrix
-)
+csc_array = SparseCellArray(uri="sparse_matrix.tdb", return_sparse=True, sparse_coerce=sparse.csc_matrix)
 
 # Get result as CSR matrix
 result = csc_array[100:200, 500:1000]
@@ -139,10 +120,7 @@ print(result)
 array.consolidate()
 
 # Custom consolidation
-config = ConsolidationConfig(
-    steps=2,
-    vacuum_after=True
-)
+config = ConsolidationConfig(steps=2, vacuum_after=True)
 array.consolidate(config)
 
 # Vacuum
