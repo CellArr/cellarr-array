@@ -3,7 +3,6 @@ try:
 except ImportError:
     # TODO: This is required for Python <3.10. Remove once Python 3.9 reaches EOL in October 2025
     EllipsisType = type(...)
-from typing import List, Optional, Tuple, Union
 
 import numpy as np
 import tiledb
@@ -17,13 +16,13 @@ __license__ = "MIT"
 
 def create_cellarray(
     uri: str,
-    shape: Optional[Tuple[Optional[int], ...]] = None,
-    attr_dtype: Optional[Union[str, np.dtype]] = None,
+    shape: tuple[int | None, ...] | None = None,
+    attr_dtype: str | np.dtype | None = None,
     sparse: bool = False,
     mode: str = None,
-    config: Optional[CellArrConfig] = None,
-    dim_names: Optional[List[str]] = None,
-    dim_dtypes: Optional[List[Union[str, np.dtype]]] = None,
+    config: CellArrConfig | None = None,
+    dim_names: list[str] | None = None,
+    dim_dtypes: list[str | np.dtype] | None = None,
     attr_name: str = "data",
     **kwargs,
 ):
@@ -165,7 +164,7 @@ class SliceHelper:
     """Helper class for handling array slicing operations."""
 
     @staticmethod
-    def is_contiguous_indices(indices: List[int]) -> Optional[slice]:
+    def is_contiguous_indices(indices: list[int]) -> slice | None:
         """Checks if a list of indices is contiguous and can be converted to a slice.
 
         Returns None if the list is not contiguous or contains non-integers.
@@ -191,10 +190,10 @@ class SliceHelper:
 
     @staticmethod
     def normalize_index(
-        idx: Union[int, range, slice, List, str, EllipsisType],
+        idx: int | range | slice | list | str | EllipsisType,
         dim_size: int,
         dim_dtype: np.dtype,
-    ) -> Union[slice, List, EllipsisType]:
+    ) -> slice | list | EllipsisType:
         """Normalize index to handle negative indices and ensure consistency."""
 
         is_string_dim = np.issubdtype(dim_dtype, np.str_) or np.issubdtype(dim_dtype, np.bytes_)
