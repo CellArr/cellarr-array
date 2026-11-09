@@ -1,4 +1,3 @@
-from typing import Optional
 from warnings import warn
 
 import scipy.sparse as sp
@@ -18,10 +17,10 @@ class SparseArrayDataset(Dataset):
         self,
         array_uri: str,
         attribute_name: str = "data",
-        num_rows: Optional[int] = None,
-        num_columns: Optional[int] = None,
+        num_rows: int | None = None,
+        num_columns: int | None = None,
         sparse_format=sp.csr_matrix,
-        cellarr_ctx_config: Optional[dict] = None,
+        cellarr_ctx_config: dict | None = None,
         transform=None,
     ):
         """PyTorch Dataset for sparse TileDB arrays accessed via SparseCellArray.
@@ -173,8 +172,8 @@ def sparse_coo_collate_fn(batch):
 def construct_sparse_array_dataloader(
     array_uri: str,
     attribute_name: str = "data",
-    num_rows: Optional[int] = None,
-    num_columns: Optional[int] = None,
+    num_rows: int | None = None,
+    num_columns: int | None = None,
     batch_size: int = 1000,
     num_workers_dl: int = 2,
 ) -> DataLoader:
